@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Fira Code', sans-serif;
+    color: #607B96;
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+#root {
+    /* p-[70px] bg-[#010C15] h-full flex items-center justify-center */
+    padding: 30px;
+    background-color: #010C15;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+
+    border-radius: 10px;
+    background-color: #01090f;
+}
+
+.blobAnimeGreen {
+    animation: blobAnimeGreen 10s linear infinite;
+}
+
+@keyframes blobAnimeGreen {
+    0% {
+        border-radius: 15% 85% 15% 85% / 14% 85% 15% 86%;
+    }
+
+    50% {
+        border-radius: 87% 13% 83% 17% / 89% 15% 85% 11%;
+    }
+
+    100% {
+        border-radius: 15% 85% 15% 85% / 14% 85% 15% 86%;
+    }
+}
+
+.blobAnimePurple {
+    animation: blobAnimePurple 10s linear infinite;
+}
+
+@keyframes blobAnimePurple {
+    0% {
+        border-radius: 87% 13% 83% 17% / 89% 15% 85% 11%;
+    }
+
+    50% {
+        border-radius: 15% 85% 15% 85% / 14% 85% 15% 86%;
+    }
+
+    100% {
+        border-radius: 87% 13% 83% 17% / 89% 15% 85% 11%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #root {
+        padding: 16px;
+        overflow: auto;
+    }
+}
