@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Config } from "../constant/Index";
 import {
   getLocalStorage,
   removeLocalStorage,
 } from "../components/shared/localStorage/LocalStorage";
 import { useGetMeQuery } from "../redux/storeApis";
+import { Config } from "../constants/Index";
 
 const useAuthCheck = () => {
   const navigate = useNavigate();

@@ -15,7 +15,12 @@ function Navbar() {
   return (
     <div className="flex items-center justify-between border-b-[1px] border-b-[#1E2D3D] w-full">
       <div className="flex items-center">
-        <span className="px-[22px] py-[17px] lg:w-[300px]">
+        <span className=" flex items-center gap-[8px] px-[22px] py-[17px] lg:w-[300px]">
+          {/* <img
+            src="./profile80px.png"
+            className="h-[28px] rounded-[4px]"
+            alt="profile"
+          /> */}
           ubaidullah-omer
         </span>
         <div className="flex items-center max-lg:hidden">

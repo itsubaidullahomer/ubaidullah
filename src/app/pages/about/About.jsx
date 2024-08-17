@@ -1,101 +1,128 @@
-import React from 'react'
+import React, { useState } from 'react';
+
+const SECTIONS = {
+    PERSONAL_INFO: 'personal-info',
+    BIO: 'bio',
+    INTERESTS: 'interests',
+    EDUCATION: 'education',
+    CONTACTS: 'contacts',
+};
 
 const About = () => {
+    const [expandedSections, setExpandedSections] = useState({
+        [SECTIONS.PERSONAL_INFO]: true,
+        [SECTIONS.BIO]: false,
+        [SECTIONS.INTERESTS]: false,
+        [SECTIONS.EDUCATION]: false,
+        [SECTIONS.CONTACTS]: true,
+    });
+
+    const toggleSection = (section) => {
+        setExpandedSections((prevState) => ({
+            ...prevState,
+            [section]: !prevState[section],
+        }));
+    };
+
     return (
         <div className="flex items-start h-full">
-
-            {/* <div className="flex flex-col gap-[30px] p-[24px] border-r-[1px] border-[#1E2D3D] h-full">
-                <i className="cursor-pointer opacity-45 text-[24px] ri-terminal-box-fill"></i>
-                <i className="cursor-pointer opacity-100 text-[24px] ri-user-4-fill"></i>
-                <i className="cursor-pointer opacity-45 text-[24px] ri-gamepad-fill"></i>
-            </div> */}
-
             <div className="flex flex-col min-w-[301px] border-r-[1px] border-[#1E2D3D] h-full">
-                <div className='flex items-center gap-[12px] p-[12px] py-[10px] border-b-[1px] border-[#1E2D3D] cursor-pointer group'>
-                    <i className="ri-arrow-down-s-fill text-[18px] text-[#FFF] group-hover:text-[#607B96] transition-all"></i>
+                {/* Personal Info Section */}
+                <div
+                    className="flex items-center gap-[12px] p-[12px] py-[10px] border-b-[1px] border-[#1E2D3D] cursor-pointer group"
+                    onClick={() => toggleSection(SECTIONS.PERSONAL_INFO)}
+                >
+                    <i className={`ri-arrow-${expandedSections[SECTIONS.PERSONAL_INFO] ? 'down' : 'right'}-s-fill text-[18px] text-[#FFF] group-hover:text-[#607B96] transition-all`}></i>
                     <span className='text-[#FFF] text-[14px] group-hover:text-[#607B96] transition-all'>
-                        personal-info
+                        {SECTIONS.PERSONAL_INFO}
                     </span>
                 </div>
-                <div className="flex flex-col gap-[8px] p-[12px] border-b-[1px] border-[#1E2D3D] py-[10px]">
-
-                    <div className="flex items-center gap-[12px] group cursor-pointer">
-                        <i className="ri-arrow-right-s-line text-[18px] text-[#607B96]"></i>
-                        <div className="flex items-center gap-[8px]">
-                            <i className="ri-folder-3-fill text-[20px] text-[#E99287]"></i>
-                            <span className='group-hover:text-[#FFF] transition-all'>
-                                bio
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center gap-[12px] group cursor-pointer">
-                        <i className="ri-arrow-right-s-line text-[18px] text-[#607B96]"></i>
-                        <div className="flex items-center gap-[8px]">
-                            <i className="ri-folder-3-fill text-[20px] text-[#43D9AD]"></i>
-                            <span className='group-hover:text-[#FFF] transition-all'>
-                                interests
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-[8px] group cursor-pointer">
+                {expandedSections[SECTIONS.PERSONAL_INFO] && (
+                    <div className="flex flex-col gap-[8px] p-[12px] border-b-[1px] border-[#1E2D3D] py-[10px]">
                         <div className="flex items-center gap-[12px] group cursor-pointer">
-                            <i className="ri-arrow-right-s-line text-[18px] text-[#607B96] rotate-90"></i>
+                            <i className="ri-arrow-right-s-line text-[18px] text-[#607B96]"></i>
                             <div className="flex items-center gap-[8px]">
-                                <i className="ri-folder-3-fill text-[20px] text-[#3A49A4]"></i>
+                                <i className="ri-folder-3-fill text-[20px] text-[#E99287]"></i>
                                 <span className='group-hover:text-[#FFF] transition-all'>
-                                    education
+                                    {SECTIONS.BIO}
                                 </span>
                             </div>
                         </div>
-                        <div className="flex flex-col items-start gap-[8px] group cursor-pointer ml-[30px]">
+                        <div className="flex items-center gap-[12px] group cursor-pointer">
+                            <i className="ri-arrow-right-s-line text-[18px] text-[#607B96]"></i>
                             <div className="flex items-center gap-[8px]">
-                                <i className="ri-school-fill text-[18px]"></i>
-                                <span className=''>
-                                    high-school
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-[8px]">
-                                <i className="ri-school-fill text-[18px]"></i>
-                                <span className=''>
-                                    university
+                                <i className="ri-folder-3-fill text-[20px] text-[#43D9AD]"></i>
+                                <span className='group-hover:text-[#FFF] transition-all'>
+                                    {SECTIONS.INTERESTS}
                                 </span>
                             </div>
                         </div>
-
+                        <div className="flex flex-col gap-[8px] group cursor-pointer">
+                            <div
+                                className="flex items-center gap-[12px] group cursor-pointer"
+                                onClick={() => toggleSection(SECTIONS.EDUCATION)}
+                            >
+                                <i className={`ri-arrow-${expandedSections[SECTIONS.EDUCATION] ? 'down' : 'right'}-s-line text-[18px] text-[#607B96]`}></i>
+                                <div className="flex items-center gap-[8px]">
+                                    <i className="ri-folder-3-fill text-[20px] text-[#3A49A4]"></i>
+                                    <span className='group-hover:text-[#FFF] transition-all'>
+                                        {SECTIONS.EDUCATION}
+                                    </span>
+                                </div>
+                            </div>
+                            {expandedSections[SECTIONS.EDUCATION] && (
+                                <div className="flex flex-col items-start gap-[8px] group cursor-pointer ml-[30px]">
+                                    <div className="flex items-center gap-[8px]">
+                                        <i className="ri-school-fill text-[18px]"></i>
+                                        <span>high-school</span>
+                                    </div>
+                                    <div className="flex items-center gap-[8px]">
+                                        <i className="ri-school-fill text-[18px]"></i>
+                                        <span>university</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
+                )}
 
-                </div>
-                <div className='flex items-center gap-[12px] p-[12px] py-[10px] border-b-[1px] border-[#1E2D3D] cursor-pointer group'>
-                    <i className="ri-arrow-down-s-fill text-[18px] text-[#FFF] group-hover:text-[#607B96] transition-all"></i>
+                {/* Contacts Section */}
+                <div
+                    className="flex items-center gap-[12px] p-[12px] py-[10px] border-b-[1px] border-[#1E2D3D] cursor-pointer group"
+                    onClick={() => toggleSection(SECTIONS.CONTACTS)}
+                >
+                    <i className={`ri-arrow-${expandedSections[SECTIONS.CONTACTS] ? 'down' : 'right'}-s-fill text-[18px] text-[#FFF] group-hover:text-[#607B96] transition-all`}></i>
                     <span className='text-[#FFF] text-[14px] group-hover:text-[#607B96] transition-all'>
-                        contacts
+                        {SECTIONS.CONTACTS}
                     </span>
                 </div>
-                <div className="flex flex-col gap-[8px] p-[12px] py-[10px]">
-                    <div className="flex items-center gap-[8px] group cursor-pointer">
-                        <i className="ri-mail-fill text-[20px] text-[#607B96]"></i>
-                        <span className='group-hover:text-[#FFF] transition-all text-[#607B96]'>
-                            ubaidullahu448@g..
-                        </span>
+                {expandedSections[SECTIONS.CONTACTS] && (
+                    <div className="flex flex-col gap-[8px] p-[12px] py-[10px]">
+                        <div className="flex items-center gap-[8px] group cursor-pointer">
+                            <i className="ri-mail-fill text-[20px] text-[#607B96]"></i>
+                            <span className='group-hover:text-[#FFF] transition-all text-[#607B96]'>
+                                ubaidullahu448@g..
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-[8px] group cursor-pointer">
+                            <i className="ri-phone-fill text-[20px] text-[#607B96]"></i>
+                            <span className='group-hover:text-[#FFF] transition-all text-[#607B96]'>
+                                +92 3286701202
+                            </span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-[8px] group cursor-pointer">
-                        <i className="ri-phone-fill text-[20px] text-[#607B96]"></i>
-                        <span className='group-hover:text-[#FFF] transition-all text-[#607B96]'>
-                            +92 3286701202
-                        </span>
-                    </div>
-                </div>
+                )}
             </div>
 
+            {/* Right Side */}
             <div className="flex flex-col w-full border-r-[1px] border-[#1E2D3D] h-full">
+                {/* Similar modifications can be made to the right section if needed */}
                 <div className="border-b-[1px] w-full border-[#1E2D3D]">
                     <div className="flex items-center gap-[24px] p-[10px] px-[14px]  border-r-[1px] w-fit border-[#1E2D3D]">
                         <span className='text-[#607B96] text-[16px]'>
-                            personal-info
+                            {SECTIONS.PERSONAL_INFO}
                         </span>
-                        <i class="ri-close-line text-[18px] text-[#607B96] transition-all hover:text-[#FFF] cursor-pointer"></i>
+                        <i className="ri-close-line text-[18px] text-[#607B96] transition-all hover:text-[#FFF] cursor-pointer"></i>
                     </div>
                 </div>
                 <div className="flex items-start pt-[18px]">
@@ -134,7 +161,7 @@ const About = () => {
                     </span>
 
                     <span className='text-[18px]'>
-                /**
+                        /**
                         <br />
                         <span className='ml-[16px]'>
                             * About me
@@ -192,22 +219,18 @@ const About = () => {
                         <br />
                         */
                     </span>
-
                 </div>
             </div>
 
             <div className="flex flex-col w-full h-full">
-                <div className="border-b-[1px] w-full border-[#1E2D3D] h-[48px]">
-                </div>
+                <div className="border-b-[1px] w-full border-[#1E2D3D] h-[48px]"></div>
                 <div className="flex flex-col gap-[18px] items-start pt-[18px] px-[36px] w-full">
                     <span className='text-[18px]'>
                         // Code snippet showcase:
                     </span>
-                    <div className="flex flex-col gap-[24px] pt-[32px] w-full"> 
+                    <div className="flex flex-col gap-[24px] pt-[32px] w-full">
                         <div className="flex flex-col gap-[12px] w-full">
-
                             <div className="flex items-center justify-between w-full">
-
                                 <div className="flex items-center gap-[10px]">
                                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className='w-[36px] h-[36px] rounded-full object-cover' alt="" />
                                     <div className="flex flex-col gap-[2px]">
@@ -230,52 +253,43 @@ const About = () => {
                                     <div className="flex items-end gap-[4px]">
                                         <i className="ri-star-fill text-[#607B96] text-[16px]"></i>
                                         <span className='text-[14px]'>
-                                            3 starts
+                                            3 stars
                                         </span>
                                     </div>
                                 </div>
-
                             </div>
-                            
+
                             <p className="p-[24px] rounded-[16px]">
                                 <code>
-
                                     <span className='text-[#E99287]'>{'function '}</span>initializeModelChunk
-                                    
+                                    <br />
                                     <span className='inline-block w-[20px]'></span>
                                     {'<T>(chunk: ResolvedModelChunk): T {'}
                                     <br />
-                                    
                                     <span className='inline-block w-[20px]'></span>
                                     {'  const value: T = parseModel(chunk._response, chunk._value);'}
                                     <br />
-                                    
                                     <span className='inline-block w-[20px]'></span>
                                     {'  const initializedChunk: InitializedChunk<T> = (chunk as any);'}
                                     <br />
-                                    
                                     <span className='inline-block w-[20px]'></span>
                                     {'  initializedChunk._status = '}<span style={{ color: 'green' }}>INITIALIZED</span>{';'}
                                     <br />
-                                    
                                     <span className='inline-block w-[20px]'></span>
                                     {'  initializedChunk._value = value;'}
                                     <br />
-                                    
                                     <span className='inline-block w-[20px]'></span>
                                     {'  return value;'}
                                     <br />
-                                    
                                     {'}'}
                                 </code>
                             </p>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default About
+export default About;

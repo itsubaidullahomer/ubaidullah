@@ -7,7 +7,6 @@ const useDisableScroll = (condition: boolean) => {
         } else {
             document.body.classList.remove("stop-scrolling");
         }
-
         return () => {
             document.body.classList.remove("stop-scrolling");
         };
