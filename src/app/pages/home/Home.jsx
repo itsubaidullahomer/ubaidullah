@@ -46,9 +46,7 @@ const Home = () => {
         <div className="sm:hidden blobAnimeGreen h-[500px] absolute top-0 left-0 w-[500px] bg-[#43D9AD] opacity-20 blur-[174px]"></div>
         <div className="sm:hidden blobAnimePurple absolute bottom-0 right-0 h-[500px] w-[500px] bg-[#4D5BCE] opacity-20 blur-[174px]"></div>
       </div>
-      <div className="relative max-lg:hidden">
-        <SnakeGame />
-      </div>
+      <SnakeGame />
     </div>
   );
 };

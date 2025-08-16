@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 /**
  * Developer Portfolio Themed Snake Game
@@ -9,7 +15,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 const COLORS = {
   bg: "#011627",
-  panelBg: "#011221", 
+  panelBg: "#011221",
   darkPanel: "#01111F",
   text: "#E5E9F0",
   accent: "#4D5BCE",
@@ -71,9 +77,12 @@ function ThemedSnakeGame() {
       if (!started || gameOver || won) return;
       e.preventDefault();
       if (e.key === "ArrowUp" && dir.y === 0) pendingDir.current = DIRS.UP;
-      else if (e.key === "ArrowDown" && dir.y === 0) pendingDir.current = DIRS.DOWN;
-      else if (e.key === "ArrowLeft" && dir.x === 0) pendingDir.current = DIRS.LEFT;
-      else if (e.key === "ArrowRight" && dir.x === 0) pendingDir.current = DIRS.RIGHT;
+      else if (e.key === "ArrowDown" && dir.y === 0)
+        pendingDir.current = DIRS.DOWN;
+      else if (e.key === "ArrowLeft" && dir.x === 0)
+        pendingDir.current = DIRS.LEFT;
+      else if (e.key === "ArrowRight" && dir.x === 0)
+        pendingDir.current = DIRS.RIGHT;
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -96,7 +105,7 @@ function ThemedSnakeGame() {
           setGameOver(true);
           return curr;
         }
-        
+
         if (curr.some((s) => s.x === head.x && s.y === head.y)) {
           setGameOver(true);
           return curr;
@@ -121,22 +130,25 @@ function ThemedSnakeGame() {
     return () => clearInterval(timer);
   }, [started, gameOver, won, food, eaten, spawnFood]);
 
-  const foodDots = useMemo(() => 
-    Array.from({ length: TOTAL_FOOD_TO_WIN }, (_, i) => i < eaten), 
+  const foodDots = useMemo(
+    () => Array.from({ length: TOTAL_FOOD_TO_WIN }, (_, i) => i < eaten),
     [eaten]
   );
 
   return (
-    <div 
-      className="w-full max-w-md bg-gradient-to-br from-blue-900/20 to-teal-900/20 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden"
+    <div
+      className="w-full max-w-[550px] bg-gradient-to-br from-blue-900/20 to-teal-900/20 backdrop-blur-sm rounded-lg border border-gray-700/50 overflow-hidden"
       style={{
         backgroundColor: COLORS.panelBg,
         borderColor: COLORS.border,
       }}
     >
       {/* Header with decorative corners */}
-      <div className="relative border-b" style={{ borderColor: COLORS.border }}>
-        <div 
+      <div
+        className="relative border-b w-full"
+        style={{ borderColor: COLORS.border }}
+      >
+        <div
           className="h-12 flex items-center justify-between px-4"
           style={{ backgroundColor: COLORS.darkPanel }}
         >
@@ -145,26 +157,23 @@ function ThemedSnakeGame() {
             <div className="w-3 h-3 rounded-full bg-yellow-500/60"></div>
             <div className="w-3 h-3 rounded-full bg-green-500/60"></div>
           </div>
-          <div 
-            className="text-sm font-mono"
-            style={{ color: COLORS.subText }}
-          >
+          <div className="text-sm font-mono" style={{ color: COLORS.subText }}>
             snake-game.js
           </div>
         </div>
       </div>
 
       {/* Game Area */}
-      <div className="p-6">
+      <div className="p-6 flex items-start gap-4">
         {/* Game Canvas */}
-        <div 
+        <div
           className="relative mb-6 rounded-md border"
-          style={{ 
+          style={{
             backgroundColor: COLORS.darkPanel,
-            borderColor: COLORS.border 
+            borderColor: COLORS.border,
           }}
         >
-          <svg 
+          <svg
             viewBox={`0 0 ${BOARD_SIZE * 20} ${BOARD_SIZE * 20}`}
             className="w-full h-auto"
             style={{ backgroundColor: COLORS.darkPanel }}
@@ -192,7 +201,7 @@ function ThemedSnakeGame() {
                 />
               </g>
             ))}
-            
+
             {/* Food */}
             <circle
               cx={food.x * 20 + 10}
@@ -200,10 +209,10 @@ function ThemedSnakeGame() {
               r="6"
               fill={COLORS.food}
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(254, 165, 95, 0.6))'
+                filter: "drop-shadow(0 0 8px rgba(254, 165, 95, 0.6))",
               }}
             />
-            
+
             {/* Snake */}
             {snake.map((segment, i) => (
               <rect
@@ -215,21 +224,22 @@ function ThemedSnakeGame() {
                 rx="2"
                 fill={i === 0 ? COLORS.snakeHead : COLORS.snakeBody}
                 style={{
-                  filter: i === 0 
-                    ? 'drop-shadow(0 0 6px rgba(67, 217, 173, 0.6))' 
-                    : 'drop-shadow(0 0 3px rgba(67, 217, 173, 0.3))'
+                  filter:
+                    i === 0
+                      ? "drop-shadow(0 0 6px rgba(67, 217, 173, 0.6))"
+                      : "drop-shadow(0 0 3px rgba(67, 217, 173, 0.3))",
                 }}
               />
             ))}
           </svg>
-          
+
           {/* Game Status Overlay */}
           {(gameOver || won || !started) && (
             <div className="absolute inset-0 bg-black/70 flex items-center justify-center rounded-md">
               <div className="text-center">
                 {gameOver && (
                   <>
-                    <div 
+                    <div
                       className="text-2xl font-mono mb-4 font-bold"
                       style={{ color: COLORS.text }}
                     >
@@ -241,17 +251,17 @@ function ThemedSnakeGame() {
                       style={{
                         backgroundColor: COLORS.buttonBg,
                         color: COLORS.green,
-                        borderColor: COLORS.border
+                        borderColor: COLORS.border,
                       }}
                     >
                       start-again
                     </button>
                   </>
                 )}
-                
+
                 {won && (
                   <>
-                    <div 
+                    <div
                       className="text-2xl font-mono mb-4 font-bold"
                       style={{ color: COLORS.green }}
                     >
@@ -263,14 +273,14 @@ function ThemedSnakeGame() {
                       style={{
                         backgroundColor: COLORS.buttonBg,
                         color: COLORS.green,
-                        borderColor: COLORS.border
+                        borderColor: COLORS.border,
                       }}
                     >
                       play-again
                     </button>
                   </>
                 )}
-                
+
                 {!started && !gameOver && !won && (
                   <button
                     onClick={() => setStarted(true)}
@@ -279,7 +289,7 @@ function ThemedSnakeGame() {
                       backgroundColor: COLORS.orange,
                       color: COLORS.darkPanel,
                       borderColor: COLORS.orange,
-                      fontWeight: 'bold'
+                      fontWeight: "bold",
                     }}
                   >
                     start-game
@@ -290,80 +300,82 @@ function ThemedSnakeGame() {
           )}
         </div>
 
-        {/* Controls Section */}
-        <div className="mb-6">
-          <div 
-            className="font-mono text-sm mb-2"
-            style={{ color: COLORS.subText }}
-          >
-            // use keyboard
-          </div>
-          <div 
-            className="font-mono text-sm mb-4"
-            style={{ color: COLORS.subText }}
-          >
-            // arrows to play
-          </div>
-          
-          <div className="flex justify-center">
-            <div className="grid grid-cols-3 gap-1">
-              <div></div>
-              <Keycap symbol="▲" />
-              <div></div>
-              <Keycap symbol="◄" />
-              <Keycap symbol="▼" />
-              <Keycap symbol="►" />
+        <div className="flex flex-col gap-2 items-start">
+          {/* Controls Section */}
+          <div className="mb-6">
+            <div
+              className="font-mono text-sm mb-2"
+              style={{ color: COLORS.subText }}
+            >
+              // use keyboard
+            </div>
+            <div
+              className="font-mono text-sm mb-4"
+              style={{ color: COLORS.subText }}
+            >
+              // arrows to play
+            </div>
+
+            <div className="flex justify-center">
+              <div className="grid grid-cols-3 gap-1">
+                <div></div>
+                <Keycap symbol="▲" />
+                <div></div>
+                <Keycap symbol="◄" />
+                <Keycap symbol="▼" />
+                <Keycap symbol="►" />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Food Counter */}
-        <div className="mb-6">
-          <div 
-            className="font-mono text-sm mb-3"
-            style={{ color: COLORS.subText }}
-          >
-            // food left
+          {/* Food Counter */}
+          <div className="mb-6">
+            <div
+              className="font-mono text-sm mb-3"
+              style={{ color: COLORS.subText }}
+            >
+              // food left
+            </div>
+            <div className="grid grid-cols-5 gap-2">
+              {foodDots.map((consumed, i) => (
+                <div
+                  key={i}
+                  className="w-4 h-4 rounded-full border flex items-center justify-center"
+                  style={{
+                    backgroundColor: consumed ? COLORS.food : "transparent",
+                    borderColor: COLORS.border,
+                    opacity: consumed ? 1 : 0.3,
+                  }}
+                >
+                  {consumed && (
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: COLORS.food }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-5 gap-2">
-            {foodDots.map((consumed, i) => (
-              <div
-                key={i}
-                className="w-4 h-4 rounded-full border flex items-center justify-center"
-                style={{
-                  backgroundColor: consumed ? COLORS.food : 'transparent',
-                  borderColor: COLORS.border,
-                  opacity: consumed ? 1 : 0.3
-                }}
-              >
-                {consumed && (
-                  <div 
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: COLORS.food }}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Skip Button */}
-        <div className="flex justify-end">
-          <button
-            className="px-4 py-2 rounded font-mono text-sm transition-all hover:brightness-110 border"
-            style={{
-              backgroundColor: COLORS.buttonBg,
-              color: COLORS.subText,
-              borderColor: COLORS.border
-            }}
-            onClick={() => {
-              if (typeof window !== 'undefined') {
-                window.dispatchEvent(new CustomEvent('gameSkipped'));
-              }
-            }}
-          >
-            skip
-          </button>
+          {/* Skip Button */}
+          <div className="flex justify-end">
+            <button
+              className="px-4 py-2 rounded font-mono text-sm transition-all hover:brightness-110 border"
+              style={{
+                backgroundColor: COLORS.buttonBg,
+                color: COLORS.subText,
+                borderColor: COLORS.border,
+              }}
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("gameSkipped"));
+                }
+              }}
+            >
+              skip
+            </button>
+          </div>
         </div>
       </div>
     </div>
