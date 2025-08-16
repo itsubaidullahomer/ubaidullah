@@ -1,15 +1,15 @@
 export const Config = {
   serverApiUrl: "http://localhost:8080/api/",
-  githubUserName: "@UbaidullahMOmer",
-  githubUrl: "https://github.com/UbaidullahMOmer",
-  twitterUserName: "UbaidullahMOmer",
-  twitterUrl: "https://twitter.com/ubaidullahmomer",
-  facebookUserName: "UbaidullahMOmer",
-  facebookUrl: "https://www.facebook.com/ubaidullahmomer/",
-  instagramUserName: "UbaidullahMOmer",
-  instagramUrl: "https://www.instagram.com/ubaidullahmomer/",
-  linkedinUserName: "UbaidullahMOmer",
-  linkedinUrl: "https://www.linkedin.com/in/ubaidullahmomer/",
+  githubUserName: "@ItsUbaidullahOmer",
+  githubUrl: "https://github.com/ItsUbaidullahOmer",
+  twitterUserName: "ItsUbaidullahOmer",
+  twitterUrl: "https://twitter.com/ItsUbaidullahOmer",
+  facebookUserName: "ItsUbaidullahOmer",
+  facebookUrl: "https://www.facebook.com/ItsUbaidullahOmer/",
+  instagramUserName: "ItsUbaidullahOmer",
+  instagramUrl: "https://www.instagram.com/ItsUbaidullahOmer/",
+  linkedinUserName: "ItsUbaidullahOmer",
+  linkedinUrl: "https://www.linkedin.com/in/ItsUbaidullahOmer/",
   userToken: "UserToken",
   personalInfo: [
     {
@@ -141,10 +141,10 @@ function useHandleLanguage() {
     label: "contacts",
     options: [
       {
-        label: "ubaidullahu448@gmail.com",
-        value: ":mailto:ubaidullahu448@gmail.com",
+        label: "itsubaidullahomer@gmail.com",
+        value: ":mailto:itsubaidullahomer@gmail.com",
       },
-      { label: "03036151122", value: ":tel:03036151122" },
+      { label: "+92 329-2380929", value: ":tel:+923292380929" },
     ],
   },
 };
