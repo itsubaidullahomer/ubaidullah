@@ -1,67 +1,11 @@
 import React, { useState } from "react";
 import ProjectCard from "../../components/projectCard/ProjectCard";
+import { projects } from "../../constants/projects";
 
 const Projects = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [showCategores, setShowCategories] = useState(true);
-  const projects = [
-    {
-      src: "./images/newtututor.png",
-      title: "Tututor.Ai",
-      desc: "Tututor.Ai provides AI tools for Students and Teachers, which can improve the teaching and learning process.",
-      link: "https://tututor.vercel.app/",
-      category: ["Html", "Tailwind", "React Js"],
-    },
-    {
-      src: "./images/fiindustries.png",
-      title: "Fi Industries",
-      desc: "On Fi Industries, users can get fiber-glass products at low prices.",
-      link: "https://fiindustries.org/",
-      category: ["Html"],
-    },
-    {
-      src: "./images/insight-x.png",
-      title: "Insight-X",
-      desc: "AI-Driven Analytics Platform that automatically generates JavaScript analytics functions for custom business insights.",
-      link: "https://www.insight-x.io/",
-      category: ["React Js", "Tailwind"],
-    },
-    {
-      src: "./images/viloi.png",
-      title: "Viloi",
-      desc: "AI humanization platform with stunning modern UI featuring glassmorphism and smooth micro-interactions.",
-      link: "https://viloi.com/",
-      category: ["React Js", "Tailwind", "Css"],
-    },
-    {
-      src: "./images/jurri.png",
-      title: "Jurri Drive | Mail",
-      desc: "Platform like Google Drive and multi-email manager with password management, drag-and-drop uploads, and dynamic folders.",
-      link: "https://jurri.danzeetech.com/login",
-      category: ["React Js", "Tailwind"],
-    },
-    {
-      src: "./images/yaksport.png",
-      title: "Yaksport",
-      desc: "Sports training camp booking website with advanced filtering, multi-language support, and interactive galleries.",
-      link: "https://yaksport.com/",
-      category: ["React Js", "Tailwind"],
-    },
-    {
-      src: "./images/enomad.png",
-      title: "E-Nomad Tax",
-      desc: "Modern, mobile-first website helping freelancers minimize taxes by obtaining residency in low-tax countries.",
-      link: "https://www.enomadtax.com/",
-      category: ["React Js", "Tailwind"],
-    },
-    {
-      src: "./images/crownkabab.png",
-      title: "Crown Kabab",
-      desc: "E-commerce platform with Redux Toolkit, payment gateway, Google OAuth, and multi-language support.",
-      link: "https://crownkebab.dk/",
-      category: ["React Js", "Tailwind"],
-    },
-  ];
+  const [showCategories, setShowCategories] = useState(true);
+
   const categories = [
     { name: "Html", icon: "html5-line" },
     { name: "Css", icon: "css3-line" },
@@ -89,12 +33,12 @@ const Projects = () => {
     <div className="flex items-start h-full max-sm:flex-col">
       <div className="flex flex-col max-sm:w-full sm:min-w-[301px] sm:border-r-[1px] border-[#1E2D3D] h-full">
         <div
-          onClick={() => setShowCategories(!showCategores)}
+          onClick={() => setShowCategories(!showCategories)}
           className="max-sm:py-[5px] flex items-center gap-[12px] p-[12px] py-[10px] sm:border-b-[1px] border-[#1E2D3D] cursor-pointer group max-sm:bg-[#1E2D3D]"
         >
           <i
             className={`ri-arrow-down-s-fill text-[18px] text-[#FFF] group-hover:text-[#607B96] transition-all ${
-              showCategores ? "rotate-180" : ""
+              showCategories ? "rotate-180" : ""
             } `}
           ></i>
           <span className="text-[#FFF] text-[14px] group-hover:text-[#607B96] transition-all">
@@ -103,7 +47,7 @@ const Projects = () => {
         </div>
         <div
           className={`flex flex-col gap-[8px] p-[12px] py-[10px] ${
-            showCategores ? "" : "hidden"
+            showCategories ? "" : "hidden"
           }`}
         >
           {categories.map((category) => (
@@ -143,11 +87,8 @@ const Projects = () => {
           {filterProjects.map((project, index) => (
             <ProjectCard
               key={index}
-              src={project.src}
-              title={project.title}
-              desc={project.desc}
-              link={project.link}
-              category={project.category}
+              project={project}
+              index={index + 1}
             />
           ))}
         </div>

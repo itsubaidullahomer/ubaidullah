@@ -143,7 +143,7 @@ const About = () => {
                   {selectedContent.message}
                 </pre>
               </div>
-              <div className="w-1/2 px-[36px]">
+              <div className="w-1/2 px-[36px] max-h-[74vh] overflow-y-auto">
                 <CodeSnippet codeSnippet={selectedContent.codeSnippet} />
               </div>
             </>

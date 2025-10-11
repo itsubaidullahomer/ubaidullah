@@ -25,31 +25,64 @@ export const Config = {
               star: "5.0",
               created: "Jan 2022",
               code: `
-  const handleResponse = (response: any, ) => {
-    if (response.success) {
-      fnShowSnackBar({ message: response});
-    } else {
-      fnShowSnackBar({
-        message: response.message",
-        error: true,
-      });
-    }
+// 🚀 Real-time Analytics Dashboard with AI
+const DeveloperJourney = async () => {
+  const stats = {
+    experience: '4 years',
+    projectsShipped: 15,
+    aiModelsIntegrated: ['GPT-4', 'Claude', 'Gemini', 'DALL-E'],
+    linesOfCode: '1M+',
+    coffeeConsumed: '∞',
+    currentMission: 'Building AI tools @ Tututor.ai'
   };
-                    `,
+
+  // 🎯 Impact Metrics
+  const impact = {
+    teachersHelped: 20,
+    schoolsServed: '+20 schools',
+    timeAutomated: '95% content creation',
+    concurrentUsers: '8K+',
+    fundingSecured: '$250K' // via Insight-X
+  };
+
+  // 💡 Tech Stack in Action
+  const buildFeature = async (idea) => {
+    const stack = [
+      '⚛️ React/Next.js → Lightning-fast UI',
+      '🤖 AI Integration → Smart automation', 
+      '📊 Real-time Analytics → Live insights',
+      '🎨 Framer Motion → Smooth animations',
+      '⚡ Microservices → Scalable architecture'
+    ];
+    
+    return stack.map(tech => 
+      console.log(\`✅ \${tech}\`)
+    );
+  };
+
+  // 🔥 Current Focus
+  console.log('🎓 Revolutionizing education with AI');
+  console.log('💼 Lead Developer at Tututor.ai');
+  console.log('🌍 Serving Spanish schools nationwide');
+  
+  return 'Building the future, one commit at a time 🚀';
+};
+
+DeveloperJourney();
+              `,
             },
             message: `/**
 * About me
-* I have 2.3 years of еxperience in web
-* development lorem ipsum dolor sit amet,
-* consectetur adipiscing elit, sed do eiusmod
-* tempor incididunt ut labore et dolore
-* magna aliqua. Ut enim ad minim veniam,
-* quis nostrud exercitation ullamco laboris
-* nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in
-*
-* Duis aute irure dolor in reprehenderit in
-
+* Full-stack MERN developer with 4 years building 
+* scalable AI-powered platforms in fast-paced startup 
+* environments. Proven track record of rapid deployment 
+* and iterative development. Experienced in disrupting 
+* traditional industries through innovative tech solutions.
+* 
+* Currently Lead Developer at Tututor.ai, building AI 
+* platforms that help Spanish teachers save weeks of 
+* prep time by automating lesson planning and content 
+* creation, serving 20+ schools.
 */`,
           },
         },
@@ -59,7 +92,7 @@ export const Config = {
       label: "education",
       options: [
         {
-          label: "School",
+          label: "Experience & Skills",
           data: {
             codeSnippet: {
               language: "javascript",
@@ -68,28 +101,30 @@ export const Config = {
               star: "5.0",
               created: "Jan 2022",
               code: `
-                      function initializeModelChunk<T>(chunk: ResolvedModelChunk): T {
-                      const value: T = parseModel(chunk._response, chunk._value);
-                      const initializedChunk: InitializedChunk<T> = (chunk as any);
-                      initializedChunk._status = INITIALIZED;
-                      initializedChunk._value = value;
-                      return value;
-                  }
-                      `,
+const skills = {
+  languages: ['JavaScript (ES2015+)', 'TypeScript', 'C'],
+  frameworks: ['React', 'Next.js', 'Node.js', 'Express.js'],
+  databases: ['MongoDB'],
+  mobile: ['React Native'],
+  styling: ['Tailwind CSS', 'Styled Components', 'Framer Motion'],
+  tools: ['Git/GitHub/GitLab', 'Docker', 'CI/CD'],
+  cloud: ['DigitalOcean', 'Vercel', 'Heroku', 'Netlify']
+};
+              `,
             },
             message: `/**
-* About me
-* I have 5 years of еxperience in web
-* development lorem ipsum dolor sit amet,
-* consectetur adipiscing elit, sed do eiusmod
-* tempor incididunt ut labore et dolore
-* magna aliqua. Ut enim ad minim veniam,
-* quis nostrud exercitation ullamco laboris
-* nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in
-*
-* Duis aute irure dolor in reprehenderit in
-
+* Professional Experience
+* 
+* Lead Developer at Tututor.ai (Nov 2023 - Present)
+* - Built AI platform serving 20+ schools in Spain
+* - Reduced content creation time by 95%
+* - Handles 8K+ concurrent users
+* - Integrated multiple LLMs (GPT-4, Claude, Gemini)
+* 
+* Front End Developer at Danzee Tech (Sep 2022 - Jan 2024)
+* - Built RESTful APIs with 99.9% uptime
+* - Developed reusable components
+* - Enhanced delivery speed by 20%
 */`,
           },
         },
@@ -99,7 +134,7 @@ export const Config = {
       label: "interests",
       options: [
         {
-          label: "Football",
+          label: "Projects & Technologies",
           data: {
             codeSnippet: {
               language: "javascript",
@@ -108,29 +143,46 @@ export const Config = {
               star: "5.0",
               created: "Jan 2022",
               code: `
-function useHandleLanguage() {
-  const selectedLanguage = useSelector(selectLanguage);
-  const dispatch = useDispatch();
-  const handleLanguage = (value: string) => {
-    dispatch(setLanguage(value));
-  };
-  return { selectedLanguage, handleLanguage };
-}
-                      `,
+// Key Projects
+const projects = [
+  {
+    name: 'Insight-X',
+    description: 'AI-Driven Analytics Platform',
+    impact: 'Helped client secure $250K in funding',
+    tech: ['AI', 'JavaScript', 'Analytics']
+  },
+  {
+    name: 'Viloi',
+    description: 'AI humanization platform',
+    tech: ['Multiple LLMs', 'Stripe', 'React']
+  },
+  {
+    name: 'Jurri Drive/Mail',
+    description: 'Google Drive alternative',
+    tech: ['React', 'File Management', 'Email']
+  }
+];
+              `,
             },
             message: `/**
-* About me
-* I have 5 years of еxperience in web
-* development lorem ipsum dolor sit amet,
-* consectetur adipiscing elit, sed do eiusmod
-* tempor incididunt ut labore et dolore
-* magna aliqua. Ut enim ad minim veniam,
-* quis nostrud exercitation ullamco laboris
-* nisi ut aliquip ex ea commodo consequat.
-* Duis aute irure dolor in reprehenderit in
-*
-* Duis aute irure dolor in reprehenderit in
-
+* Technical Interests & Specializations
+* 
+* AI Integration
+* - Multiple LLM integration (GPT-4, Claude, Gemini)
+* - Text-to-speech (ElevenLabs)
+* - Image generation (DALL-E, Stable Diffusion)
+* - Custom AI chatbots and analytics
+* 
+* Full-Stack Development
+* - Microservices architecture
+* - RESTful API design
+* - Real-time features (WebSockets/Socket.io)
+* - State management (Redux Toolkit, RTK Query)
+* 
+* UI/UX Excellence
+* - Modern animations (Framer Motion, Anime.js)
+* - Responsive design
+* - Glassmorphism and modern UI patterns
 */`,
           },
         },
@@ -142,9 +194,13 @@ function useHandleLanguage() {
     options: [
       {
         label: "itsubaidullahomer@gmail.com",
-        value: ":mailto:itsubaidullahomer@gmail.com",
+        value: "mailto:itsubaidullahomer@gmail.com",
       },
-      { label: "+92 329-2380929", value: ":tel:+923292380929" },
+      { 
+        label: "+92 329-2380929", 
+        value: "tel:+923292380929" 
+      },
     ],
   },
 };
+
