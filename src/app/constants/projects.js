@@ -1,5 +1,4 @@
 export const projects = [
-      link: "https://tututor.vercel.app/",
   {
     src: "./images/newtututor.png",
     title: "Tututor.Ai",
