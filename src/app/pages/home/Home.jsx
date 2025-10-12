@@ -7,9 +7,9 @@ const ModernHome = () => {
 
   const metrics = [
     { label: 'Experience', value: '4 Years', color: '#43D9AD' },
-    { label: 'Schools Served', value: '20+', color: '#4D5BCE' },
-    { label: 'Concurrent Users', value: '8K+', color: '#FEA55F' },
-    { label: 'Automation Rate', value: '95%', color: '#43D9AD' }
+    { label: 'Projects Built', value: '15+', color: '#4D5BCE' },
+    { label: 'Tech Stack', value: 'MERN', color: '#FEA55F' },
+    { label: 'AI Models', value: '10+', color: '#43D9AD' }
   ];
 
   const techStack = [

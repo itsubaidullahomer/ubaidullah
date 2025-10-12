@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import ProjectCard from "../../components/projectCard/ProjectCard";
-import { projects } from "../../constants/projects";
+import { categories, projects } from "../../constants/projects";
 
 const Projects = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [showCategories, setShowCategories] = useState(true);
 
-  const categories = [
-    { name: "Html", icon: "html5-line" },
-    { name: "Css", icon: "css3-line" },
-    { name: "Js", icon: "javascript-line" },
-    { name: "Tailwind", icon: "tailwind-css-line" },
-    { name: "React Js", icon: "reactjs-line" },
-  ];
+
 
   const filterProjects = projects.filter((project) => {
     if (selectedCategories.length === 0) {
