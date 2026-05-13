@@ -9,7 +9,9 @@
       "Bash(curl -sI http://localhost:3001/)",
       "Bash(curl -s http://localhost:3001/)",
       "Bash(curl -s http://localhost:3001/work/tututor)",
-      "Bash(curl -s http://localhost:3001/about)"
+      "Bash(curl -s http://localhost:3001/about)",
+      "Bash(npm view *)",
+      "Bash(npm ls *)"
     ]
   }
 }
