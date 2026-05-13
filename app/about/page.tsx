@@ -70,7 +70,7 @@ export default function AboutPage() {
             <div className="relative w-full max-w-sm lg:w-80">
               <div className="glass relative aspect-[4/5] overflow-hidden rounded-[var(--radius-glass)]">
                 <Image
-                  src="/portrait.jpeg"
+                  src="/portrait.png"
                   alt={`Portrait of ${site.name}`}
                   fill
                   priority

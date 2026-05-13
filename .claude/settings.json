@@ -5,7 +5,7 @@
       "Bash(npm install *)",
       "Bash(npx tsc *)",
       "Bash(npm run *)",
-      "Bash(curl -sI http://localhost:3001/portrait.jpeg)",
+      "Bash(curl -sI http://localhost:3001/portrait.png)",
       "Bash(curl -sI http://localhost:3001/)",
       "Bash(curl -s http://localhost:3001/)",
       "Bash(curl -s http://localhost:3001/work/tututor)",

@@ -62,7 +62,7 @@ export function Hero() {
           <div className="relative hidden lg:block">
             <div className="glass relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[var(--radius-glass)]">
               <Image
-                src="/portrait.jpeg"
+                src="/portrait.png"
                 alt={`Portrait of ${site.name}`}
                 fill
                 priority

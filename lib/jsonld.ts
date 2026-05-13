@@ -8,7 +8,7 @@ export function personJsonLd() {
     name: site.name,
     alternateName: site.handle,
     url: siteUrl,
-    image: `${siteUrl}/portrait.jpeg`,
+    image: `${siteUrl}/portrait.png`,
     jobTitle: site.role,
     description: site.description,
     email: `mailto:${site.email}`,
