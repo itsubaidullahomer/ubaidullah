@@ -11,7 +11,12 @@
       "Bash(curl -s http://localhost:3001/work/tututor)",
       "Bash(curl -s http://localhost:3001/about)",
       "Bash(npm view *)",
-      "Bash(npm ls *)"
+      "Bash(npm ls *)",
+      "Bash(ls -t /var/folders/__/2f00b7s105z4skvk45s1mrmh0000gn/T/next-panic-*.log 2>/dev/null | head -1 | xargs -I {} head -40 {} 2>&1)",
+      "Read(//private/var/folders/__/2f00b7s105z4skvk45s1mrmh0000gn/T/**)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/portrait.png)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/work/tututor)"
     ]
   }
 }
