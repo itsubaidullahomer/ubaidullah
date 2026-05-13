@@ -7,28 +7,52 @@ import { Magnetic } from "@/components/primitives/Magnetic";
 import { AuroraMesh } from "@/components/effects/AuroraMesh";
 import { site } from "@/content/site";
 
+const STACK_TICKER = [
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Node.js",
+  "MongoDB",
+  "WebSockets",
+  "OpenAI",
+  "Claude",
+  "Tailwind",
+  "Framer Motion",
+  "Redux Toolkit",
+  "Stripe",
+];
+
 export function Hero() {
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden pt-32 pb-20 md:pt-40 md:pb-32">
+    <section className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden px-0 pt-28 pb-12 md:pt-32 md:pb-16 lg:pt-32 lg:pb-20 2xl:pt-40">
       <AuroraMesh variant="hero" />
 
-      <Container className="relative z-10">
-        <div className="grid items-start gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-20">
-          <div className="max-w-3xl">
-            <div className="mb-8 flex flex-wrap items-center gap-2">
+      <Container size="wide" className="relative z-10 w-full">
+        <div className="grid items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16 2xl:gap-20">
+          {/* ─────── LEFT: text column ─────── */}
+          <div className="flex min-w-0 flex-col justify-center">
+            <div className="mb-5 flex flex-wrap items-center gap-2 md:mb-6">
               <StatusPill>{site.availability}</StatusPill>
               <Pill icon={<MapPin className="h-3 w-3" strokeWidth={2} />}>{site.location}</Pill>
             </div>
 
-            <h1 className="font-display text-[clamp(2.75rem,8vw,7rem)] leading-[0.96] tracking-[-0.025em] text-fg text-balance">
-              Builder of{" "}
-              <em className="italic text-gradient-accent">production-grade</em>{" "}
-              AI products.
+            {/* Headline — 3 lines, all same size, italic gets emphasis from styling alone */}
+            <h1
+              className="font-display text-[clamp(2.25rem,5.4vw,4.75rem)] leading-[0.96] tracking-[-0.028em] text-fg text-balance"
+              style={{ hyphens: "manual" }}
+            >
+              <span className="block">Builder of</span>
+              <span className="block">
+                <em className="italic text-gradient-accent not-italic">
+                  production&#8209;grade
+                </em>
+              </span>
+              <span className="block">AI products.</span>
             </h1>
 
-            <p className="mt-8 max-w-xl text-lg text-fg-muted leading-relaxed text-pretty">
-              I'm <span className="text-fg">Ubaidullah</span> — a senior product
-              engineer who ships AI features to real users. Currently at{" "}
+            <p className="mt-6 max-w-xl text-base text-fg-muted leading-relaxed text-pretty md:mt-7 md:text-lg">
+              I'm <span className="text-fg">Ubaidullah</span> — a senior product engineer who
+              ships AI features to real users. Currently at{" "}
               <a
                 href="https://tututor.ai"
                 target="_blank"
@@ -40,7 +64,7 @@ export function Hero() {
               , where 17,000+ students and teachers use what I build daily.
             </p>
 
-            <div className="mt-10 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center gap-3 md:mt-9">
               <Magnetic>
                 <Button href="/work" variant="primary" withArrow>
                   See selected work
@@ -53,39 +77,114 @@ export function Hero() {
               </Magnetic>
             </div>
 
-            <div className="mt-16 flex items-center gap-3 text-xs text-fg-subtle">
+            <div className="mt-12 hidden items-center gap-2.5 text-[11px] text-fg-subtle md:flex lg:mt-14">
               <ArrowDown className="h-3.5 w-3.5 animate-bounce" strokeWidth={2} />
-              <span>Scroll for selected work</span>
+              <span className="uppercase tracking-[0.2em]">Scroll for selected work</span>
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            <div className="glass relative aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[var(--radius-glass)]">
+          {/* ─────── RIGHT: visual stack ─────── */}
+          <div className="mx-auto flex w-full max-w-md flex-col gap-4 lg:mx-0 lg:max-w-none lg:gap-4">
+            {/* Portrait */}
+            <div className="glass relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-glass)] lg:aspect-[5/6]">
               <Image
                 src="/portrait.png"
-                alt={`Portrait of ${site.name}`}
+                alt={`Portrait of ${site.name}, senior product engineer`}
                 fill
                 priority
-                sizes="400px"
+                sizes="(max-width: 1024px) min(28rem, 90vw), (max-width: 1536px) 32vw, 420px"
                 className="object-cover"
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent p-5">
-                <div className="text-xs font-mono uppercase tracking-[0.18em] text-white/70">
-                  Pakistan · Remote
+              {/* Bottom gradient — strong enough for legibility */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
+              />
+
+              {/* Floating nameplate */}
+              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+                <div className="glass-strong inline-flex items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-3.5">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-accent font-display text-[12px] text-[var(--accent-fg)]">
+                    U
+                  </span>
+                  <div className="leading-tight">
+                    <div className="text-[13px] font-medium text-white">{site.name}</div>
+                    <div className="text-[9.5px] uppercase tracking-[0.18em] text-white/65">
+                      Pakistan · Remote
+                    </div>
+                  </div>
                 </div>
-                <div className="mt-1 font-display text-xl text-white">{site.name}</div>
+
+                <span className="glass-strong inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-white/80">
+                  <span className="relative inline-flex h-1.5 w-1.5">
+                    <span className="absolute inline-flex h-full w-full animate-[pulse-dot_2.4s_ease-in-out_infinite] rounded-full bg-accent opacity-70" />
+                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                  </span>
+                  Available
+                </span>
               </div>
             </div>
 
-            <div className="glass mt-4 flex items-center gap-3 rounded-full px-4 py-2 text-xs text-fg-muted">
-              <span className="text-fg-subtle">Stack:</span>
-              <span className="text-fg">React</span>
-              <span className="text-fg-subtle">·</span>
-              <span className="text-fg">Node</span>
-              <span className="text-fg-subtle">·</span>
-              <span className="text-fg">MongoDB</span>
-              <span className="text-fg-subtle">·</span>
-              <span className="text-accent">AI</span>
+            {/* Currently shipping mini-card */}
+            {/* <div className="glass rounded-2xl p-4 md:p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-fg-muted">
+                    Currently shipping
+                  </div>
+                  <a
+                    href="https://tututor.ai"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-1 inline-flex items-center gap-1.5 font-display text-xl leading-tight text-fg transition-colors hover:text-accent md:text-2xl"
+                  >
+                    Tututor.ai
+                    <span className="text-xs text-fg-subtle">↗</span>
+                  </a>
+                </div>
+                <span className="shrink-0 rounded-full border border-border px-2 py-0.5 text-[10px] font-medium text-fg-muted">
+                  v.now
+                </span>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
+                <div>
+                  <div className="font-display text-2xl leading-none tracking-[-0.02em] text-fg md:text-3xl">
+                    17K+
+                  </div>
+                  <div className="mt-1.5 text-[11px] text-fg-muted">Active users</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl leading-none tracking-[-0.02em] text-fg md:text-3xl">
+                    <span className="text-accent">90</span>%
+                  </div>
+                  <div className="mt-1.5 text-[11px] text-fg-muted">Lesson-prep saved</div>
+                </div>
+              </div>
+            </div> */}
+
+            {/* Stack marquee */}
+            <div className="glass relative overflow-hidden rounded-full">
+              <div className="flex w-max animate-[marquee_28s_linear_infinite] items-center gap-7 py-3">
+                {[...STACK_TICKER, ...STACK_TICKER].map((t, i) => (
+                  <span
+                    key={i}
+                    className="flex shrink-0 items-center gap-7 text-xs font-medium tracking-tight text-fg-muted"
+                  >
+                    {t}
+                    <span aria-hidden className="h-1 w-1 rounded-full bg-fg-subtle" />
+                  </span>
+                ))}
+              </div>
+              {/* Edge fades */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-[var(--bg)] to-transparent"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-[var(--bg)] to-transparent"
+              />
             </div>
           </div>
         </div>
