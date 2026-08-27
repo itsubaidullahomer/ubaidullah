@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Pill } from "@/components/primitives/Pill";
 import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { BrowserFrame } from "@/components/work/BrowserFrame";
 import type { Project } from "@/content/types";
 
 export function StudyHero({ project }: { project: Project }) {
@@ -48,6 +49,21 @@ export function StudyHero({ project }: { project: Project }) {
             Visit {project.title}
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
+        )}
+
+        {project.screenshot && (
+          <div className="mt-12 md:mt-16">
+            <BrowserFrame
+              project={project}
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              priority
+              scrollable
+              className="glass rounded-2xl"
+            />
+            <p className="mt-3 text-center text-xs text-fg-subtle">
+              The live site, captured full-page — scroll inside the frame.
+            </p>
+          </div>
         )}
       </Container>
     </section>

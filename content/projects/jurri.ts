@@ -7,10 +7,12 @@ export const jurri: Project = {
   role: "Frontend Engineer",
   company: "Danzee Tech",
   period: "Sep 2023 — Apr 2024",
-  status: "shipped",
+  status: "live",
   featured: false,
   cover: "/work/jurri-cover.svg",
   accent: "#B854FB",
+  externalUrl: "https://jurri.danzeetech.com/",
+  screenshot: { src: "/images/screens/jurri.jpg", width: 2160, height: 1350 },
 
   summary:
     "A unified surface for enterprise teams to manage files, email, and credentials in one place. I owned the frontend: drag-and-drop uploads, unified inbox across multiple accounts, and a password vault — all backed by a Redux Toolkit + RTK Query architecture I built to keep server state coherent.",

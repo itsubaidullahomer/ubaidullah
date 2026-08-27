@@ -10,7 +10,7 @@ export const site = {
   phone: "+92 329 2380929",
   location: "Pakistan",
   availability: "Available for select work",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/Ubaidullah-CV.pdf",
   keywords: [
     "MERN developer",
     "React developer",

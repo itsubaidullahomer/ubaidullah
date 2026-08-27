@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowDown, MapPin } from "lucide-react";
+import { ArrowDown, FileText, MapPin } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Button } from "@/components/primitives/Button";
 import { Pill, StatusPill } from "@/components/primitives/Pill";
@@ -73,6 +73,12 @@ export function Hero() {
               <Magnetic>
                 <Button href="/contact" variant="secondary">
                   Start a conversation
+                </Button>
+              </Magnetic>
+              <Magnetic>
+                <Button href={site.resumeUrl} external variant="ghost">
+                  <FileText className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  View CV
                 </Button>
               </Magnetic>
             </div>

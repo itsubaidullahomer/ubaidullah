@@ -20,6 +20,12 @@ export type ArchitectureEdge = {
   label?: string;
 };
 
+export type Screenshot = {
+  src: string;
+  width: number;
+  height: number;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -32,6 +38,8 @@ export type Project = {
   featured: boolean;
   cover: string;
   accent: string;
+  /** Full-page screenshot of the live product, shown in a browser frame. */
+  screenshot?: Screenshot;
 
   summary: string;
   problem: string;
@@ -62,6 +70,7 @@ export type Experience = {
 
 export type SkillGroup = {
   category: string;
+  blurb: string;
   items: string[];
 };
 

@@ -2,19 +2,22 @@ import type { Project } from "../types";
 
 export const aiHumanizer: Project = {
   slug: "ai-humanizer",
-  title: "AI Humanizer",
+  title: "Viloi",
   tagline:
-    "AI text humanization SaaS — multi-LLM pipeline that bypasses ZeroGPT detection, with Stripe billing baked in.",
+    "AI humanization SaaS live at viloi.com — multi-LLM pipeline that rewrites machine text until it reads human, with Stripe billing baked in.",
   role: "Full-Stack Engineer",
   company: "Independent",
+  companyUrl: "https://viloi.com",
+  externalUrl: "https://viloi.com",
   period: "Side project",
-  status: "shipped",
-  featured: false,
+  status: "live",
+  featured: true,
   cover: "/work/ai-humanizer-cover.svg",
   accent: "#A78BFA",
+  screenshot: { src: "/images/screens/viloi.jpg", width: 2160, height: 7800 },
 
   summary:
-    "An AI text humanization SaaS that takes machine-generated text and reshapes it until it bypasses ZeroGPT detection. Built solo end-to-end — multi-LLM transformation pipeline, Stripe-backed subscriptions, and a glassmorphism UI that doesn't look like every other AI tool from 2024.",
+    "Viloi is an AI text humanization SaaS that takes machine-generated text and reshapes it until it reads naturally. Built solo end-to-end — multi-LLM transformation pipeline, Stripe-backed subscriptions, and a glassmorphism UI that doesn't look like every other AI tool from 2024. Live at viloi.com.",
 
   problem:
     "Single-model humanizers fail unpredictably — one model's output gets flagged, the next doesn't, and there's no automated way to pick the right pipeline for a given input. Most also lack actual payment infrastructure, so they never grow past the prototype stage.",

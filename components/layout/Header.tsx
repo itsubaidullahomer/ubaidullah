@@ -3,18 +3,18 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Command } from "lucide-react";
+import { Command, FileText } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { site } from "@/content/site";
 import { ThemeToggle } from "./ThemeToggle";
 import { useCommandPalette } from "./CommandPaletteProvider";
 
 const NAV = [
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/writing", label: "Writing" },
   { href: "/now", label: "Now" },
-  { href: "/uses", label: "Uses" },
   { href: "/playground", label: "Playground" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function Header() {
@@ -84,6 +84,15 @@ export function Header() {
             <Command className="h-3 w-3" strokeWidth={2} />
             <span>K</span>
           </button>
+          <a
+            href={site.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full bg-accent px-3.5 py-1.5 text-xs font-medium text-[var(--accent-fg)] transition-all hover:shadow-[0_4px_20px_-4px_var(--accent-glow)]"
+          >
+            <FileText className="h-3 w-3" strokeWidth={2} />
+            <span>CV</span>
+          </a>
           <ThemeToggle />
         </div>
       </nav>

@@ -12,6 +12,7 @@ export const animatedLanding: Project = {
   featured: false,
   cover: "/work/animated-landing-cover.svg",
   accent: "#54FBE5",
+  screenshot: { src: "/images/screens/enomad.png", width: 2546, height: 1287 },
 
   summary:
     "A UI demo landing page built to prove a point: complex motion design and great Lighthouse scores aren't mutually exclusive. Scroll-triggered effects, parallax interactions, and glassmorphism throughout — all running at 60fps without tanking perf.",

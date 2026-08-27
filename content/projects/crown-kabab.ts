@@ -11,6 +11,7 @@ export const crownKabab: Project = {
   featured: false,
   cover: "/work/crown-kabab-cover.svg",
   accent: "#54FBE5",
+  screenshot: { src: "/images/screens/crownkabab.png", width: 2544, height: 1288 },
 
   summary:
     "An end-to-end ordering platform for a restaurant — Stripe-backed checkout, Google OAuth, order tracking, and Danish/English support. Built solo from Figma to production.",

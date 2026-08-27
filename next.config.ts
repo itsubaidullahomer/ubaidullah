@@ -12,6 +12,12 @@ const config: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],
   },
+  async redirects() {
+    return [
+      // The old Uses page merged into About's toolbox section.
+      { source: "/uses", destination: "/about", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

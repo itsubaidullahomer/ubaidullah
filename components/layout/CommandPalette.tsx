@@ -8,7 +8,6 @@ import {
   Home,
   Briefcase,
   User,
-  PenTool,
   Beaker,
   Mail,
   Cpu,
@@ -55,9 +54,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
       { id: "home", label: "Home", group: "Navigate", icon: Home, perform: () => router.push("/") },
       { id: "work", label: "Work", group: "Navigate", icon: Briefcase, perform: () => router.push("/work") },
       { id: "about", label: "About", group: "Navigate", icon: User, perform: () => router.push("/about") },
-      { id: "writing", label: "Writing", group: "Navigate", icon: PenTool, perform: () => router.push("/writing") },
       { id: "now", label: "Now", group: "Navigate", icon: Cpu, perform: () => router.push("/now") },
-      { id: "uses", label: "Uses", group: "Navigate", icon: Cpu, perform: () => router.push("/uses") },
       { id: "playground", label: "Playground", group: "Navigate", icon: Beaker, perform: () => router.push("/playground") },
       { id: "contact", label: "Contact", group: "Navigate", icon: Mail, perform: () => router.push("/contact") },
       ...projects.map<Cmd>((p) => ({
@@ -78,7 +75,8 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
       },
       {
         id: "download-resume",
-        label: "Download resume",
+        label: "View CV",
+        hint: "opens in a new tab",
         group: "Actions",
         icon: Download,
         perform: () => window.open(site.resumeUrl, "_blank"),

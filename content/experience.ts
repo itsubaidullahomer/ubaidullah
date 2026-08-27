@@ -2,31 +2,6 @@ import type { Experience } from "./types";
 
 export const experience: Experience[] = [
   {
-    company: "Nobuko Japan",
-    role: "AI Voice Agent Developer & Full-Stack Engineer · Part-time",
-    period: "Mar 2026 — Present",
-    location: "Tokyo, Japan (Remote)",
-    summary:
-      "Owning AI and automation end-to-end at a Tokyo-based used-vehicle exporter shipping to the UK, Ireland, Cyprus, and Pakistan. The existing team maintains the legacy CRM; I handle everything voice-AI and automation, frontend through backend. Currently in demo phase, validating before full production rollout.",
-    highlights: [
-      "Built a pluggable multi-provider voice agent — Gemini Live alongside a custom ElevenLabs + STT pipeline; users pick the model, the voice, and bring their own API keys.",
-      "Shipped live agent supervision — human agents listen to AI calls in real time, see streaming transcripts, inject context to steer mid-call, or take over entirely.",
-      "Built the campaign system — Excel contact import, campaign builder, outbound SIP calling at scale through the company's SIP server.",
-      "Designed the full audit trail — every call's audio, transcript, exact prompt, supervisor actions, and QA review stored and fed back into prompt improvements.",
-    ],
-    stack: [
-      "React",
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "SIP",
-      "Gemini Live",
-      "ElevenLabs",
-      "STT / TTS",
-      "Prompt engineering",
-    ],
-  },
-  {
     company: "Tututor.ai",
     companyUrl: "https://tututor.ai",
     role: "Full-Stack / Product Engineer",

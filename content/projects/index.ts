@@ -1,6 +1,5 @@
 import type { Project } from "../types";
 import { tututor } from "./tututor";
-import { nobukoJapan } from "./nobuko-japan";
 import { insightX } from "./insight-x";
 import { aiHumanizer } from "./ai-humanizer";
 import { jurri } from "./jurri";
@@ -10,7 +9,6 @@ import { animatedLanding } from "./animated-landing";
 
 export const projects: Project[] = [
   tututor,
-  nobukoJapan,
   insightX,
   aiHumanizer,
   jurri,

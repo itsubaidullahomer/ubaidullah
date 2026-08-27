@@ -13,6 +13,7 @@ export const tututor: Project = {
   featured: true,
   cover: "/work/tututor-cover.svg",
   accent: "#C7F284",
+  screenshot: { src: "/images/screens/tututor.jpg", width: 2160, height: 7800 },
 
   summary:
     "Tututor is the AI layer that schools in Murcia, Spain use to plan and deliver lessons. I own the AI services, the school CRM, and the student experience surface end-to-end — the same person who designs the flow ships the code.",

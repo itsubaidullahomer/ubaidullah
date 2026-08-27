@@ -7,10 +7,12 @@ export const yaksport: Project = {
   role: "Frontend Engineer",
   company: "Danzee Tech",
   period: "Jan 2023 — Aug 2023",
-  status: "shipped",
-  featured: false,
+  status: "live",
+  featured: true,
   cover: "/work/yaksport-cover.svg",
   accent: "#FFB07A",
+  externalUrl: "https://yaksport.dk/",
+  screenshot: { src: "/images/screens/yaksport.jpg", width: 2160, height: 5400 },
 
   summary:
     "A booking platform for a Danish travel agency serving sports clubs that need training camps abroad. The interesting parts: multilingual content, search with filters that don't lag once you have hundreds of camps, and a flow that doesn't punish clubs for being indecisive.",
