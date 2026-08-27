@@ -26,20 +26,26 @@ export function SelectedWork() {
           >
             <div
               aria-hidden
-              className="absolute inset-0 -z-10 opacity-50 transition-opacity duration-500 group-hover:opacity-80"
+              className="pointer-events-none absolute inset-0 opacity-50 transition-opacity duration-500 group-hover:opacity-80"
               style={{
                 background: `radial-gradient(800px circle at top right, color-mix(in oklab, ${p.accent} 18%, transparent), transparent 60%)`,
               }}
             />
 
-            <div className="flex items-start justify-between gap-4">
+            <div className="relative flex items-start justify-between gap-4">
               <div className="flex flex-wrap items-center gap-2">
                 <Pill>
                   <span
                     className="inline-block h-1.5 w-1.5 rounded-full"
                     style={{ backgroundColor: p.accent }}
                   />
-                  {p.status === "live" ? "Live" : p.status === "shipped" ? "Shipped" : p.status}
+                  {p.status === "live"
+                    ? "Live"
+                    : p.status === "in-progress"
+                      ? "In progress"
+                      : p.status === "archived"
+                        ? "Archived"
+                        : "Shipped"}
                 </Pill>
                 <Pill>{p.period}</Pill>
               </div>
@@ -49,14 +55,14 @@ export function SelectedWork() {
               />
             </div>
 
-            <h3 className={`mt-6 font-display text-fg leading-tight ${i === 0 ? "text-4xl md:text-5xl" : "text-3xl"}`}>
+            <h3 className={`relative mt-6 font-display text-fg leading-tight ${i === 0 ? "text-4xl md:text-5xl" : "text-3xl"}`}>
               {p.title}
             </h3>
-            <p className={`mt-3 text-fg-muted leading-relaxed text-pretty ${i === 0 ? "text-lg max-w-2xl" : "text-base"}`}>
+            <p className={`relative mt-3 text-fg-muted leading-relaxed text-pretty ${i === 0 ? "text-lg max-w-2xl" : "text-base"}`}>
               {p.tagline}
             </p>
 
-            <div className="mt-6 flex flex-wrap gap-1.5">
+            <div className="relative mt-6 flex flex-wrap gap-1.5">
               {p.stack.slice(0, 5).map((tech) => (
                 <span
                   key={tech}
@@ -73,7 +79,7 @@ export function SelectedWork() {
             </div>
 
             {i === 0 && p.metrics.length > 0 && (
-              <div className="mt-8 grid grid-cols-2 gap-4 border-t border-border pt-6 md:grid-cols-4">
+              <div className="relative mt-8 grid grid-cols-2 gap-4 border-t border-border pt-6 md:grid-cols-4">
                 {p.metrics.slice(0, 4).map((m) => (
                   <div key={m.label}>
                     <div className="font-display text-2xl md:text-3xl text-fg leading-none tracking-[-0.02em]">

@@ -11,7 +11,7 @@ type CardProps = {
 
 export function Card({ children, className, href, external, interactive = !!href }: CardProps) {
   const cls = cn(
-    "glass relative overflow-hidden rounded-[var(--radius-glass)] p-6 md:p-8",
+    "group glass relative block overflow-hidden rounded-[var(--radius-glass)] p-6 md:p-8",
     interactive &&
       "transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:[box-shadow:inset_0_1px_0_0_var(--glass-highlight),0_24px_48px_-16px_rgba(0,0,0,0.4)]",
     className,
