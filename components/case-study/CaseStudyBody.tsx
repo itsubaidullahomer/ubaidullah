@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { MetricGrid } from "./MetricGrid";
-import { ArchitectureDiagram } from "./ArchitectureDiagram";
+import { SystemMap } from "@/components/diagram/SystemMap";
 import type { Project } from "@/content/types";
 import { getAdjacentProjects } from "@/content/projects";
 
@@ -28,10 +28,14 @@ export function CaseStudyBody({ project }: { project: Project }) {
               How the system is wired.
             </h3>
             <p className="mt-3 text-fg-muted leading-relaxed text-pretty">
-              The boundaries that mattered: keeping the teacher UI responsive while heavy AI work happens behind a WebSocket + microservice boundary.
+              The boundaries that mattered: keeping the teacher UI responsive while heavy AI work happens behind a WebSocket + microservice boundary. Play a scenario to watch a request travel through it.
             </p>
           </div>
-          <ArchitectureDiagram nodes={project.architecture.nodes} edges={project.architecture.edges} />
+          <SystemMap
+            nodes={project.architecture.nodes}
+            edges={project.architecture.edges}
+            flows={project.architecture.flows}
+          />
         </Container>
       )}
 

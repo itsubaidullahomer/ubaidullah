@@ -28,7 +28,7 @@ export function Hero() {
       <AuroraMesh variant="hero" />
 
       <Container size="wide" className="relative z-10 w-full">
-        <div className="grid items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16 2xl:gap-20">
+        <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-10 md:gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12 xl:gap-16 2xl:gap-20">
           {/* ─────── LEFT: text column ─────── */}
           <div className="flex min-w-0 flex-col justify-center">
             <div className="mb-5 flex flex-wrap items-center gap-2 md:mb-6">
@@ -38,26 +38,24 @@ export function Hero() {
 
             {/* Headline — 3 lines, all same size, italic gets emphasis from styling alone */}
             <h1
-              className="font-display text-[clamp(2.25rem,5.4vw,4.75rem)] leading-[0.96] tracking-[-0.028em] text-fg text-balance"
+              className="font-display text-fg text-[clamp(2.25rem,5.4vw,4.75rem)] leading-[0.96] tracking-[-0.028em] text-balance"
               style={{ hyphens: "manual" }}
             >
               <span className="block">Builder of</span>
               <span className="block">
-                <em className="italic text-gradient-accent not-italic">
-                  production&#8209;grade
-                </em>
+                <em className="text-gradient-accent italic not-italic">production&#8209;grade</em>
               </span>
               <span className="block">AI products.</span>
             </h1>
 
-            <p className="mt-6 max-w-xl text-base text-fg-muted leading-relaxed text-pretty md:mt-7 md:text-lg">
-              I'm <span className="text-fg">Ubaidullah</span> — a senior product engineer who
-              ships AI features to real users. Currently at{" "}
+            <p className="text-fg-muted mt-6 max-w-xl text-base leading-relaxed text-pretty md:mt-7 md:text-lg">
+              I'm <span className="text-fg">Ubaidullah</span> — a senior product engineer who ships
+              AI features to real users. Currently at{" "}
               <a
                 href="https://tututor.ai"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-fg underline decoration-fg-subtle decoration-1 underline-offset-4 transition-colors hover:decoration-accent hover:text-accent"
+                className="text-fg decoration-fg-subtle hover:decoration-accent hover:text-accent underline decoration-1 underline-offset-4 transition-colors"
               >
                 Tututor.ai
               </a>
@@ -83,14 +81,14 @@ export function Hero() {
               </Magnetic>
             </div>
 
-            <div className="mt-12 hidden items-center gap-2.5 text-[11px] text-fg-subtle md:flex lg:mt-14">
+            <div className="text-fg-subtle mt-12 hidden items-center gap-2.5 text-[11px] md:flex lg:mt-14">
               <ArrowDown className="h-3.5 w-3.5 animate-bounce" strokeWidth={2} />
-              <span className="uppercase tracking-[0.2em]">Scroll for selected work</span>
+              <span className="tracking-[0.2em] uppercase">Scroll for selected work</span>
             </div>
           </div>
 
           {/* ─────── RIGHT: visual stack ─────── */}
-          <div className="mx-auto flex w-full max-w-md flex-col gap-4 lg:mx-0 lg:max-w-none lg:gap-4">
+          <div className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-4 lg:mx-0 lg:max-w-none lg:gap-4">
             {/* Portrait */}
             <div className="glass relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-glass)] lg:aspect-[5/6]">
               <Image
@@ -109,22 +107,22 @@ export function Hero() {
 
               {/* Floating nameplate */}
               <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
-                <div className="glass-strong inline-flex items-center gap-2.5 rounded-full py-1.5 pl-1.5 pr-3.5">
-                  <span className="grid h-7 w-7 place-items-center rounded-full bg-accent font-display text-[12px] text-[var(--accent-fg)]">
+                <div className="glass-strong inline-flex items-center gap-2.5 rounded-full py-1.5 pr-3.5 pl-1.5">
+                  <span className="bg-accent font-display grid h-7 w-7 place-items-center rounded-full text-[12px] text-[var(--accent-fg)]">
                     U
                   </span>
                   <div className="leading-tight">
                     <div className="text-[13px] font-medium text-white">{site.name}</div>
-                    <div className="text-[9.5px] uppercase tracking-[0.18em] text-white/65">
+                    <div className="text-[9.5px] tracking-[0.18em] text-white/65 uppercase">
                       Pakistan · Remote
                     </div>
                   </div>
                 </div>
 
-                <span className="glass-strong inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.14em] text-white/80">
+                <span className="glass-strong inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-[10px] font-medium tracking-[0.14em] text-white/80 uppercase">
                   <span className="relative inline-flex h-1.5 w-1.5">
-                    <span className="absolute inline-flex h-full w-full animate-[pulse-dot_2.4s_ease-in-out_infinite] rounded-full bg-accent opacity-70" />
-                    <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+                    <span className="bg-accent absolute inline-flex h-full w-full animate-[pulse-dot_2.4s_ease-in-out_infinite] rounded-full opacity-70" />
+                    <span className="bg-accent relative inline-flex h-1.5 w-1.5 rounded-full" />
                   </span>
                   Available
                 </span>
@@ -175,10 +173,10 @@ export function Hero() {
                 {[...STACK_TICKER, ...STACK_TICKER].map((t, i) => (
                   <span
                     key={i}
-                    className="flex shrink-0 items-center gap-7 text-xs font-medium tracking-tight text-fg-muted"
+                    className="text-fg-muted flex shrink-0 items-center gap-7 text-xs font-medium tracking-tight"
                   >
                     {t}
-                    <span aria-hidden className="h-1 w-1 rounded-full bg-fg-subtle" />
+                    <span aria-hidden className="bg-fg-subtle h-1 w-1 rounded-full" />
                   </span>
                 ))}
               </div>

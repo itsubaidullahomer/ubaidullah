@@ -26,22 +26,13 @@ export async function GET(req: Request) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div
-            style={{
-              width: 48,
-              height: 48,
-              background: "#C7F284",
-              borderRadius: 999,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#0A1500",
-              fontSize: 24,
-              fontWeight: 700,
-            }}
-          >
-            U
-          </div>
+          <img
+            src={new URL("/images/avatar.png", req.url).toString()}
+            width={48}
+            height={48}
+            style={{ borderRadius: 999 }}
+            alt=""
+          />
           <div style={{ fontSize: 24, opacity: 0.7 }}>{site.name}</div>
           <div style={{ marginLeft: "auto", fontSize: 18, opacity: 0.5 }}>
             itsubaidullahomer.com

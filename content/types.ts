@@ -12,12 +12,24 @@ export type ArchitectureNode = {
   kind: "client" | "service" | "data" | "external" | "ai";
   x: number; // 0-100
   y: number; // 0-100
+  /** Tech line under the label. */
+  sub?: string;
+  /** Shown in the map's info strip on hover. */
+  detail?: string;
 };
 
 export type ArchitectureEdge = {
   from: string;
   to: string;
   label?: string;
+};
+
+/** A request path the system map can animate, hop by hop. */
+export type ArchitectureFlow = {
+  id: string;
+  label: string;
+  description: string;
+  hops: Array<{ from: string; to: string; label: string }>;
 };
 
 export type Screenshot = {
@@ -54,6 +66,7 @@ export type Project = {
   architecture?: {
     nodes: ArchitectureNode[];
     edges: ArchitectureEdge[];
+    flows?: ArchitectureFlow[];
   };
 };
 
