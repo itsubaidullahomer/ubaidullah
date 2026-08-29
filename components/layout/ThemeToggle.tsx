@@ -34,8 +34,8 @@ export function ThemeToggle() {
             title={t.label}
             onClick={() => setTheme(t.id)}
             className={cn(
-              "relative grid h-7 w-7 place-items-center rounded-full text-fg-muted transition-all",
-              active && "bg-[var(--glass-highlight)] text-fg",
+              "text-fg-muted relative grid h-7 w-7 place-items-center rounded-full transition-all",
+              active && "text-fg bg-[var(--glass-highlight)]",
               !active && "hover:text-fg",
             )}
           >

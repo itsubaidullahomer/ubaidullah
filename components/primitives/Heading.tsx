@@ -19,7 +19,7 @@ export function Heading({ children, as: As = "h2", className, display = true }: 
     <As
       className={cn(
         display && "font-display",
-        "tracking-[-0.02em] text-balance text-fg",
+        "text-fg tracking-[-0.02em] text-balance",
         sizes[As],
         className,
       )}

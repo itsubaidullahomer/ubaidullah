@@ -15,7 +15,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = buildMetadata({
   title: "Work",
   description:
-    "Selected case studies — AI-native products, business analytics platforms, enterprise SaaS, and consumer e-commerce. All shipped to production users.",
+    "Case studies from products I've built: AI tools, business analytics, enterprise SaaS and consumer e-commerce. All of them shipped and in use.",
   path: "/work",
 });
 
@@ -41,11 +41,10 @@ export default function WorkPage() {
         eyebrow="Case studies"
         title={
           <>
-            Things I've shipped{" "}
-            <em className="text-gradient-accent italic not-italic">to real users.</em>
+            Things I've <em className="text-gradient-accent italic not-italic">shipped.</em>
           </>
         }
-        description="Every project below is shown as it actually runs in production — hover a screenshot to scroll through the live site. Ordered by recency, not importance."
+        description="Each one is running in production right now. Hover a screenshot to scroll through the live site. They're ordered by how recent they are, not by how much I like them."
       >
         <div className="space-y-6 md:space-y-8">
           {projects.map((p, i) => {

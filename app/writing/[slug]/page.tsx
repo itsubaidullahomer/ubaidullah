@@ -31,11 +31,7 @@ export async function generateMetadata({
   });
 }
 
-export default async function PostPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) notFound();
@@ -76,13 +72,13 @@ export default async function PostPage({
           <Container size="narrow" className="relative z-10">
             <Link
               href="/writing"
-              className="group inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors hover:text-fg"
+              className="group text-fg-muted hover:text-fg inline-flex items-center gap-1.5 text-sm transition-colors"
             >
               <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
               All writing
             </Link>
 
-            <div className="mt-10 flex items-center gap-3 text-xs font-mono uppercase tracking-[0.16em] text-fg-subtle">
+            <div className="text-fg-subtle mt-10 flex items-center gap-3 font-mono text-xs tracking-[0.16em] uppercase">
               <span>
                 {new Date(post.publishedAt).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -97,10 +93,10 @@ export default async function PostPage({
               </span>
             </div>
 
-            <h1 className="mt-5 font-display text-4xl md:text-6xl leading-[1.02] tracking-[-0.025em] text-fg text-balance">
+            <h1 className="font-display text-fg mt-5 text-4xl leading-[1.02] tracking-[-0.025em] text-balance md:text-6xl">
               {post.title}
             </h1>
-            <p className="mt-6 text-xl text-fg-muted leading-relaxed text-pretty">
+            <p className="text-fg-muted mt-6 text-xl leading-relaxed text-pretty">
               {post.description}
             </p>
           </Container>
@@ -108,41 +104,33 @@ export default async function PostPage({
 
         <Container size="narrow" className="pb-24">
           <div className="prose-portfolio max-w-none">
-            {post.body
-              .split("\n\n")
-              .map((para, i) => {
-                if (para.startsWith("**") && para.endsWith("**")) {
-                  return null;
+            {post.body.split("\n\n").map((para, i) => {
+              if (para.startsWith("**") && para.endsWith("**")) {
+                return null;
+              }
+              if (para.startsWith("**")) {
+                const match = para.match(/^\*\*(.+?)\*\*\s+(.+)$/s);
+                if (match) {
+                  return (
+                    <p key={i} className="text-fg-muted mb-6 text-lg leading-relaxed text-pretty">
+                      <strong className="text-fg font-medium">{match[1]}</strong> {match[2]}
+                    </p>
+                  );
                 }
-                if (para.startsWith("**")) {
-                  const match = para.match(/^\*\*(.+?)\*\*\s+(.+)$/s);
-                  if (match) {
-                    return (
-                      <p
-                        key={i}
-                        className="mb-6 text-lg leading-relaxed text-fg-muted text-pretty"
-                      >
-                        <strong className="text-fg font-medium">{match[1]}</strong> {match[2]}
-                      </p>
-                    );
-                  }
-                }
-                return (
-                  <p
-                    key={i}
-                    className="mb-6 text-lg leading-relaxed text-fg-muted text-pretty"
-                  >
-                    {para}
-                  </p>
-                );
-              })}
+              }
+              return (
+                <p key={i} className="text-fg-muted mb-6 text-lg leading-relaxed text-pretty">
+                  {para}
+                </p>
+              );
+            })}
           </div>
 
-          <div className="mt-16 flex flex-wrap gap-2 border-t border-border pt-8">
+          <div className="border-border mt-16 flex flex-wrap gap-2 border-t pt-8">
             {post.tags.map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-border px-3 py-1 text-xs text-fg-muted"
+                className="border-border text-fg-muted rounded-full border px-3 py-1 text-xs"
               >
                 {t}
               </span>

@@ -3,23 +3,23 @@ import { Section } from "@/components/primitives/Section";
 const tenets = [
   {
     n: "01",
-    title: "Ship to users, not to portfolios.",
-    body: "Every project on this site is in production with real people relying on it. Demo-quality code is a different sport.",
+    title: "Ship it, then keep it running.",
+    body: "Everything on this site is in production with people using it. Building a demo and keeping a product alive are different jobs.",
   },
   {
     n: "02",
-    title: "Architecture is the feature.",
-    body: "The hard part of an AI feature isn't the prompt — it's the streaming, the storage shape, the failure modes, the latency budget.",
+    title: "The prompt is rarely the hard part.",
+    body: "Most of the work in an AI feature goes into the streaming, the shape you store things in, the failure modes and the latency budget.",
   },
   {
     n: "03",
     title: "Design is part of the job.",
-    body: "Most of my work has been at startups without a designer. I've learned to think in flows before I think in components.",
+    body: "Most of my work has been at startups with no designer on the team, so I got used to thinking about the flow before the components.",
   },
   {
     n: "04",
-    title: "Speed is a feature for the user, not the developer.",
-    body: "I'll optimize the bundle, the queries, and the layout shift — because users feel slowness even when they can't name it.",
+    title: "Speed is part of the product.",
+    body: "I'll spend time on the bundle, the queries and the layout shift, because people feel a slow page even when they can't say why.",
   },
 ];
 
@@ -27,22 +27,22 @@ export function Philosophy() {
   return (
     <Section
       eyebrow="How I think about the work"
-      title="Four things I won't compromise on."
+      title="Four things I keep coming back to."
       size="default"
     >
       <div className="grid gap-4 md:grid-cols-2">
         {tenets.map((t) => (
           <div
             key={t.n}
-            className="group relative overflow-hidden rounded-[var(--radius-glass)] border border-border p-7 transition-colors hover:border-border-strong"
+            className="group border-border hover:border-border-strong relative overflow-hidden rounded-[var(--radius-glass)] border p-7 transition-colors"
           >
-            <div className="font-mono text-xs text-fg-subtle">{t.n}</div>
-            <h3 className="mt-3 font-display text-2xl text-fg leading-tight">{t.title}</h3>
-            <p className="mt-3 text-sm text-fg-muted leading-relaxed text-pretty">{t.body}</p>
+            <div className="text-fg-subtle font-mono text-xs">{t.n}</div>
+            <h3 className="font-display text-fg mt-3 text-2xl leading-tight">{t.title}</h3>
+            <p className="text-fg-muted mt-3 text-sm leading-relaxed text-pretty">{t.body}</p>
 
             <div
               aria-hidden
-              className="absolute -bottom-1 left-7 right-7 h-px scale-x-0 bg-accent transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-x-100"
+              className="bg-accent absolute right-7 -bottom-1 left-7 h-px scale-x-0 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-x-100"
               style={{ transformOrigin: "left" }}
             />
           </div>

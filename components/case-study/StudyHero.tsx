@@ -14,7 +14,7 @@ export function StudyHero({ project }: { project: Project }) {
       <Container className="relative z-10">
         <Link
           href="/work"
-          className="group inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors hover:text-fg"
+          className="group text-fg-muted hover:text-fg inline-flex items-center gap-1.5 text-sm transition-colors"
         >
           <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
           All work
@@ -32,10 +32,10 @@ export function StudyHero({ project }: { project: Project }) {
           <Pill>{project.role}</Pill>
         </div>
 
-        <h1 className="mt-6 font-display text-5xl md:text-7xl lg:text-[88px] leading-[0.96] tracking-[-0.025em] text-fg text-balance">
+        <h1 className="font-display text-fg mt-6 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl lg:text-[88px]">
           {project.title}
         </h1>
-        <p className="mt-6 max-w-2xl text-xl text-fg-muted leading-relaxed text-pretty">
+        <p className="text-fg-muted mt-6 max-w-2xl text-xl leading-relaxed text-pretty">
           {project.tagline}
         </p>
 
@@ -44,7 +44,7 @@ export function StudyHero({ project }: { project: Project }) {
             href={project.externalUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-fg transition-colors hover:text-accent"
+            className="group text-fg hover:text-accent mt-8 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
           >
             Visit {project.title}
             <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -60,8 +60,8 @@ export function StudyHero({ project }: { project: Project }) {
               scrollable
               className="glass rounded-2xl"
             />
-            <p className="mt-3 text-center text-xs text-fg-subtle">
-              The live site, captured full-page — scroll inside the frame.
+            <p className="text-fg-subtle mt-3 text-center text-xs">
+              The live site, captured full page. Scroll inside the frame.
             </p>
           </div>
         )}

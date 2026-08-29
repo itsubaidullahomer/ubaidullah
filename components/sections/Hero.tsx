@@ -41,16 +41,16 @@ export function Hero() {
               className="font-display text-fg text-[clamp(2.25rem,5.4vw,4.75rem)] leading-[0.96] tracking-[-0.028em] text-balance"
               style={{ hyphens: "manual" }}
             >
-              <span className="block">Builder of</span>
+              <span className="block">I build</span>
               <span className="block">
-                <em className="text-gradient-accent italic not-italic">production&#8209;grade</em>
+                <em className="text-gradient-accent italic not-italic">AI products</em>
               </span>
-              <span className="block">AI products.</span>
+              <span className="block">people rely on.</span>
             </h1>
 
             <p className="text-fg-muted mt-6 max-w-xl text-base leading-relaxed text-pretty md:mt-7 md:text-lg">
-              I'm <span className="text-fg">Ubaidullah</span> — a senior product engineer who ships
-              AI features to real users. Currently at{" "}
+              I'm <span className="text-fg">Ubaidullah</span>, a product engineer in Pakistan. Most
+              of what I build has an LLM somewhere behind it. Right now that's{" "}
               <a
                 href="https://tututor.ai"
                 target="_blank"
@@ -59,7 +59,7 @@ export function Hero() {
               >
                 Tututor.ai
               </a>
-              , where 17,000+ students and teachers use what I build daily.
+              , where about 17,000 students and teachers use it every day.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3 md:mt-9">
@@ -83,7 +83,7 @@ export function Hero() {
 
             <div className="text-fg-subtle mt-12 hidden items-center gap-2.5 text-[11px] md:flex lg:mt-14">
               <ArrowDown className="h-3.5 w-3.5 animate-bounce" strokeWidth={2} />
-              <span className="tracking-[0.2em] uppercase">Scroll for selected work</span>
+              <span className="tracking-[0.2em] uppercase">Scroll to see the work</span>
             </div>
           </div>
 

@@ -5,15 +5,15 @@ export const experience: Experience[] = [
     company: "Tututor.ai",
     companyUrl: "https://tututor.ai",
     role: "Full-Stack / Product Engineer",
-    period: "Nov 2023 — Present",
+    period: "Nov 2023 – Present",
     location: "Murcia, Spain (Remote)",
     summary:
-      "Building an AI-native education platform serving 17,000+ students and teachers across schools in Murcia, Spain. Reduced lesson-prep time by 90–95% via AI-generated content. Own architecture for AI services, the school CRM, and core student experience.",
+      "Building the platform that around 17,000 students and teachers in Murcia use. Lesson prep that used to take an evening now takes minutes. I'm responsible for the AI services, the school CRM and the student-facing app.",
     highlights: [
-      "Designed and shipped an AI chatbot system letting teachers spin up topic-specific tutors; teachers review student conversations to surface gaps.",
+      "Built the chatbot system that lets teachers create a tutor for a topic, then read the conversations to see where students struggled.",
       "Built AI quiz generator with automatic grading and per-class performance analytics on top of lesson content.",
       "Architected the school CRM (students, classes, content) so admins manage everything from one platform.",
-      "Migrated heavy AI flows behind WebSockets + a microservices boundary to keep teacher UX responsive under load.",
+      "Moved the heavy AI work behind WebSockets and a separate service so the teacher UI stays responsive under load.",
     ],
     stack: [
       "React",
@@ -29,16 +29,25 @@ export const experience: Experience[] = [
   {
     company: "Danzee Tech",
     role: "React Developer",
-    period: "Jan 2022 — Jan 2024",
+    period: "Jan 2022 – Jan 2024",
     location: "Viby, Denmark (Remote)",
     summary:
-      "Joined as a junior, grew into the go-to for new teammates and feature owner across two years. Frontend-led but owned chunks of Node/Express — JWT auth, payments, third-party integrations.",
+      "Two years there. I joined as a junior and ended up as the person new teammates asked for help and the one who picked up new features. Mostly frontend, with a decent amount of Node and Express: auth, payments and third-party integrations.",
     highlights: [
-      "Built an internal component + hooks library that became the team's default ship surface, cutting handoff churn on new screens.",
+      "Built the internal component and hooks library the team ended up using for every new screen.",
       "Diagnosed and fixed query/indexing hotspots when API latency spiked under load.",
       "Shipped frontend for Jurri (cloud storage + multi-email platform): drag-and-drop uploads, unified inbox, password vault.",
-      "Code-split + lazy-loaded the bundle to drop initial load ~40%.",
+      "Code-split and lazy-loaded the bundle to cut initial load by about 40%.",
     ],
-    stack: ["React", "Redux Toolkit", "RTK Query", "Node.js", "Express", "MongoDB", "JWT", "Stripe"],
+    stack: [
+      "React",
+      "Redux Toolkit",
+      "RTK Query",
+      "Node.js",
+      "Express",
+      "MongoDB",
+      "JWT",
+      "Stripe",
+    ],
   },
 ];

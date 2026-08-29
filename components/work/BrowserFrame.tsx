@@ -40,16 +40,18 @@ export function BrowserFrame({
   const domain = domainOf(project.externalUrl ?? project.companyUrl);
 
   return (
-    <div className={cn("relative flex h-full flex-col overflow-hidden rounded-t-[inherit]", className)}>
+    <div
+      className={cn("relative flex h-full flex-col overflow-hidden rounded-t-[inherit]", className)}
+    >
       {/* Chrome bar */}
-      <div className="relative flex items-center gap-3 border-b border-border bg-[var(--glass-tint)] px-4 py-2.5">
+      <div className="border-border relative flex items-center gap-3 border-b bg-[var(--glass-tint)] px-4 py-2.5">
         <div className="flex shrink-0 items-center gap-1.5" aria-hidden>
           <span className="h-2 w-2 rounded-full bg-[#FF5F57]/80" />
           <span className="h-2 w-2 rounded-full bg-[#FEBC2E]/80" />
           <span className="h-2 w-2 rounded-full bg-[#28C840]/80" />
         </div>
-        <div className="mx-auto flex min-w-0 max-w-[70%] items-center justify-center gap-1.5 rounded-full border border-border px-3 py-0.5">
-          <span className="truncate font-mono text-[10px] tracking-tight text-fg-muted">
+        <div className="border-border mx-auto flex max-w-[70%] min-w-0 items-center justify-center gap-1.5 rounded-full border px-3 py-0.5">
+          <span className="text-fg-muted truncate font-mono text-[10px] tracking-tight">
             {domain ?? project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
           </span>
         </div>
@@ -61,7 +63,7 @@ export function BrowserFrame({
         className={cn(
           scrollable
             ? "relative max-h-[70vh] overflow-y-auto overscroll-contain"
-            : "shot-window relative overflow-hidden aspect-[16/10]",
+            : "shot-window relative aspect-[16/10] overflow-hidden",
           windowClassName,
         )}
       >
@@ -87,7 +89,7 @@ export function BrowserFrame({
               background: `radial-gradient(120% 120% at 20% 0%, color-mix(in oklab, ${project.accent} 28%, transparent), transparent 70%)`,
             }}
           >
-            <span className="absolute inset-0 grid place-items-center font-display text-6xl text-fg/20">
+            <span className="font-display text-fg/20 absolute inset-0 grid place-items-center text-6xl">
               {project.title.charAt(0)}
             </span>
           </div>

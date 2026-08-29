@@ -14,12 +14,13 @@ export function ContactForm() {
   if (state.status === "success") {
     return (
       <div className="glass rounded-[var(--radius-glass)] p-8 text-center md:p-10">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-accent text-[var(--accent-fg)]">
+        <div className="bg-accent mx-auto grid h-12 w-12 place-items-center rounded-full text-[var(--accent-fg)]">
           <Check className="h-5 w-5" strokeWidth={2.5} />
         </div>
-        <h3 className="mt-5 font-display text-2xl text-fg">{state.message ?? "Sent."}</h3>
-        <p className="mt-3 text-sm text-fg-muted leading-relaxed">
-          I read every message and reply within a couple of days. If it's urgent, drop me a line on LinkedIn.
+        <h3 className="font-display text-fg mt-5 text-2xl">{state.message ?? "Sent."}</h3>
+        <p className="text-fg-muted mt-3 text-sm leading-relaxed">
+          I read every message and reply within a couple of days. If it's urgent, drop me a line on
+          LinkedIn.
         </p>
       </div>
     );
@@ -27,7 +28,14 @@ export function ContactForm() {
 
   return (
     <form action={formAction} className="space-y-5">
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="sr-only" aria-hidden />
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="sr-only"
+        aria-hidden
+      />
 
       <Field label="Your name" name="name" error={state.fieldErrors?.name}>
         <input
@@ -35,7 +43,7 @@ export function ContactForm() {
           required
           maxLength={120}
           autoComplete="name"
-          className="w-full bg-transparent text-base text-fg placeholder:text-fg-subtle focus:outline-none"
+          className="text-fg placeholder:text-fg-subtle w-full bg-transparent text-base focus:outline-none"
           placeholder="Alex Chen"
         />
       </Field>
@@ -47,7 +55,7 @@ export function ContactForm() {
           required
           maxLength={200}
           autoComplete="email"
-          className="w-full bg-transparent text-base text-fg placeholder:text-fg-subtle focus:outline-none"
+          className="text-fg placeholder:text-fg-subtle w-full bg-transparent text-base focus:outline-none"
           placeholder="alex@company.com"
         />
       </Field>
@@ -58,13 +66,13 @@ export function ContactForm() {
           required
           rows={6}
           maxLength={5000}
-          className="w-full resize-none bg-transparent text-base text-fg placeholder:text-fg-subtle focus:outline-none"
-          placeholder="A project, a role, a question — whatever you've got."
+          className="text-fg placeholder:text-fg-subtle w-full resize-none bg-transparent text-base focus:outline-none"
+          placeholder="A project, a role, a question. Whatever you've got."
         />
       </Field>
 
       {state.status === "error" && state.message && !state.fieldErrors && (
-        <div className="rounded-xl border border-border bg-[var(--glass-tint)] px-4 py-3 text-sm text-fg-muted">
+        <div className="border-border text-fg-muted rounded-xl border bg-[var(--glass-tint)] px-4 py-3 text-sm">
           {state.message}
         </div>
       )}
@@ -89,11 +97,11 @@ function Field({
     <label
       htmlFor={name}
       className={cn(
-        "glass block rounded-[var(--radius-glass)] px-5 py-4 transition-colors focus-within:border-fg-muted",
+        "glass focus-within:border-fg-muted block rounded-[var(--radius-glass)] px-5 py-4 transition-colors",
         error && "border-red-400/40",
       )}
     >
-      <span className="block text-xs font-medium uppercase tracking-[0.16em] text-fg-subtle">
+      <span className="text-fg-subtle block text-xs font-medium tracking-[0.16em] uppercase">
         {label}
       </span>
       <div className="mt-1.5">{children}</div>
@@ -108,7 +116,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="group inline-flex h-12 items-center justify-center gap-2 rounded-full bg-accent px-7 text-[15px] font-medium text-[var(--accent-fg)] transition-all duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] disabled:opacity-60"
+      className="group bg-accent inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-[15px] font-medium text-[var(--accent-fg)] transition-all duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] disabled:opacity-60"
     >
       {pending ? (
         <>

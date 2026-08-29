@@ -23,12 +23,14 @@ export function CaseStudyBody({ project }: { project: Project }) {
       {project.architecture && (
         <Container className="pb-16">
           <div className="mb-6 max-w-2xl">
-            <div className="text-xs uppercase tracking-[0.18em] text-fg-muted">Architecture</div>
-            <h3 className="mt-3 font-display text-3xl md:text-4xl text-fg leading-tight">
+            <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Architecture</div>
+            <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-4xl">
               How the system is wired.
             </h3>
-            <p className="mt-3 text-fg-muted leading-relaxed text-pretty">
-              The boundaries that mattered: keeping the teacher UI responsive while heavy AI work happens behind a WebSocket + microservice boundary. Play a scenario to watch a request travel through it.
+            <p className="text-fg-muted mt-3 leading-relaxed text-pretty">
+              The part that mattered was keeping the teacher UI responsive while the heavy AI work
+              happens behind a WebSocket and a separate service. Play a scenario to watch a request
+              travel through it.
             </p>
           </div>
           <SystemMap
@@ -43,11 +45,11 @@ export function CaseStudyBody({ project }: { project: Project }) {
         <Block label="The outcome">{project.outcome}</Block>
 
         <div>
-          <div className="text-xs uppercase tracking-[0.18em] text-fg-muted">What I owned</div>
+          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">What I owned</div>
           <ul className="mt-6 space-y-4">
             {project.responsibilities.map((r, i) => (
-              <li key={i} className="flex gap-4 text-fg-muted leading-relaxed text-pretty">
-                <span className="font-mono text-xs text-fg-subtle pt-1.5 shrink-0 tabular-nums">
+              <li key={i} className="text-fg-muted flex gap-4 leading-relaxed text-pretty">
+                <span className="text-fg-subtle shrink-0 pt-1.5 font-mono text-xs tabular-nums">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span>{r}</span>
@@ -57,12 +59,12 @@ export function CaseStudyBody({ project }: { project: Project }) {
         </div>
 
         <div>
-          <div className="text-xs uppercase tracking-[0.18em] text-fg-muted">Stack</div>
+          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Stack</div>
           <div className="mt-4 flex flex-wrap gap-2">
             {project.stack.map((s) => (
               <span
                 key={s}
-                className="rounded-full border border-border px-3 py-1 text-sm text-fg-muted"
+                className="border-border text-fg-muted rounded-full border px-3 py-1 text-sm"
               >
                 {s}
               </span>
@@ -71,17 +73,17 @@ export function CaseStudyBody({ project }: { project: Project }) {
         </div>
       </Container>
 
-      <Container className="border-t border-border pt-12 pb-20">
+      <Container className="border-border border-t pt-12 pb-20">
         <div className="grid gap-4 md:grid-cols-2">
           {prev ? (
             <Link
               href={`/work/${prev.slug}`}
               className="glass group flex items-center gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5"
             >
-              <ArrowLeft className="h-4 w-4 text-fg-muted transition-transform group-hover:-translate-x-0.5" />
+              <ArrowLeft className="text-fg-muted h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-fg-subtle">Previous</div>
-                <div className="mt-1 font-display text-xl text-fg">{prev.title}</div>
+                <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">Previous</div>
+                <div className="font-display text-fg mt-1 text-xl">{prev.title}</div>
               </div>
             </Link>
           ) : (
@@ -94,10 +96,10 @@ export function CaseStudyBody({ project }: { project: Project }) {
               className="glass group flex items-center justify-end gap-4 rounded-2xl p-5 text-right transition-all hover:-translate-y-0.5 md:col-start-2"
             >
               <div>
-                <div className="text-xs uppercase tracking-[0.16em] text-fg-subtle">Next</div>
-                <div className="mt-1 font-display text-xl text-fg">{next.title}</div>
+                <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">Next</div>
+                <div className="font-display text-fg mt-1 text-xl">{next.title}</div>
               </div>
-              <ArrowRight className="h-4 w-4 text-fg-muted transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="text-fg-muted h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           ) : null}
         </div>
@@ -109,8 +111,8 @@ export function CaseStudyBody({ project }: { project: Project }) {
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-xs uppercase tracking-[0.18em] text-fg-muted">{label}</div>
-      <p className="mt-6 text-xl leading-relaxed text-fg text-pretty md:text-2xl">{children}</p>
+      <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">{label}</div>
+      <p className="text-fg mt-6 text-xl leading-relaxed text-pretty md:text-2xl">{children}</p>
     </div>
   );
 }

@@ -4,7 +4,7 @@ export const aiHumanizer: Project = {
   slug: "ai-humanizer",
   title: "Viloi",
   tagline:
-    "AI humanization SaaS live at viloi.com — multi-LLM pipeline that rewrites machine text until it reads human, with Stripe billing baked in.",
+    "A writing tool at viloi.com that rewrites machine-generated text so it reads naturally. Multi-model pipeline, Stripe billing, built solo.",
   role: "Full-Stack Engineer",
   company: "Independent",
   companyUrl: "https://viloi.com",
@@ -17,16 +17,16 @@ export const aiHumanizer: Project = {
   screenshot: { src: "/images/screens/viloi.jpg", width: 2160, height: 7800 },
 
   summary:
-    "Viloi is an AI text humanization SaaS that takes machine-generated text and reshapes it until it reads naturally. Built solo end-to-end — multi-LLM transformation pipeline, Stripe-backed subscriptions, and a glassmorphism UI that doesn't look like every other AI tool from 2024. Live at viloi.com.",
+    "Viloi takes machine-generated text and rewrites it until it reads like a person wrote it. I built the whole thing on my own: the transformation pipeline across three model providers, Stripe subscriptions, and a UI that doesn't look like every other AI tool from 2024. It's live at viloi.com.",
 
   problem:
-    "Single-model humanizers fail unpredictably — one model's output gets flagged, the next doesn't, and there's no automated way to pick the right pipeline for a given input. Most also lack actual payment infrastructure, so they never grow past the prototype stage.",
+    "Tools built on a single model fail unpredictably. One model's output gets flagged, another one's doesn't, and there's no good way to know in advance which will work for a given piece of text. Most of them also have no real billing, so they never get past the prototype stage.",
 
   approach:
-    "A multi-LLM pipeline routes content through GPT-4, Claude, and Gemini with intelligent fallback logic — if one model produces flagged output, the next takes a different angle. Stripe handles subscriptions with webhook-driven plan changes; JWT auth keeps sessions stateless. UI is built around a glassmorphism design system to differentiate from the wall of generic AI tools.",
+    "The pipeline routes text through GPT-4, Claude and Gemini with fallback logic between them, so if one model's output comes back flagged the next one takes a different angle at it. Stripe handles subscriptions and plan changes through webhooks, and JWT keeps sessions stateless. I gave the UI its own look mostly so it wouldn't blend into the wall of identical AI tools.",
 
   outcome:
-    "Live SaaS with paying customers, automated billing, and a transformation pipeline that's resilient when any single provider gets stricter. The fallback architecture makes the product stay reliable as detection models evolve.",
+    "It's live with paying customers and billing that runs itself. The fallback design means the product keeps working when one provider changes behavior, which happens more often than you'd expect.",
 
   metrics: [
     { value: "3", label: "LLM providers", detail: "GPT-4, Claude, Gemini with fallback routing" },
@@ -35,11 +35,21 @@ export const aiHumanizer: Project = {
   ],
 
   responsibilities: [
-    "Built the multi-LLM pipeline with intelligent fallback — when one model's output gets flagged, the next takes a different angle.",
+    "Built the multi-model pipeline with fallback, so a flagged result gets retried through a different model.",
     "Implemented Stripe subscription billing with webhook automation for plan changes, cancellations, and dunning.",
     "Designed and implemented JWT-based authentication so the API stays stateless.",
-    "Designed and shipped the glassmorphism UI to stand out from generic AI tooling.",
+    "Designed and built the UI so the product didn't look like every other AI tool.",
   ],
 
-  stack: ["React", "Node.js", "Express", "MongoDB", "OpenAI", "Anthropic", "Gemini", "Stripe", "JWT"],
+  stack: [
+    "React",
+    "Node.js",
+    "Express",
+    "MongoDB",
+    "OpenAI",
+    "Anthropic",
+    "Gemini",
+    "Stripe",
+    "JWT",
+  ],
 };

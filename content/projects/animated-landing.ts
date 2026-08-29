@@ -4,7 +4,7 @@ export const animatedLanding: Project = {
   slug: "animated-landing",
   title: "Animated Landing",
   tagline:
-    "A landing page that proves you can have complex motion and still hit a 95+ Lighthouse score.",
+    "A landing page built to find out how much motion I could add before the Lighthouse score dropped.",
   role: "Frontend Engineer",
   company: "UI demo",
   period: "Side project",
@@ -15,16 +15,16 @@ export const animatedLanding: Project = {
   screenshot: { src: "/images/screens/enomad.png", width: 2546, height: 1287 },
 
   summary:
-    "A UI demo landing page built to prove a point: complex motion design and great Lighthouse scores aren't mutually exclusive. Scroll-triggered effects, parallax interactions, and glassmorphism throughout — all running at 60fps without tanking perf.",
+    "A demo landing page I built to settle an argument with myself about whether heavy motion has to cost you performance. Scroll-triggered reveals, parallax and glass panels throughout, all running at 60fps.",
 
   problem:
-    "Most 'animated' marketing pages either run at 30fps and feel like syrup, or strip themselves down to nothing to look good on PageSpeed. There's a sweet spot where the page feels alive AND scores well — and most teams stop trying after the first regression.",
+    "Most animated marketing pages either run at 30fps and feel like syrup, or get stripped back to nothing so they look good on PageSpeed. There is a middle ground, but it takes enough fiddling that most teams give up after the first regression.",
 
   approach:
-    "Treated every animation as a budget question. GPU-composited transforms only; no layout thrash. Framer Motion for orchestration, GSAP for the timeline-heavy bits. Heavy scroll work goes through `requestAnimationFrame` so it can't block the main thread. Critical CSS, deferred everything else.",
+    "I treated every animation as a budget question. GPU-composited transforms only, and nothing that forces layout mid-scroll. Framer Motion handles orchestration and GSAP the timeline-heavy parts. The scroll work goes through requestAnimationFrame so it can't block the main thread, and only the critical CSS loads up front.",
 
   outcome:
-    "A landing that breathes — scroll-triggered reveals, parallax depth, glass panels that don't feel like 2014 — while still hitting the green Lighthouse bands.",
+    "A page with reveals, parallax depth and glass panels that still lands in the green Lighthouse bands.",
 
   metrics: [
     { value: "95+", label: "Lighthouse score", detail: "performance band with full motion intact" },
@@ -33,9 +33,9 @@ export const animatedLanding: Project = {
   ],
 
   responsibilities: [
-    "Architected the motion layer — Framer Motion + GSAP combined for orchestration vs. timelines.",
+    "Built the motion layer, combining Framer Motion for orchestration with GSAP for timelines.",
     "Implemented scroll-triggered effects, parallax interactions, and glassmorphism design at 60fps.",
-    "Performance-engineered the page to hit 95+ Lighthouse while keeping the motion intact.",
+    "Tuned the page to 95+ on Lighthouse without cutting any of the motion.",
   ],
 
   stack: ["React", "Tailwind CSS", "Framer Motion", "GSAP"],

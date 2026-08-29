@@ -3,12 +3,13 @@ import type { Project } from "../types";
 export const insightX: Project = {
   slug: "insight-x",
   title: "Insight-X · now Illume",
-  tagline: "AI business analytics for MedSpas — generates custom dashboards from any data shape. Live today as Illume Analytics.",
+  tagline:
+    "Business analytics for MedSpas that builds its own dashboards from whatever data you connect. Live today as Illume Analytics.",
   role: "Full-Stack Engineer (part-time)",
   company: "Insight-X",
   companyUrl: "https://www.joinillume.com/",
   externalUrl: "https://www.joinillume.com/",
-  period: "Dec 2024 — Jun 2025",
+  period: "Dec 2024 – Jun 2025",
   status: "live",
   featured: true,
   cover: "/work/insight-x-cover.svg",
@@ -16,16 +17,16 @@ export const insightX: Project = {
   screenshot: { src: "/images/screens/illume.jpg", width: 2160, height: 7800 },
 
   summary:
-    "A business-intelligence platform for MedSpas where the AI writes the analytics, not the analyst. Visitors drop in their data, the system generates JavaScript chart logic that adapts to whatever shape it sees, and the dashboards just render. The traction it produced helped the company secure $250k in funding — and the product lives on today as Illume Analytics, 'the intelligence platform for the wellness industry.'",
+    "A BI platform for MedSpa owners who don't have an analyst on staff. You connect your data, the system works out the shape of it and writes the chart logic, and the dashboards render from there. It got enough traction to help the company raise $250k, and it runs today as Illume Analytics.",
 
   problem:
-    "MedSpa operators wanted real dashboards — revenue, bookings, provider performance, retention — without paying for a data analyst to write queries every time their schema changed. Existing BI tools assumed the operator could write SQL or wrangle a chart builder. Neither was true.",
+    "MedSpa operators wanted dashboards for revenue, bookings, provider performance and retention, without paying an analyst to rewrite queries every time their schema changed. The BI tools they tried assumed they could write SQL or spend an afternoon in a chart builder. Neither was true.",
 
   approach:
-    "I built an AI analytics engine that inspects the incoming data structure and generates JavaScript chart logic on the fly. Dashboards re-render against whatever the connected MedSpa platform returns — Boulevard, Zenoti, Vagaro — without manual configuration. The frontend is a React + Chart.js/D3 surface that treats every chart as a first-class component, not a Tableau iframe.",
+    "I built an engine that inspects the incoming data structure and generates the chart logic for it at runtime. Dashboards re-render against whatever the connected platform returns, whether that's Boulevard, Zenoti or Vagaro, with no manual configuration in between. The frontend is React with Chart.js and D3, where every chart is a real component instead of an embedded iframe.",
 
   outcome:
-    "The platform demonstrated enough traction to help the company close $250k in funding. Operators got live dashboards for revenue, booking analytics, provider performance, and client retention in a single interface — without ever touching a query. The company has since rebranded to Illume Analytics and serves wellness practices in production today.",
+    "The platform showed enough traction to help the company close $250k in funding. Operators got live dashboards for revenue, bookings, provider performance and client retention in one place without writing a query. The company has since rebranded to Illume Analytics and is still serving wellness practices today.",
 
   metrics: [
     { value: "$250k", label: "Funding secured", detail: "platform demoed traction" },
@@ -35,11 +36,20 @@ export const insightX: Project = {
   ],
 
   responsibilities: [
-    "Built the AI analytics engine — generates JavaScript chart logic from raw data structure.",
+    "Built the analytics engine that generates chart logic from the raw data structure.",
     "Designed and implemented real-time dashboards for revenue tracking, booking analytics, provider performance, and retention.",
     "Integrated MedSpa platforms (Boulevard, Zenoti, Vagaro) for automatic operational data ingestion.",
-    "Owned the frontend architecture top-to-bottom — chart composition, state, responsive layouts.",
+    "Owned the frontend architecture: chart composition, state and responsive layouts.",
   ],
 
-  stack: ["React", "Tailwind CSS", "Chart.js", "D3.js", "OpenAI API", "Node.js", "Express", "MongoDB"],
+  stack: [
+    "React",
+    "Tailwind CSS",
+    "Chart.js",
+    "D3.js",
+    "OpenAI API",
+    "Node.js",
+    "Express",
+    "MongoDB",
+  ],
 };

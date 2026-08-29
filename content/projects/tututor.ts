@@ -3,12 +3,12 @@ import type { Project } from "../types";
 export const tututor: Project = {
   slug: "tututor",
   title: "Tututor.ai",
-  tagline: "AI-native education platform used daily by 17,000+ students and teachers.",
+  tagline: "Education platform for schools in Spain, used by about 17,000 students and teachers.",
   role: "Full-Stack / Product Engineer",
   company: "Tututor.ai",
   companyUrl: "https://tututor.ai",
   externalUrl: "https://tututor.ai",
-  period: "Nov 2023 — Present",
+  period: "Nov 2023 – Present",
   status: "live",
   featured: true,
   cover: "/work/tututor-cover.svg",
@@ -16,16 +16,16 @@ export const tututor: Project = {
   screenshot: { src: "/images/screens/tututor.jpg", width: 2160, height: 7800 },
 
   summary:
-    "Tututor is the AI layer that schools in Murcia, Spain use to plan and deliver lessons. I own the AI services, the school CRM, and the student experience surface end-to-end — the same person who designs the flow ships the code.",
+    "Tututor is what schools around Murcia use to plan and run their lessons. I look after the AI services, the school CRM and the student side of the app, which in practice means I design the flow and then go and write it.",
 
   problem:
     "Teachers were spending the majority of their week assembling lesson material, quizzes, and remediation content by hand. Existing 'AI tools' produced generic output that needed so much editing they barely saved time. The school's CRM was a separate product entirely, so admins were duct-taping spreadsheets to track classes, content, and student progress.",
 
   approach:
-    "I treated this as one product, not two. A small set of AI primitives — chatbots, quiz generation, grading, conversation analytics — composed into teacher-facing tools that share a single content + class model with the CRM. Heavy AI flows live behind a microservices boundary so the teacher UI stays responsive while the LLM is thinking. WebSockets stream partial responses, and conversations are stored structured (not blobs) so teachers can review and search them.",
+    "I built it as one product instead of two. A handful of AI pieces (chatbots, quiz generation, grading, conversation analytics) sit on top of the same class and content model the CRM uses. The heavy AI work runs in its own service so the teacher UI never waits on it, WebSockets stream partial answers as they arrive, and conversations are stored as structured records rather than blobs so teachers can search them afterwards.",
 
   outcome:
-    "Lesson-prep time dropped 90–95% in measured cases. Several schools in Murcia adopted the platform; thousands of students use it daily. The architecture has held as features compounded — adding the quiz generator and conversation analytics didn't require rewriting the core.",
+    "Lesson prep that used to take most of an evening dropped to minutes, between 90 and 95% faster in the cases we measured. Several schools in Murcia are on it and thousands of students use it daily. The structure has held up as we added things: the quiz generator and the conversation analytics both went in without touching the core.",
 
   metrics: [
     { value: "17,000+", label: "Students & teachers", detail: "across schools in Murcia, Spain" },
@@ -35,11 +35,11 @@ export const tututor: Project = {
   ],
 
   responsibilities: [
-    "Designed the AI chatbot system — teachers spin up topic-specific tutors and review every student conversation to surface gaps.",
+    "Designed the chatbot system, where teachers create tutors for a specific topic and then read back the conversations to find where students got stuck.",
     "Built the AI quiz generator with automatic grading and per-class performance analytics from lesson content.",
     "Architected the school CRM (students, classes, content) so the AI tools and admin tools share one model.",
-    "Migrated heavy AI flows behind WebSockets + a microservices boundary so teacher UX never blocks on the LLM.",
-    "Acted as UX designer for every teacher-facing flow — no separate designer on the team.",
+    "Moved the heavy AI work behind WebSockets and a separate service so the teacher UI never blocks on a model call.",
+    "Did the UX for every teacher-facing flow, since there was no designer on the team.",
   ],
 
   stack: [
@@ -61,7 +61,8 @@ export const tututor: Project = {
         kind: "client",
         x: 4,
         y: 22,
-        detail: "Plans lessons, spins up topic-specific tutors, and reviews every student conversation.",
+        detail:
+          "Plans lessons, spins up topic-specific tutors, and reviews every student conversation.",
       },
       {
         id: "student",
@@ -69,7 +70,8 @@ export const tututor: Project = {
         kind: "client",
         x: 4,
         y: 78,
-        detail: "Chats with the tutor, takes generated quizzes, and gets graded feedback in seconds.",
+        detail:
+          "Chats with the tutor, takes generated quizzes, and gets graded feedback in seconds.",
       },
       {
         id: "web",
@@ -78,7 +80,7 @@ export const tututor: Project = {
         sub: "React",
         x: 26,
         y: 50,
-        detail: "Optimistic UI — nothing on screen blocks while the model is thinking.",
+        detail: "Optimistic UI, so nothing on screen waits for the model.",
       },
       {
         id: "ws",
@@ -87,7 +89,8 @@ export const tututor: Project = {
         sub: "WebSockets",
         x: 48,
         y: 22,
-        detail: "The boundary that keeps token streams off the CRUD path. This split is why teacher UX stays responsive under load.",
+        detail:
+          "Keeps token streams off the CRUD path. This split is the reason the app stays responsive when the model is slow.",
       },
       {
         id: "api",
@@ -96,7 +99,7 @@ export const tututor: Project = {
         sub: "REST",
         x: 48,
         y: 78,
-        detail: "Everything that isn't a stream — classes, content, auth, permissions.",
+        detail: "Everything that isn't a stream: classes, content, auth and permissions.",
       },
       {
         id: "ai",
@@ -105,7 +108,8 @@ export const tututor: Project = {
         sub: "Microservice",
         x: 70,
         y: 22,
-        detail: "Prompt assembly, provider routing, retries, and transcript capture. Swapping providers never reaches the UI.",
+        detail:
+          "Prompt assembly, provider routing, retries and transcript capture. Swapping providers never reaches the UI.",
       },
       {
         id: "crm",
@@ -123,7 +127,8 @@ export const tututor: Project = {
         sub: "Primary store",
         x: 93,
         y: 78,
-        detail: "Conversations stored structured, not as blobs — that's what makes them searchable by teachers.",
+        detail:
+          "Conversations are stored as structured records rather than blobs, which is what makes them searchable later.",
       },
       {
         id: "openai",
@@ -161,10 +166,10 @@ export const tututor: Project = {
         id: "tutor-chat",
         label: "Student asks the AI tutor",
         description:
-          "The streaming path. It never touches the CRM — which is exactly why a slow model can't slow down the rest of the product.",
+          "The streaming path. Worth noticing that it never touches the CRM, which is why a slow model doesn't make the rest of the app slow.",
         hops: [
           { from: "student", to: "web", label: "types a question" },
-          { from: "web", to: "ws", label: "opens a socket instead of a request" },
+          { from: "web", to: "ws", label: "opens a socket rather than a request" },
           { from: "ws", to: "ai", label: "routed to the AI service" },
           { from: "ai", to: "openai", label: "assembled prompt + cached context" },
           { from: "openai", to: "ai", label: "tokens stream back" },
@@ -175,10 +180,10 @@ export const tututor: Project = {
         id: "roster",
         label: "Teacher opens a class",
         description:
-          "Plain CRUD, deliberately nowhere near the AI path. Boring requests should stay boring.",
+          "An ordinary read, deliberately kept away from the AI path so it stays fast and predictable.",
         hops: [
           { from: "teacher", to: "web", label: "opens the roster" },
-          { from: "web", to: "api", label: "REST — no socket needed" },
+          { from: "web", to: "api", label: "a plain REST call" },
           { from: "api", to: "crm", label: "class + student models" },
           { from: "crm", to: "mongo", label: "one read, zero LLM calls" },
         ],
@@ -187,7 +192,7 @@ export const tututor: Project = {
         id: "audio",
         label: "Lesson audio is generated",
         description:
-          "Same service, different provider. Adding ElevenLabs meant one route change — no frontend work.",
+          "Same service, different provider. Adding ElevenLabs took one route change and no frontend work.",
         hops: [
           { from: "teacher", to: "web", label: "requests audio for a lesson" },
           { from: "web", to: "ws", label: "opens a stream" },

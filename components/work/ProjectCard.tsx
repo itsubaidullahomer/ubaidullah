@@ -60,15 +60,15 @@ export function ProjectCard({
             <Pill>{p.period}</Pill>
           </div>
           <ArrowUpRight
-            className="h-5 w-5 shrink-0 text-fg-muted transition-all duration-300 group-hover:rotate-12 group-hover:text-fg"
+            className="text-fg-muted group-hover:text-fg h-5 w-5 shrink-0 transition-all duration-300 group-hover:rotate-12"
             strokeWidth={1.5}
           />
         </div>
 
-        <h3 className="relative mt-5 font-display text-2xl leading-tight text-fg md:text-3xl">
+        <h3 className="font-display text-fg relative mt-5 text-2xl leading-tight md:text-3xl">
           {p.title}
         </h3>
-        <p className="relative mt-2.5 text-sm leading-relaxed text-fg-muted text-pretty md:text-[15px]">
+        <p className="text-fg-muted relative mt-2.5 text-sm leading-relaxed text-pretty md:text-[15px]">
           {p.tagline}
         </p>
 
@@ -76,20 +76,20 @@ export function ProjectCard({
           {p.stack.slice(0, 4).map((tech) => (
             <span
               key={tech}
-              className="rounded-full border border-border px-2.5 py-0.5 text-[11px] text-fg-muted"
+              className="border-border text-fg-muted rounded-full border px-2.5 py-0.5 text-[11px]"
             >
               {tech}
             </span>
           ))}
           {p.stack.length > 4 && (
-            <span className="rounded-full px-2.5 py-0.5 text-[11px] text-fg-subtle">
+            <span className="text-fg-subtle rounded-full px-2.5 py-0.5 text-[11px]">
               +{p.stack.length - 4}
             </span>
           )}
         </div>
 
         <div className="relative mt-auto flex items-center justify-between gap-3 pt-6">
-          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-fg-muted transition-colors group-hover:text-fg">
+          <span className="text-fg-muted group-hover:text-fg inline-flex items-center gap-1.5 text-sm font-medium transition-colors">
             Read case study
           </span>
           {p.externalUrl && (
@@ -97,7 +97,7 @@ export function ProjectCard({
               href={p.externalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative z-20 inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-xs font-medium text-fg-muted transition-colors hover:border-accent hover:text-accent"
+              className="border-border text-fg-muted hover:border-accent hover:text-accent relative z-20 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition-colors"
             >
               <Globe className="h-3 w-3" strokeWidth={2} />
               Visit live site

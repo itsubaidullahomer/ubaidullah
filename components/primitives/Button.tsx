@@ -17,10 +17,8 @@ type CommonProps = {
 const variants: Record<ButtonVariant, string> = {
   primary:
     "bg-accent text-[var(--accent-fg)] hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] hover:-translate-y-px",
-  secondary:
-    "glass text-fg hover:bg-[var(--glass-highlight)] hover:-translate-y-px",
-  ghost:
-    "text-fg hover:bg-[var(--glass-tint)]",
+  secondary: "glass text-fg hover:bg-[var(--glass-highlight)] hover:-translate-y-px",
+  ghost: "text-fg hover:bg-[var(--glass-tint)]",
 };
 
 const sizes: Record<ButtonSize, string> = {

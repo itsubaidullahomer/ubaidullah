@@ -52,11 +52,35 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
   const commands: Cmd[] = useMemo(
     () => [
       { id: "home", label: "Home", group: "Navigate", icon: Home, perform: () => router.push("/") },
-      { id: "work", label: "Work", group: "Navigate", icon: Briefcase, perform: () => router.push("/work") },
-      { id: "about", label: "About", group: "Navigate", icon: User, perform: () => router.push("/about") },
+      {
+        id: "work",
+        label: "Work",
+        group: "Navigate",
+        icon: Briefcase,
+        perform: () => router.push("/work"),
+      },
+      {
+        id: "about",
+        label: "About",
+        group: "Navigate",
+        icon: User,
+        perform: () => router.push("/about"),
+      },
       { id: "now", label: "Now", group: "Navigate", icon: Cpu, perform: () => router.push("/now") },
-      { id: "playground", label: "Playground", group: "Navigate", icon: Beaker, perform: () => router.push("/playground") },
-      { id: "contact", label: "Contact", group: "Navigate", icon: Mail, perform: () => router.push("/contact") },
+      {
+        id: "playground",
+        label: "Playground",
+        group: "Navigate",
+        icon: Beaker,
+        perform: () => router.push("/playground"),
+      },
+      {
+        id: "contact",
+        label: "Contact",
+        group: "Navigate",
+        icon: Mail,
+        perform: () => router.push("/contact"),
+      },
       ...projects.map<Cmd>((p) => ({
         id: `case-${p.slug}`,
         label: p.title,
@@ -81,12 +105,48 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
         icon: Download,
         perform: () => window.open(site.resumeUrl, "_blank"),
       },
-      { id: "theme-dark",  label: "Dark aurora",  group: "Theme", icon: Moon,     perform: () => setTheme("aurora-dark") },
-      { id: "theme-light", label: "Light aurora", group: "Theme", icon: Sun,      perform: () => setTheme("aurora-light") },
-      { id: "theme-mono",  label: "Monochrome",   group: "Theme", icon: Contrast, perform: () => setTheme("monochrome") },
-      { id: "social-github",    label: "GitHub",    group: "Social", icon: Github,    perform: () => window.open(site.socials.github.url, "_blank") },
-      { id: "social-linkedin",  label: "LinkedIn",  group: "Social", icon: Linkedin,  perform: () => window.open(site.socials.linkedin.url, "_blank") },
-      { id: "social-instagram", label: "Instagram", group: "Social", icon: Instagram, perform: () => window.open(site.socials.instagram.url, "_blank") },
+      {
+        id: "theme-dark",
+        label: "Dark aurora",
+        group: "Theme",
+        icon: Moon,
+        perform: () => setTheme("aurora-dark"),
+      },
+      {
+        id: "theme-light",
+        label: "Light aurora",
+        group: "Theme",
+        icon: Sun,
+        perform: () => setTheme("aurora-light"),
+      },
+      {
+        id: "theme-mono",
+        label: "Monochrome",
+        group: "Theme",
+        icon: Contrast,
+        perform: () => setTheme("monochrome"),
+      },
+      {
+        id: "social-github",
+        label: "GitHub",
+        group: "Social",
+        icon: Github,
+        perform: () => window.open(site.socials.github.url, "_blank"),
+      },
+      {
+        id: "social-linkedin",
+        label: "LinkedIn",
+        group: "Social",
+        icon: Linkedin,
+        perform: () => window.open(site.socials.linkedin.url, "_blank"),
+      },
+      {
+        id: "social-instagram",
+        label: "Instagram",
+        group: "Social",
+        icon: Instagram,
+        perform: () => window.open(site.socials.instagram.url, "_blank"),
+      },
     ],
     [router, setTheme],
   );
@@ -95,7 +155,10 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
     if (!query) return commands;
     const q = query.toLowerCase();
     return commands.filter(
-      (c) => c.label.toLowerCase().includes(q) || c.group.toLowerCase().includes(q) || c.hint?.toLowerCase().includes(q),
+      (c) =>
+        c.label.toLowerCase().includes(q) ||
+        c.group.toLowerCase().includes(q) ||
+        c.hint?.toLowerCase().includes(q),
     );
   }, [commands, query]);
 
@@ -151,8 +214,8 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
             onClick={(e) => e.stopPropagation()}
             className="glass-strong w-full max-w-xl overflow-hidden rounded-2xl"
           >
-            <div className="flex items-center gap-3 border-b border-border px-4 py-3">
-              <Search className="h-4 w-4 text-fg-muted" />
+            <div className="border-border flex items-center gap-3 border-b px-4 py-3">
+              <Search className="text-fg-muted h-4 w-4" />
               <input
                 ref={inputRef}
                 value={query}
@@ -161,22 +224,22 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                   setSelected(0);
                 }}
                 placeholder="Search or jump to…"
-                className="w-full bg-transparent text-[15px] text-fg placeholder:text-fg-subtle focus:outline-none"
+                className="text-fg placeholder:text-fg-subtle w-full bg-transparent text-[15px] focus:outline-none"
               />
-              <kbd className="hidden rounded border border-border px-1.5 py-0.5 text-[10px] text-fg-subtle sm:inline-block">
+              <kbd className="border-border text-fg-subtle hidden rounded border px-1.5 py-0.5 text-[10px] sm:inline-block">
                 ESC
               </kbd>
             </div>
 
             <div className="max-h-[60vh] overflow-y-auto py-2">
               {filtered.length === 0 && (
-                <div className="px-4 py-8 text-center text-sm text-fg-muted">No matches.</div>
+                <div className="text-fg-muted px-4 py-8 text-center text-sm">No matches.</div>
               )}
               {(() => {
                 let runningIdx = -1;
                 return grouped.map(([group, items]) => (
                   <div key={group}>
-                    <div className="px-4 pt-3 pb-1 text-[10px] uppercase tracking-[0.16em] text-fg-subtle">
+                    <div className="text-fg-subtle px-4 pt-3 pb-1 text-[10px] tracking-[0.16em] uppercase">
                       {group}
                     </div>
                     {items.map((cmd) => {
@@ -194,13 +257,17 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                           }}
                           className={cn(
                             "flex w-full items-center gap-3 px-4 py-2 text-left text-sm transition-colors",
-                            isSel ? "bg-[var(--glass-highlight)] text-fg" : "text-fg-muted hover:text-fg",
+                            isSel
+                              ? "text-fg bg-[var(--glass-highlight)]"
+                              : "text-fg-muted hover:text-fg",
                           )}
                         >
                           <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />
                           <span className="flex-1 truncate">{cmd.label}</span>
                           {cmd.hint && (
-                            <span className="hidden text-xs text-fg-subtle sm:inline">{cmd.hint}</span>
+                            <span className="text-fg-subtle hidden text-xs sm:inline">
+                              {cmd.hint}
+                            </span>
                           )}
                         </button>
                       );
@@ -210,10 +277,14 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
               })()}
             </div>
 
-            <div className="flex items-center justify-between border-t border-border px-4 py-2 text-[11px] text-fg-subtle">
+            <div className="border-border text-fg-subtle flex items-center justify-between border-t px-4 py-2 text-[11px]">
               <div className="flex items-center gap-3">
-                <span><kbd className="font-mono">↑↓</kbd> navigate</span>
-                <span><kbd className="font-mono">↵</kbd> select</span>
+                <span>
+                  <kbd className="font-mono">↑↓</kbd> navigate
+                </span>
+                <span>
+                  <kbd className="font-mono">↵</kbd> select
+                </span>
               </div>
               <span>{filtered.length} commands</span>
             </div>

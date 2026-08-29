@@ -11,16 +11,13 @@ type AuroraMeshProps = {
  * Variant controls intensity and shape distribution.
  */
 export function AuroraMesh({ className, variant = "page" }: AuroraMeshProps) {
-  const intensity = variant === "hero" ? "opacity-100" : variant === "section" ? "opacity-60" : "opacity-80";
+  const intensity =
+    variant === "hero" ? "opacity-100" : variant === "section" ? "opacity-60" : "opacity-80";
 
   return (
     <div
       aria-hidden
-      className={cn(
-        "pointer-events-none absolute inset-0 overflow-hidden",
-        intensity,
-        className,
-      )}
+      className={cn("pointer-events-none absolute inset-0 overflow-hidden", intensity, className)}
       style={{ opacity: "var(--aurora-opacity)" }}
     >
       <div

@@ -11,10 +11,10 @@ export function SelectedWork() {
       eyebrow="Selected work"
       title={
         <>
-          Real products, real users, <em className="italic text-gradient-accent not-italic">real outcomes.</em>
+          A few things I've <em className="text-gradient-accent italic not-italic">built.</em>
         </>
       }
-      description="Products I've shipped end-to-end, shown as they actually run in production. Hover a card to scroll through the live site."
+      description="All of these are live. Hover a card to scroll through the site as it looks today."
     >
       <div className="grid gap-4 md:grid-cols-2 md:gap-6">
         {featuredProjects.map((p, i) => (
@@ -25,7 +25,7 @@ export function SelectedWork() {
       <div className="mt-12 text-center">
         <Link
           href="/work"
-          className="group inline-flex items-center gap-1.5 text-sm font-medium text-fg-muted transition-colors hover:text-fg"
+          className="group text-fg-muted hover:text-fg inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
         >
           View all work
           <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

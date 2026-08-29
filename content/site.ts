@@ -2,9 +2,9 @@ export const site = {
   name: "Ubaidullah",
   handle: "itsubaidullahomer",
   role: "Senior Product Engineer",
-  tagline: "I build production-grade AI products.",
+  tagline: "I build AI products people rely on.",
   description:
-    "Senior product engineer building AI-native education and analytics products. Currently shipping Tututor.ai to 17,000+ students and teachers. 4+ years of MERN, React, Node.js, and LLM integrations.",
+    "Product engineer working on AI features inside education and analytics products. Currently building Tututor.ai, used by around 17,000 students and teachers. Four years with React, Node.js, MongoDB and LLM APIs.",
   url: "https://itsubaidullahomer.com",
   email: "itsubaidullahomer@gmail.com",
   phone: "+92 329 2380929",
@@ -26,10 +26,26 @@ export const site = {
     "itsubaidullahomer",
   ],
   socials: {
-    github:    { label: "GitHub",    handle: "itsubaidullahomer", url: "https://github.com/itsubaidullahomer" },
-    linkedin:  { label: "LinkedIn",  handle: "itsubaidullahomer", url: "https://www.linkedin.com/in/itsubaidullahomer/" },
-    instagram: { label: "Instagram", handle: "itsubaidullahomer", url: "https://www.instagram.com/itsubaidullahomer" },
-    email:     { label: "Email",     handle: "itsubaidullahomer@gmail.com", url: "mailto:itsubaidullahomer@gmail.com" },
+    github: {
+      label: "GitHub",
+      handle: "itsubaidullahomer",
+      url: "https://github.com/itsubaidullahomer",
+    },
+    linkedin: {
+      label: "LinkedIn",
+      handle: "itsubaidullahomer",
+      url: "https://www.linkedin.com/in/itsubaidullahomer/",
+    },
+    instagram: {
+      label: "Instagram",
+      handle: "itsubaidullahomer",
+      url: "https://www.instagram.com/itsubaidullahomer",
+    },
+    email: {
+      label: "Email",
+      handle: "itsubaidullahomer@gmail.com",
+      url: "mailto:itsubaidullahomer@gmail.com",
+    },
   },
 } as const;
 

@@ -51,6 +51,7 @@ const HOP_MS = 950;
 const AMBIENT_SPEED = 0.2; // path fractions per second
 
 export function SystemMap({ nodes, edges, flows = [], className }: Props) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const edgePathRefs = useRef<Array<SVGPathElement | null>>([]);
@@ -195,15 +196,12 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
 
   /* ── Request trace ───────────────────────────────────────────── */
 
-  const play = useCallback(
-    (id: string) => {
-      setFlowId(id);
-      setTrail([]);
-      setStep(0);
-      setPlaying(true);
-    },
-    [],
-  );
+  const play = useCallback((id: string) => {
+    setFlowId(id);
+    setTrail([]);
+    setStep(0);
+    setPlaying(true);
+  }, []);
 
   useEffect(() => {
     if (!playing || !flow || !size.w) return;
@@ -243,6 +241,19 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
     raf = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf);
   }, [playing, flow, step, pathBetween, size.w, reduced]);
+
+  // On narrow screens the canvas scrolls, so keep the hop being animated in view.
+  useEffect(() => {
+    if (!playing || !flow || step < 0 || !size.w) return;
+    const scroller = scrollerRef.current;
+    if (!scroller || scroller.scrollWidth <= scroller.clientWidth) return;
+    const target = positions[flow.hops[Math.min(step, flow.hops.length - 1)].to];
+    if (!target) return;
+    scroller.scrollTo({
+      left: Math.max(0, toPx(target).x - scroller.clientWidth / 2),
+      behavior: reduced ? "auto" : "smooth",
+    });
+  }, [playing, flow, step, positions, size.w, toPx, reduced]);
 
   /* ── Drag ────────────────────────────────────────────────────── */
 
@@ -310,23 +321,21 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
     ? { title: hoveredNode.label, body: hoveredNode.detail ?? KIND[hoveredNode.kind].label }
     : currentHop
       ? {
-          title: playing
-            ? `${step + 1}/${flow!.hops.length} · ${currentHop.label}`
-            : flow!.label,
+          title: playing ? `${step + 1}/${flow!.hops.length} · ${currentHop.label}` : flow!.label,
           body: playing
             ? `${nodeLabel(nodes, currentHop.from)} → ${nodeLabel(nodes, currentHop.to)}`
             : flow!.description,
         }
       : {
           title: "Trace a request",
-          body: "Pick a scenario to watch it travel the system — or hover a service to see what it does.",
+          body: "Pick a scenario to watch a request travel through, or hover a service to see what it does.",
         };
 
   return (
     <div className={cn("glass relative overflow-hidden rounded-[var(--radius-glass)]", className)}>
-      {/* Below md, ten labelled services can't fit without colliding — keep true
+      {/* Below md, ten labeled services can't fit without colliding — keep true
           width and let the canvas scroll instead of overlapping. */}
-      <div className="overflow-x-auto">
+      <div ref={scrollerRef} className="overflow-x-auto">
         <div
           ref={containerRef}
           onPointerMove={onDragMove}
@@ -374,7 +383,9 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
             {/* Base edges */}
             <g className={cn("transition-opacity duration-300", tracing && "opacity-30")}>
               {edges.map((e, i) => {
-                const dim = focusedNodes ? !(focusedNodes.has(e.from) && focusedNodes.has(e.to)) : false;
+                const dim = focusedNodes
+                  ? !(focusedNodes.has(e.from) && focusedNodes.has(e.to))
+                  : false;
                 const lit = focusedNodes ? !dim : false;
                 return (
                   <g
@@ -447,7 +458,9 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
           </svg>
 
           {/* Nodes */}
-          <div className={cn("transition-opacity duration-300", size.w ? "opacity-100" : "opacity-0")}>
+          <div
+            className={cn("transition-opacity duration-300", size.w ? "opacity-100" : "opacity-0")}
+          >
             {nodes.map((n) => {
               const pos = positions[n.id] ?? { x: n.x, y: n.y };
               const px = toPx(pos);
@@ -477,7 +490,9 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
                     left: px.x,
                     top: px.y,
                     borderColor: isActive || isVisited ? meta.color : "var(--border)",
-                    boxShadow: isActive ? `0 0 0 1px ${meta.color}, 0 0 28px -6px ${meta.color}` : undefined,
+                    boxShadow: isActive
+                      ? `0 0 0 1px ${meta.color}, 0 0 28px -6px ${meta.color}`
+                      : undefined,
                     cursor: canDrag ? (dragging === n.id ? "grabbing" : "grab") : "default",
                   }}
                   className={cn(
@@ -490,7 +505,10 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
                 >
                   <span
                     className="grid h-6 w-6 shrink-0 place-items-center rounded-md"
-                    style={{ backgroundColor: `color-mix(in oklab, ${meta.color} 18%, transparent)`, color: meta.color }}
+                    style={{
+                      backgroundColor: `color-mix(in oklab, ${meta.color} 18%, transparent)`,
+                      color: meta.color,
+                    }}
                   >
                     <NodeIcon className="h-3.5 w-3.5" strokeWidth={2} />
                   </span>
@@ -594,7 +612,13 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
 
 /* ── helpers ───────────────────────────────────────────────────── */
 
-function edgeOfBox(center: Point, box: { w: number; h: number }, dx: number, dy: number, gap: number): Point {
+function edgeOfBox(
+  center: Point,
+  box: { w: number; h: number },
+  dx: number,
+  dy: number,
+  gap: number,
+): Point {
   const hw = box.w / 2 + gap;
   const hh = box.h / 2 + gap;
   const t = Math.min(hw / (Math.abs(dx) || 1e-6), hh / (Math.abs(dy) || 1e-6));

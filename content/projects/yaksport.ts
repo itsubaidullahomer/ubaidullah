@@ -3,10 +3,11 @@ import type { Project } from "../types";
 export const yaksport: Project = {
   slug: "yaksport",
   title: "Yaksport",
-  tagline: "Sports training-camp booking platform — 100+ Danish clubs, multilingual, fast search.",
+  tagline:
+    "Booking platform for Danish sports clubs looking for training camps abroad. Over 100 clubs use it.",
   role: "Frontend Engineer",
   company: "Danzee Tech",
-  period: "Jan 2023 — Aug 2023",
+  period: "Jan 2023 – Aug 2023",
   status: "live",
   featured: true,
   cover: "/work/yaksport-cover.svg",
@@ -15,16 +16,16 @@ export const yaksport: Project = {
   screenshot: { src: "/images/screens/yaksport.jpg", width: 2160, height: 5400 },
 
   summary:
-    "A booking platform for a Danish travel agency serving sports clubs that need training camps abroad. The interesting parts: multilingual content, search with filters that don't lag once you have hundreds of camps, and a flow that doesn't punish clubs for being indecisive.",
+    "A booking platform for a Danish travel agency that arranges training camps abroad for sports clubs. The interesting parts were the bilingual content, keeping filtered search quick once there are hundreds of camps in it, and a booking flow that lets clubs change their mind without starting over.",
 
   problem:
-    "100+ sports clubs evaluating training camps need to compare on facilities, location, season, and price — without giving up and calling the agency. The previous site forced them to call.",
+    "Clubs comparing camps care about facilities, location, season and price all at once. The old site couldn't answer those questions, so every enquiry turned into a phone call to the agency.",
 
   approach:
-    "Filter-first search that re-queries on every interaction without flashing the page. i18next-driven content so the same components render in Danish or English. React Router for a flow that lets users move back and forth across the booking funnel without losing state.",
+    "Search comes first and re-queries on every interaction without the page flashing. Content runs through i18next so the same components render in Danish or English. React Router keeps the funnel state intact when someone goes back a step, which they do constantly.",
 
   outcome:
-    "100+ sports clubs onboarded onto the platform. Booking flow became self-serve for the common case; the agency now handles only edge-case requests instead of every quote.",
+    "Over 100 clubs are on the platform. Most bookings now go through without anyone at the agency being involved, so they only handle the unusual requests instead of every single quote.",
 
   metrics: [
     { value: "100+", label: "Sports clubs served" },

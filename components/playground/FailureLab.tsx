@@ -35,24 +35,24 @@ const PROMPTS: Array<{ id: string; label: string; answer: string }> = [
     id: "failover",
     label: "What happens when a provider dies mid-answer?",
     answer:
-      "Exactly what is about to happen if you press that red button. The stream you are reading is checkpointed: every chunk that arrives is committed to state, so the answer never depends on the connection that produced it. When a provider dies mid-stream, the client notices the stall, the orchestrator retries once with backoff, and if the provider is really gone it fails over to the next model in the chain — resuming from the last committed token instead of starting over. The user sees a seam, not a crater. That distinction is the whole job: anyone can render tokens while everything works. The product is what happens in the four seconds where nothing does. Go ahead — kill me mid-sentence and watch the seam.",
+      "Press the red button and you'll find out. Every chunk of this answer gets written to state as it lands, so the text you're reading doesn't belong to the connection that produced it. If the provider dies halfway through, the client notices the stall, waits a moment, retries, and then hands the rest of the job to the next model in the chain, picking up from the last chunk that made it through. You get a small seam in the middle of a sentence instead of an error screen. Writing the part that streams tokens takes an afternoon. Writing the part that survives the four seconds where nothing streams is the actual work. So go ahead, kill me while I'm talking.",
   },
   {
     id: "why",
     label: "Why design for failure first?",
     answer:
-      "Because with LLM features, failure is not an edge case — it is a scheduled event. Providers rate-limit on your best traffic day. Latency spikes exactly when a classroom of 30 students hits the same tutor at 9am. If you design the happy path first, every one of those moments becomes an incident. Design the failure path first and they become behavior: a retry the user never notices, a fallback model with a slightly different voice, a cached answer with an honest label on it. At Tututor this thinking is why teachers kept trusting the product — the UI stayed responsive even when the AI behind it was having a bad day. Reliability is a feature you feel, not a dashboard you look at.",
+      "Because with anything built on a model, failure isn't rare. Providers rate limit you on your best traffic day. Latency spikes at nine in the morning when thirty students in the same classroom open the same tutor. If you build the happy path first, every one of those becomes an incident you handle at night. If you build the failure path first, they turn into ordinary behavior: a retry nobody notices, a fallback model that sounds slightly different, a cached answer with a label on it. That's most of the reason teachers kept using Tututor. The app stayed usable on the days the model didn't.",
   },
   {
     id: "long",
     label: "Stream something long I can sabotage.",
     answer:
-      "Perfect, a volunteer. Here is a long answer with plenty of room for sabotage, so take your time and be creative with the chaos controls on the right. A production streaming pipeline has three layers that all have to fail well. The transport layer: the socket or SSE connection that actually carries tokens — it dies quietly, so you watch for stalls, not errors. The orchestration layer: the part deciding which provider serves the request, when to retry, when to back off, and when to give up gracefully — this is a state machine, and it should be boring, explicit, and observable, exactly like the event log below this chat. And the experience layer: what the person actually sees — the optimistic UI, the resumed-stream seam, the cached last resort with a retry button. Most teams build the first layer, sketch the second, and improvise the third in a hotfix at midnight. Building all three on purpose is the difference between a demo and a product. Still reading? The red button is right there. I dare you.",
+      "Happy to oblige. Here is a long one, so take your time with the controls on the right. A streaming pipeline has roughly three layers, and all of them can fail. There's the connection carrying the tokens, which usually doesn't throw an error so much as go quiet, so you end up watching for stalls rather than exceptions. There's the part that decides which provider gets the request, how long to wait, when to retry and when to stop trying, which should be boring and easy to read, and which is why it prints everything it does into the log below. And then there's what the person actually sees while all of that is going on: whether the page still responds, whether the half-finished answer survives, whether the fallback is labeled honestly or quietly pretends to be fresh. The first layer is the one everybody builds. The third is the one that gets improvised at midnight during an outage. Anyway, the red button is still there.",
   },
 ];
 
 const CACHED_ANSWER =
-  "Every provider in the chain is down, so this answer is served from cache — clearly labeled, slightly stale, and infinitely better than a spinner that never resolves. The system keeps polling for a healthy provider; restore one and ask again for a live stream.";
+  "Every provider is down, so this one comes from cache. It's older than it should be and it says so, which is still better than a spinner that never stops. Bring a provider back and ask again for a live answer.";
 
 type Segment = { provider: ProviderId | "cache"; text: string; resumed: boolean };
 
@@ -106,7 +106,7 @@ export function FailureLab() {
 
   useEffect(() => {
     startRef.current = performance.now();
-    addLog("info", "lab online — 3 providers registered, all healthy");
+    addLog("info", "lab online, 3 providers registered, all healthy");
     addLog("info", "pick a question, then try to break the stream");
     // Housekeeping: heal cooldowns, refresh tok/s + countdown displays.
     const h = setInterval(() => {
@@ -158,9 +158,7 @@ export function FailureLab() {
   }, []);
 
   function patchAssistant(id: number, patch: (m: AssistantMsg) => AssistantMsg) {
-    setTranscript((tr) =>
-      tr.map((m) => (m.role === "assistant" && m.id === id ? patch(m) : m)),
-    );
+    setTranscript((tr) => tr.map((m) => (m.role === "assistant" && m.id === id ? patch(m) : m)));
   }
 
   /* ── Run lifecycle ─────────────────────────────────────────────── */
@@ -200,7 +198,10 @@ export function FailureLab() {
     setActiveId(provider);
     const model = PROVIDERS.find((p) => p.id === provider)!.model;
     patchAssistant(msgId, (m) => ({ ...m, status: "connecting" }));
-    addLog("info", `${provider}: opening stream (${model})${offset ? ` from token ${offset}` : ""}`);
+    addLog(
+      "info",
+      `${provider}: opening stream (${model})${offset ? ` from token ${offset}` : ""}`,
+    );
 
     const ttft = (BASE_TTFT + Math.random() * 400) * (slowRef.current ? 3.5 : 1);
     const t0 = performance.now();
@@ -214,7 +215,10 @@ export function FailureLab() {
       }
       const measured = Math.round(performance.now() - t0);
       setMetrics((m) => ({ ...m, ttft: measured, failovers }));
-      addLog(measured > 1800 ? "warn" : "ok", `${provider}: first token in ${measured}ms${measured > 1800 ? " — over latency budget" : ""}`);
+      addLog(
+        measured > 1800 ? "warn" : "ok",
+        `${provider}: first token in ${measured}ms${measured > 1800 ? " (over latency budget)" : ""}`,
+      );
       patchAssistant(msgId, (m) => ({
         ...m,
         status: "streaming",
@@ -222,42 +226,52 @@ export function FailureLab() {
       }));
 
       let i = offset;
-      intervalRef.current = setInterval(() => {
-        if (my !== attemptSeq.current) return;
-        const st = providersRef.current[provider].status;
-        if (st !== "healthy") {
-          if (intervalRef.current) clearInterval(intervalRef.current);
-          failFrom(
-            msgId, words, provider, i, failovers,
-            st === "limited" ? "429 rate_limit_exceeded" : `stream died at token ${i}`,
-          );
-          return;
-        }
-        const burst = slowRef.current ? 1 : 1 + Math.floor(Math.random() * 3);
-        const chunk = words.slice(i, i + burst);
-        i += chunk.length;
-        emissionsRef.current.push({ t: performance.now(), n: chunk.length });
-        setMetrics((m) => ({ ...m, tokens: i }));
-        patchAssistant(msgId, (m) => {
-          const segs = [...m.segments];
-          const last = segs[segs.length - 1];
-          segs[segs.length - 1] = { ...last, text: (last.text + " " + chunk.join(" ")).trim() };
-          return { ...m, segments: segs };
-        });
-        if (i >= words.length) {
-          if (intervalRef.current) clearInterval(intervalRef.current);
-          const total = ((performance.now() - runStartRef.current) / 1000).toFixed(1);
-          runningRef.current = false;
-          setRunning(false);
-          setActiveId(null);
-          addLog("ok", `${provider}: stream complete — ${words.length} tokens, ${failovers} failover${failovers === 1 ? "" : "s"}`);
-          patchAssistant(msgId, (m) => ({
-            ...m,
-            status: "done",
-            stats: `${model} · ${words.length} tokens · ${failovers} failover${failovers === 1 ? "" : "s"} · ${total}s total`,
-          }));
-        }
-      }, TICK_MS * (slowRef.current ? 2.4 : 1));
+      intervalRef.current = setInterval(
+        () => {
+          if (my !== attemptSeq.current) return;
+          const st = providersRef.current[provider].status;
+          if (st !== "healthy") {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            failFrom(
+              msgId,
+              words,
+              provider,
+              i,
+              failovers,
+              st === "limited" ? "429 rate_limit_exceeded" : `stream died at token ${i}`,
+            );
+            return;
+          }
+          const burst = slowRef.current ? 1 : 1 + Math.floor(Math.random() * 3);
+          const chunk = words.slice(i, i + burst);
+          i += chunk.length;
+          emissionsRef.current.push({ t: performance.now(), n: chunk.length });
+          setMetrics((m) => ({ ...m, tokens: i }));
+          patchAssistant(msgId, (m) => {
+            const segs = [...m.segments];
+            const last = segs[segs.length - 1];
+            segs[segs.length - 1] = { ...last, text: (last.text + " " + chunk.join(" ")).trim() };
+            return { ...m, segments: segs };
+          });
+          if (i >= words.length) {
+            if (intervalRef.current) clearInterval(intervalRef.current);
+            const total = ((performance.now() - runStartRef.current) / 1000).toFixed(1);
+            runningRef.current = false;
+            setRunning(false);
+            setActiveId(null);
+            addLog(
+              "ok",
+              `${provider}: stream complete, ${words.length} tokens, ${failovers} failover${failovers === 1 ? "" : "s"}`,
+            );
+            patchAssistant(msgId, (m) => ({
+              ...m,
+              status: "done",
+              stats: `${model} · ${words.length} tokens · ${failovers} failover${failovers === 1 ? "" : "s"} · ${total}s total`,
+            }));
+          }
+        },
+        TICK_MS * (slowRef.current ? 2.4 : 1),
+      );
     }, ttft);
   }
 
@@ -276,9 +290,15 @@ export function FailureLab() {
       return;
     }
     const backoff = 900;
-    addLog("warn", `backing off ${backoff}ms → failing over to ${next} (resume at token ${offset})`);
+    addLog(
+      "warn",
+      `backing off ${backoff}ms → failing over to ${next} (resume at token ${offset})`,
+    );
     setMetrics((m) => ({ ...m, failovers: failovers + 1 }));
-    timerRef.current = setTimeout(() => attempt(msgId, words, next, offset, failovers + 1), backoff);
+    timerRef.current = setTimeout(
+      () => attempt(msgId, words, next, offset, failovers + 1),
+      backoff,
+    );
   }
 
   function serveCached(msgId: number) {
@@ -313,13 +333,18 @@ export function FailureLab() {
     const id = chaosTarget();
     if (!id) return;
     setProvider(id, { status: "limited", cooldownUntil: performance.now() + COOLDOWN_MS });
-    addLog("chaos", `chaos: ${id} returned 429 — cooling down ${COOLDOWN_MS / 1000}s`);
+    addLog("chaos", `chaos: ${id} returned 429, cooling down for ${COOLDOWN_MS / 1000}s`);
   }
 
   function toggleSlow() {
     slowRef.current = !slowRef.current;
     setSlow(slowRef.current);
-    addLog("chaos", slowRef.current ? "chaos: network degraded — TTFT ×3.5, throughput ÷3" : "network restored to normal");
+    addLog(
+      "chaos",
+      slowRef.current
+        ? "chaos: network degraded, TTFT ×3.5, throughput ÷3"
+        : "network restored to normal",
+    );
   }
 
   function restoreAll() {
@@ -350,31 +375,33 @@ export function FailureLab() {
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         {/* ── The product surface ── */}
         <div className="glass relative flex flex-col overflow-hidden rounded-[var(--radius-glass)]">
-          <div className="flex items-center gap-3 border-b border-border px-5 py-3.5">
-            <div className="grid h-8 w-8 place-items-center rounded-full bg-accent text-[var(--accent-fg)]">
+          <div className="border-border flex items-center gap-3 border-b px-5 py-3.5">
+            <div className="bg-accent grid h-8 w-8 place-items-center rounded-full text-[var(--accent-fg)]">
               <Zap className="h-4 w-4" strokeWidth={2} />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-medium text-fg">Resilient AI surface</div>
-              <div className="text-xs text-fg-muted">what the end user sees</div>
+              <div className="text-fg text-sm font-medium">Resilient AI surface</div>
+              <div className="text-fg-muted text-xs">what the end user sees</div>
             </div>
-            <div className="flex items-center gap-1.5 text-[11px] text-fg-subtle">
-              <span className={cn("h-1.5 w-1.5 rounded-full", running ? "bg-[#FEBC2E]" : "bg-accent")} />
+            <div className="text-fg-subtle flex items-center gap-1.5 text-[11px]">
+              <span
+                className={cn("h-1.5 w-1.5 rounded-full", running ? "bg-[#FEBC2E]" : "bg-accent")}
+              />
               {running ? "streaming" : "idle"}
             </div>
           </div>
 
           <div ref={chatRef} className="h-[380px] space-y-4 overflow-y-auto px-5 py-5 md:h-[420px]">
             {transcript.length === 0 && (
-              <p className="text-sm leading-relaxed text-fg-muted">
-                Pick a question below. While the answer streams, use the chaos console to kill the
-                provider serving it — then watch the stream fail over and resume mid-sentence.
+              <p className="text-fg-muted text-sm leading-relaxed">
+                Pick a question. While the answer is streaming, use the console on the right to kill
+                whichever provider is serving it, and watch what happens to the answer.
               </p>
             )}
             {transcript.map((m) =>
               m.role === "user" ? (
                 <div key={m.id} className="flex justify-end">
-                  <div className="max-w-[85%] rounded-2xl bg-accent px-4 py-2.5 text-sm leading-relaxed text-[var(--accent-fg)]">
+                  <div className="bg-accent max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed text-[var(--accent-fg)]">
                     {m.text}
                   </div>
                 </div>
@@ -382,24 +409,25 @@ export function FailureLab() {
                 <div key={m.id} className="flex justify-start">
                   <div
                     className={cn(
-                      "max-w-[92%] rounded-2xl border px-4 py-3 text-sm leading-relaxed text-fg",
+                      "text-fg max-w-[92%] rounded-2xl border px-4 py-3 text-sm leading-relaxed",
                       m.status === "cached"
                         ? "border-dashed border-[#FEBC2E]/50 bg-[#FEBC2E]/5"
                         : "border-border bg-[var(--glass-tint)]",
                     )}
                   >
                     {m.status === "connecting" && (
-                      <span className="inline-flex items-center gap-2 text-fg-muted">
-                        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-fg-muted" />
+                      <span className="text-fg-muted inline-flex items-center gap-2">
+                        <span className="bg-fg-muted h-1.5 w-1.5 animate-pulse rounded-full" />
                         connecting…
                       </span>
                     )}
                     {m.segments.map((seg, i) => (
                       <span key={i}>
                         {seg.resumed && (
-                          <span className="mx-1 inline-flex translate-y-[-1px] items-center gap-1 rounded-full border border-border px-2 py-0.5 font-mono text-[10px] text-fg-muted">
+                          <span className="border-border text-fg-muted mx-1 inline-flex translate-y-[-1px] items-center gap-1 rounded-full border px-2 py-0.5 font-mono text-[10px]">
                             <Zap className="h-2.5 w-2.5 text-[color:var(--accent)]" />
-                            resumed via {PROVIDERS.find((p) => p.id === seg.provider)?.label ?? "cache"}
+                            resumed via{" "}
+                            {PROVIDERS.find((p) => p.id === seg.provider)?.label ?? "cache"}
                           </span>
                         )}
                         {seg.provider === "cache" && (
@@ -412,10 +440,10 @@ export function FailureLab() {
                       </span>
                     ))}
                     {m.status === "streaming" && (
-                      <span className="ml-0.5 inline-block h-4 w-[7px] translate-y-[3px] animate-pulse bg-accent" />
+                      <span className="bg-accent ml-0.5 inline-block h-4 w-[7px] translate-y-[3px] animate-pulse" />
                     )}
                     {m.stats && (
-                      <div className="mt-2 border-t border-border pt-2 font-mono text-[10px] text-fg-subtle">
+                      <div className="border-border text-fg-subtle mt-2 border-t pt-2 font-mono text-[10px]">
                         {m.stats}
                       </div>
                     )}
@@ -425,14 +453,14 @@ export function FailureLab() {
             )}
           </div>
 
-          <div className="border-t border-border px-5 py-3.5">
+          <div className="border-border border-t px-5 py-3.5">
             <div className="flex flex-wrap gap-2">
               {PROMPTS.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => ask(p.id)}
                   disabled={running}
-                  className="rounded-full border border-border px-3 py-1.5 text-xs text-fg-muted transition-all hover:border-fg-muted hover:text-fg disabled:pointer-events-none disabled:opacity-40"
+                  className="border-border text-fg-muted hover:border-fg-muted hover:text-fg rounded-full border px-3 py-1.5 text-xs transition-all disabled:pointer-events-none disabled:opacity-40"
                 >
                   {p.label}
                 </button>
@@ -443,13 +471,13 @@ export function FailureLab() {
 
         {/* ── Chaos console ── */}
         <div className="glass relative flex flex-col overflow-hidden rounded-[var(--radius-glass)]">
-          <div className="flex items-center gap-3 border-b border-border px-5 py-3.5">
-            <div className="grid h-8 w-8 place-items-center rounded-full border border-border text-fg-muted">
+          <div className="border-border flex items-center gap-3 border-b px-5 py-3.5">
+            <div className="border-border text-fg-muted grid h-8 w-8 place-items-center rounded-full border">
               <ShieldAlert className="h-4 w-4" strokeWidth={1.75} />
             </div>
             <div>
-              <div className="text-sm font-medium text-fg">Chaos console</div>
-              <div className="text-xs text-fg-muted">what the engineer planned for</div>
+              <div className="text-fg text-sm font-medium">Chaos console</div>
+              <div className="text-fg-muted text-xs">what the engineer planned for</div>
             </div>
           </div>
 
@@ -459,13 +487,18 @@ export function FailureLab() {
               {PROVIDERS.map((p) => {
                 const st = providers[p.id];
                 const active = activeId === p.id;
-                const cooldown = st.status === "limited" ? Math.max(0, Math.ceil((st.cooldownUntil - now) / 1000)) : 0;
+                const cooldown =
+                  st.status === "limited"
+                    ? Math.max(0, Math.ceil((st.cooldownUntil - now) / 1000))
+                    : 0;
                 return (
                   <div
                     key={p.id}
                     className={cn(
                       "flex items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-colors",
-                      active ? "border-[color:var(--accent)]/60 bg-[var(--glass-highlight)]" : "border-border",
+                      active
+                        ? "border-[color:var(--accent)]/60 bg-[var(--glass-highlight)]"
+                        : "border-border",
                     )}
                   >
                     <span
@@ -478,11 +511,15 @@ export function FailureLab() {
                       )}
                     />
                     <div className="min-w-0 flex-1">
-                      <div className="text-[13px] font-medium text-fg">{p.label}</div>
-                      <div className="truncate font-mono text-[10px] text-fg-subtle">{p.model}</div>
+                      <div className="text-fg text-[13px] font-medium">{p.label}</div>
+                      <div className="text-fg-subtle truncate font-mono text-[10px]">{p.model}</div>
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wide text-fg-muted">
-                      {active ? "active" : st.status === "limited" ? `429 · ${cooldown}s` : st.status}
+                    <span className="text-fg-muted font-mono text-[10px] tracking-wide uppercase">
+                      {active
+                        ? "active"
+                        : st.status === "limited"
+                          ? `429 · ${cooldown}s`
+                          : st.status}
                     </span>
                   </div>
                 );
@@ -519,7 +556,7 @@ export function FailureLab() {
               </button>
               <button
                 onClick={restoreAll}
-                className="inline-flex items-center justify-center gap-1.5 rounded-full border border-border px-3 py-2 text-xs font-medium text-fg-muted transition-all hover:border-accent hover:text-accent"
+                className="border-border text-fg-muted hover:border-accent hover:text-accent inline-flex items-center justify-center gap-1.5 rounded-full border px-3 py-2 text-xs font-medium transition-all"
               >
                 <HeartPulse className="h-3.5 w-3.5" strokeWidth={2} />
                 Restore all
@@ -527,7 +564,7 @@ export function FailureLab() {
             </div>
 
             {/* Telemetry */}
-            <div className="grid grid-cols-4 gap-2 border-t border-border pt-4">
+            <div className="border-border grid grid-cols-4 gap-2 border-t pt-4">
               {[
                 { label: "TTFT", value: metrics.ttft ? `${metrics.ttft}ms` : "—" },
                 { label: "tok/s", value: metrics.tps || "—" },
@@ -535,8 +572,10 @@ export function FailureLab() {
                 { label: "failovers", value: metrics.failovers },
               ].map((s) => (
                 <div key={s.label}>
-                  <div className="font-mono text-lg leading-none text-fg">{s.value}</div>
-                  <div className="mt-1 text-[10px] uppercase tracking-wide text-fg-subtle">{s.label}</div>
+                  <div className="text-fg font-mono text-lg leading-none">{s.value}</div>
+                  <div className="text-fg-subtle mt-1 text-[10px] tracking-wide uppercase">
+                    {s.label}
+                  </div>
                 </div>
               ))}
             </div>
@@ -546,17 +585,20 @@ export function FailureLab() {
 
       {/* ── Event log ── */}
       <div className="glass relative overflow-hidden rounded-[var(--radius-glass)]">
-        <div className="flex items-center gap-2 border-b border-border px-5 py-3">
-          <Activity className="h-3.5 w-3.5 text-fg-muted" strokeWidth={2} />
-          <span className="text-xs font-medium text-fg">Event log</span>
-          <span className="ml-auto font-mono text-[10px] text-fg-subtle">
+        <div className="border-border flex items-center gap-2 border-b px-5 py-3">
+          <Activity className="text-fg-muted h-3.5 w-3.5" strokeWidth={2} />
+          <span className="text-fg text-xs font-medium">Event log</span>
+          <span className="text-fg-subtle ml-auto font-mono text-[10px]">
             the state machine, thinking out loud
           </span>
         </div>
-        <div ref={logRef} className="h-40 overflow-y-auto px-5 py-3 font-mono text-[11px] leading-relaxed">
+        <div
+          ref={logRef}
+          className="h-40 overflow-y-auto px-5 py-3 font-mono text-[11px] leading-relaxed"
+        >
           {log.map((l) => (
             <div key={l.id} className="flex gap-3">
-              <span className="shrink-0 text-fg-subtle">{fmt(l.t)}</span>
+              <span className="text-fg-subtle shrink-0">{fmt(l.t)}</span>
               <span className={LOG_COLOR[l.level]}>{l.text}</span>
             </div>
           ))}

@@ -27,10 +27,19 @@ export default function GlobalError({
         }}
       >
         <div style={{ maxWidth: 520, textAlign: "center" }}>
-          <div style={{ fontSize: 12, opacity: 0.5, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+          <div
+            style={{
+              fontSize: 12,
+              opacity: 0.5,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+            }}
+          >
             Fatal error
           </div>
-          <h1 style={{ fontSize: 48, margin: "16px 0", lineHeight: 1.02, letterSpacing: "-0.025em" }}>
+          <h1
+            style={{ fontSize: 48, margin: "16px 0", lineHeight: 1.02, letterSpacing: "-0.025em" }}
+          >
             Something broke at the root.
           </h1>
           <p style={{ opacity: 0.6, lineHeight: 1.6 }}>

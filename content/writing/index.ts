@@ -5,26 +5,26 @@ export const writingPosts: WritingPost[] = [
     slug: "shipping-ai-features-to-real-users",
     title: "Shipping AI features to real users",
     description:
-      "Notes from a year of shipping AI into a platform 17,000 people actually use. The boring parts matter more than the model.",
+      "Notes from a year of putting AI into a platform 17,000 people use. Most of the work had nothing to do with the model.",
     publishedAt: "2026-04-22",
     readingMinutes: 6,
     tags: ["AI", "product", "engineering"],
     body: `
-There's a quiet truth about shipping AI features that nobody tweets about: the model is the easy part.
+The model is the easy part. That's the thing nobody mentions when they talk about shipping AI features.
 
-When I started building the AI tools inside Tututor, I expected the hardest work to be prompt engineering. It wasn't. The hardest work was the surface area around the model — making sure teacher UX stayed responsive while the LLM was thinking, storing conversations structurally so they could be reviewed (not as opaque blobs), and designing the failure cases so a slow response didn't feel like a broken product.
+When I started on the AI tools inside Tututor I assumed prompt engineering would be the hard bit. It wasn't. The hard bit was everything around the model: keeping the teacher UI responsive while the model was thinking, storing conversations in a shape someone could actually read back later, and working out what the product should do when a response takes eight seconds instead of one.
 
-A few things that turned out to matter more than picking the right model:
+A few things that mattered more than which model I picked:
 
-**Streaming, always.** The moment a user starts seeing tokens land, they forgive latency. The moment they see a spinner for three seconds, they assume the product is broken. Streaming isn't a perf trick — it's a UX primitive.
+**Stream everything.** As soon as someone sees tokens landing on screen, they'll wait. Show them a spinner for three seconds and they assume it's broken. It's less a performance trick than a way of telling the user the product is still with them.
 
-**Store the conversation, not the answer.** Teachers in Tututor review every student-bot conversation to figure out where students are stuck. That's only possible because every turn is a row, not a JSON blob. Same lesson keeps coming back: data shape determines what features you can build six months from now.
+**Store the conversation, not just the answer.** Teachers read back every student conversation to work out where someone got stuck, and that's only possible because each turn is its own row rather than a JSON blob. The shape you pick early decides which features are even available to you six months later.
 
-**Microservice the AI calls.** Not because microservices are cool. Because when OpenAI is having a bad day, you don't want your main API to also be having a bad day.
+**Put the AI calls in their own service.** Not for architectural purity. Because when OpenAI is having a bad day, you don't want your main API having one too.
 
-**Failure is a product surface.** When the model can't answer, what does the UI say? Most teams I've seen default to a generic error. That's the moment to do something specific — fall back to a previous answer, suggest a related action, anything other than "Something went wrong."
+**Decide what failure looks like.** When the model can't answer, what does the screen say? Most teams fall back to a generic error. That's the one moment where a specific response is worth the effort: an older answer, a related action, anything other than "Something went wrong."
 
-The model gets the headlines. The plumbing gets the users.
+The model gets the attention. The plumbing is what keeps people using it.
     `.trim(),
   },
 ];
