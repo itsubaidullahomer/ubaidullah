@@ -176,8 +176,9 @@ a:focus-visible {
 }
 
 /* Smooth theme transitions but no FOUC on initial paint */
-html.theme-ready,
-html.theme-ready * {
+/* :where() keeps this at zero specificity, so any component that sets its
+   own transition (hover lifts, image wipes) keeps it. */
+:where(html.theme-ready, html.theme-ready *) {
   transition: background-color 200ms var(--ease-out-quart),
               border-color 200ms var(--ease-out-quart),
               color 200ms var(--ease-out-quart);
@@ -286,15 +287,15 @@ html.theme-ready * {
 }
 .shot-a {
   transition:
-    transform 1s var(--shot-ease),
-    filter 1s var(--shot-ease);
+    transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .shot-b {
   clip-path: inset(100% 0 0 0);
   transform: scale(1.14);
   transition:
-    clip-path 0.85s var(--shot-ease),
-    transform 1.2s var(--shot-ease);
+    clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .shot-sheen {
   position: absolute;

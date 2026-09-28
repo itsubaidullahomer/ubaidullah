@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/primitives/Section";
 import { ProjectCard } from "@/components/work/ProjectCard";
 import { Reveal } from "@/components/motion/Reveal";
+import { Tilt } from "@/components/motion/Tilt";
 import { featuredProjects } from "@/content/projects";
 
 export function SelectedWork() {
@@ -19,7 +20,9 @@ export function SelectedWork() {
     >
       <Reveal className="grid gap-4 md:grid-cols-2 md:gap-6" stagger={0.12}>
         {featuredProjects.map((p, i) => (
-          <ProjectCard key={p.slug} project={p} priority={i < 2} />
+          <Tilt key={p.slug} className="h-full">
+            <ProjectCard project={p} priority={i < 2} />
+          </Tilt>
         ))}
       </Reveal>
 

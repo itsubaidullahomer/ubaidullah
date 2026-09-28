@@ -11,6 +11,7 @@ import { projects } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { cn } from "@/lib/cn";
+import { Tilt } from "@/components/motion/Tilt";
 
 export const metadata: Metadata = buildMetadata({
   title: "Work",
@@ -74,12 +75,14 @@ export default function WorkPage() {
                       flip && "lg:order-2",
                     )}
                   >
-                    <BrowserFrame
-                      project={p}
-                      sizes="(max-width: 1024px) 100vw, 560px"
-                      priority={i === 0}
-                      className="border-border rounded-2xl border"
-                    />
+                    <Tilt max={4}>
+                      <BrowserFrame
+                        project={p}
+                        sizes="(max-width: 1024px) 100vw, 560px"
+                        priority={i === 0}
+                        className="border-border rounded-2xl border"
+                      />
+                    </Tilt>
                   </div>
 
                   {/* Details */}
