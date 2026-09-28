@@ -25,13 +25,13 @@ import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = buildMetadata({
   title: "About",
-  description: `Product engineer based in Pakistan, four years building AI features into production apps. Currently at Tututor.ai, used by 17,000+ people.`,
+  description: `Product engineer based in Pakistan, four years building AI features into production apps. Currently at Tututor.ai, used by 20k+ people.`,
   path: "/about",
 });
 
 const NUMBERS = [
   { value: "4+", label: "Years building production software" },
-  { value: "17,000+", label: "People using what I build at Tututor.ai" },
+  { value: "20k+", label: "People using what I build at Tututor.ai" },
   { value: String(projects.length), label: "Products shipped to production" },
   { value: "$250k", label: "Raised with help from my analytics work" },
 ];
@@ -89,8 +89,8 @@ export default function AboutPage() {
                   Right now I'm at <span className="text-fg">Tututor.ai</span>. It came to me as
                   someone else's Next.js app with one bug to fix. I rebuilt it three times, wrote
                   the backend, and grew it into eight products: an AI toolkit for teachers, a
-                  school platform, and parent, student and teacher apps in both stores. Around
-                  17,000 students, teachers and families in Murcia, Spain use it.
+                  school platform, and parent, student and teacher apps in both stores. More
+                  than 20,000 students, teachers and families in Murcia, Spain use it.
                 </p>
                 <p>
                   Along the way I taught the founder to code. He started by changing a few words

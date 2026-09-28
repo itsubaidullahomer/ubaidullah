@@ -6,7 +6,7 @@ export const now = {
     {
       heading: "Shipping",
       items: [
-        "Scaling Tututor past 17k users, mostly on the teacher tools. The goal is to make lesson prep boring, in a good way.",
+        "Scaling Tututor past 20k users, mostly on the teacher tools. The goal is to make lesson prep boring, in a good way.",
         "Reworking the AI chatbot session model so teachers can review student conversations more efficiently.",
       ],
     },

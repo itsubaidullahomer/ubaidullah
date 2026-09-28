@@ -59,7 +59,7 @@ export function Hero() {
               >
                 Tututor.ai
               </a>
-              , where about 17,000 students and teachers use it every day.
+              , where 20k+ students, teachers and families use it every day.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3 md:mt-9">
@@ -154,7 +154,7 @@ export function Hero() {
               <div className="mt-4 grid grid-cols-2 gap-3 border-t border-border pt-4">
                 <div>
                   <div className="font-display text-2xl leading-none tracking-[-0.02em] text-fg md:text-3xl">
-                    17K+
+                    20K+
                   </div>
                   <div className="mt-1.5 text-[11px] text-fg-muted">Active users</div>
                 </div>

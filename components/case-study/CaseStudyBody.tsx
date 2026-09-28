@@ -22,10 +22,13 @@ export function CaseStudyBody({ project }: { project: Project }) {
         <MetricGrid metrics={project.metrics} accent={project.accent} />
       </Container>
 
-      <Container size="narrow" className="space-y-20 pb-16">
-        <Block label="The problem">{project.problem}</Block>
-        <Block label="The approach">{project.approach}</Block>
-      </Container>
+      {/* Flagships tell this through the journey instead. */}
+      {!project.journey && (
+        <Container size="narrow" className="space-y-20 pb-16">
+          <Block label="The problem">{project.problem}</Block>
+          <Block label="The approach">{project.approach}</Block>
+        </Container>
+      )}
 
       <EcosystemSection project={project} />
       {project.journey && <Journey steps={project.journey} accent={project.accent} />}
@@ -55,7 +58,7 @@ export function CaseStudyBody({ project }: { project: Project }) {
       <StoriesSection project={project} />
 
       <Container size="narrow" className="space-y-20 pb-20">
-        <Block label="The outcome">{project.outcome}</Block>
+        {!project.journey && <Block label="The outcome">{project.outcome}</Block>}
 
         <div>
           <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">What I owned</div>

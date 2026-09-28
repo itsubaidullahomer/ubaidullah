@@ -56,6 +56,19 @@ export type SubProduct = {
   shot?: Shot;
 };
 
+/** One tab of the product showcase: a real screen, or a row of phones. */
+export type ShowcaseSlide = {
+  /** Which product the screen belongs to; tabs are grouped by it. */
+  group: string;
+  label: string;
+  /** Shown in the fake address bar. */
+  url: string;
+  title: string;
+  caption: string;
+  shot?: Shot;
+  phones?: Shot[];
+};
+
 /** A chapter of how the product got to where it is. */
 export type JourneyStep = {
   period: string;
@@ -110,6 +123,9 @@ export type Project = {
 
   /** Flagship-only: gets its own section on the home page. */
   flagship?: boolean;
+  /** Two-sentence pitch for the home page, shorter than the summary. */
+  pitch?: string;
+  showcase?: ShowcaseSlide[];
   ecosystem?: SubProduct[];
   journey?: JourneyStep[];
   beforeAfter?: { before: Shot; after: Shot; title: string; body: string };

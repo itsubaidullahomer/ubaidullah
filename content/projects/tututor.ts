@@ -2,12 +2,13 @@ import type { Project } from "../types";
 
 const J = "/images/tututor/journey";
 const M = "/images/tututor/mobile";
+const S = "/images/tututor/showcase";
 
 export const tututor: Project = {
   slug: "tututor",
   title: "Tututor.ai",
   tagline:
-    "An AI tool for teachers that I rebuilt three times and grew into a school platform: eight products, one backend, about 6,000 commits.",
+    "An AI tool for teachers that I rebuilt three times and grew into a school platform: eight products, one backend, 20k+ users.",
   role: "Lead engineer, from first rebuild to today",
   company: "Tututor.ai / EduNova",
   companyUrl: "https://tututor.ai",
@@ -20,6 +21,175 @@ export const tututor: Project = {
   accent: "#C7F284",
   screenshot: { src: "/images/screens/tututor.jpg", width: 2160, height: 7800 },
 
+  pitch:
+    "I was hired to fix one bug in a Next.js app. I rebuilt it three times, and it grew into an AI toolkit for teachers plus a whole school platform, used by 20k+ students, teachers and families.",
+
+  showcase: [
+    {
+      group: "Tututor.AI",
+      label: "AI tools",
+      url: "app.tutor.ai",
+      title: "40+ AI tools for lesson prep",
+      caption:
+        "Didactic units, exams, mind maps, games, rubrics. Grouped by what the teacher wants to do, with a search box that understands plain requests.",
+      shot: {
+        src: `${S}/tututor-catalog.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "Tututor.AI home: AI tools grouped into Plan and Create material",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "AI editor",
+      url: "app.tutor.ai/texto-ai",
+      title: "A document editor with the AI built in",
+      caption:
+        "Every generation opens as an editable document. Select a paragraph and ask the AI to improve, expand, shorten or turn it into a table.",
+      shot: {
+        src: `${S}/tututor-editor-ai.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "The Tututor.AI editor with its AI actions menu open over a selected passage",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "Images",
+      url: "app.tutor.ai/texto-ai",
+      title: "Images from a stock bank, pictograms or AI",
+      caption:
+        "Teachers illustrate their material without leaving the editor: search a stock bank, pick a pictogram, or generate an image.",
+      shot: {
+        src: `${S}/tututor-editor-images.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "The editor's image panel with stock photos, AI generation and pictograms",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "Mind maps",
+      url: "app.tutor.ai/esquemas",
+      title: "Mind maps in four layouts",
+      caption:
+        "Generated from a topic or a document, editable, printable, and one click to send to the class on EduNova.",
+      shot: {
+        src: `${S}/tututor-mindmap.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "A generated mind map about the Second World War",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "Virtual tutors",
+      url: "app.tutor.ai/crea-aula-virtual",
+      title: "AI tutors teachers build for their class",
+      caption:
+        "A teacher describes a topic and a character, then shares the tutor with students by link or QR. There's a community library to copy from.",
+      shot: {
+        src: `${S}/tututor-tutors.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "A grid of AI virtual tutors created by a teacher",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "Assistant",
+      url: "app.tutor.ai/asistente-todo-en-uno",
+      title: "An assistant that knows it's talking to a teacher",
+      caption:
+        "Chat with file uploads, voice input, tables and maths, with follow-ups like “shorter” or “adapt to another level”.",
+      shot: {
+        src: `${S}/tututor-assistant.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "The teacher assistant chat with a generated table",
+      },
+    },
+    {
+      group: "Tututor.AI",
+      label: "Plans",
+      url: "app.tutor.ai/planes-de-precio",
+      title: "Subscriptions with word and image quotas",
+      caption:
+        "Free, Basic and Professional plans on Stripe, plus school-wide plans. Every generation is metered against the teacher's balance.",
+      shot: {
+        src: `${S}/tututor-plans.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "Pricing page with Free, Basic, Professional and school plans",
+      },
+    },
+    {
+      group: "EduNova",
+      label: "Dashboard",
+      url: "edunova.tutor.ai",
+      title: "The school platform: a teacher's day on one screen",
+      caption:
+        "Today's classes, quick actions, urgent notices, and one-tap shortcuts to create a circular, a permission slip, a meeting or homework.",
+      shot: {
+        src: `${S}/edunova-dashboard.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "EduNova teacher dashboard with quick tools, notices and today's timetable",
+      },
+    },
+    {
+      group: "EduNova",
+      label: "Messages",
+      url: "edunova.tutor.ai/messages",
+      title: "Realtime messaging with families",
+      caption:
+        "Chat on Socket.io with read receipts, attachments up to 100 MB, and teacher control over whether families can reply.",
+      shot: {
+        src: `${S}/edunova-messages.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "EduNova messages: a teacher's conversation with a parent, with attachments",
+      },
+    },
+    {
+      group: "EduNova",
+      label: "Timetable",
+      url: "edunova.tutor.ai/time-table",
+      title: "Timetables, exams and events in one calendar",
+      caption:
+        "Every class, exam and school event for the week, with built-in video tutorials for each screen.",
+      shot: {
+        src: `${S}/edunova-timetable.jpg`,
+        width: 1600,
+        height: 757,
+        alt: "EduNova weekly class timetable",
+      },
+    },
+    {
+      group: "Apps",
+      label: "Mobile apps",
+      url: "App Store · Google Play",
+      title: "Three apps for teachers, students and families",
+      caption:
+        "Profesores, Alumnos and Familias, live on both stores and running on the same backend as the web platform.",
+      phones: [
+        { src: `${M}/alumnos-home.jpg`, width: 720, height: 1557, alt: "Alumnos student app home" },
+        {
+          src: `${M}/profesores-home.jpg`,
+          width: 720,
+          height: 1557,
+          alt: "Profesores teacher app home",
+        },
+        {
+          src: `${M}/familias-tareas.jpg`,
+          width: 720,
+          height: 1557,
+          alt: "Familias parent app homework list",
+        },
+      ],
+    },
+  ],
+
   summary:
     "It came to me as someone else's Next.js app with one problem to fix. Two years later it's an AI toolkit for teachers plus a full school platform: web apps for teachers and school admins, parent, student and teacher apps in both stores, and the Express backend that runs all of it. I rebuilt the core three times on the way, and most of the code is mine.",
 
@@ -30,10 +200,14 @@ export const tututor: Project = {
     "I told him we should rebuild rather than patch. First the frontend, in React and Redux on Firebase, because at that point I didn't know backend work. Then I learned it, and in October 2024 replaced Firebase with an Express and MongoDB backend I wrote myself, which moved every AI call and key off the client. That backend is the reason the rest was possible. When schools wanted management features, I added a school and class model to the same backend, and the teacher platform, the admin panel and three mobile apps all sit on it. One login and one data model, with a scoping layer that keeps each school's data apart.",
 
   outcome:
-    "Around 17,000 students, teachers and families use it, across schools in Murcia. The AI toolkit has 40+ tools and a rich-text editor with AI actions built in. The school side covers everything from infant-school report cards to SEPA direct-debit billing, imports from Educamos and exports to Plumier XXI, the regional grades system. The three mobile apps are live on the App Store and Google Play. And the founder, who couldn't code when we started, now ships whole features himself.",
+    "20k+ students, teachers and families use it, across schools in Murcia. The AI toolkit has 40+ tools and a rich-text editor with AI actions built in. The school side covers everything from infant-school report cards to SEPA direct-debit billing, imports from Educamos and exports to Plumier XXI, the regional grades system. The three mobile apps are live on the App Store and Google Play. And the founder, who couldn't code when we started, now ships whole features himself.",
 
   metrics: [
-    { value: "17,000+", label: "Students, teachers & families", detail: "schools across Murcia, Spain" },
+    {
+      value: "20k+",
+      label: "Students, teachers & families",
+      detail: "schools across Murcia, Spain",
+    },
     { value: "~6,000", label: "Commits across 9 repos", detail: "3,600+ of them mine" },
     { value: "~1,000", label: "API endpoints", detail: "on ~90 data models, one Express backend" },
     { value: "6", label: "Store listings", detail: "3 apps, each on iOS and Android" },
@@ -317,12 +491,27 @@ export const tututor: Project = {
         "At some level, that's a threat to my job. I'm fine with that, and I'd do it again. A client who understands his own product makes better decisions, gives better feedback and trusts the work, because he's seen how it's made. I think teaching the people you build for is part of the job, and it's the fair thing to do.",
       ],
       moments: [
-        { date: "Nov 2024", text: "First commits: three strings translated to Spanish, and a three-line change to which AI models the tools use." },
-        { date: "Nov 2024", text: "First new tool, built by copying an existing one: 7 files, 1,184 lines." },
+        {
+          date: "Nov 2024",
+          text: "First commits: three strings translated to Spanish, and a three-line change to which AI models the tools use.",
+        },
+        {
+          date: "Nov 2024",
+          text: "First new tool, built by copying an existing one: 7 files, 1,184 lines.",
+        },
         { date: "Feb 2025", text: "Adds new AI tools on the backend himself." },
-        { date: "Feb 2026", text: "First full feature across backend and web: the school dining system." },
-        { date: "May 2026", text: "Builds billing receipts and returned-payment handling for SEPA direct debits." },
-        { date: "Sep 2026", text: "Ships an absenteeism system of about 10,000 lines. His median commit has grown from 16 lines to 487." },
+        {
+          date: "Feb 2026",
+          text: "First full feature across backend and web: the school dining system.",
+        },
+        {
+          date: "May 2026",
+          text: "Builds billing receipts and returned-payment handling for SEPA direct debits.",
+        },
+        {
+          date: "Sep 2026",
+          text: "Ships an absenteeism system of about 10,000 lines. His median commit has grown from 16 lines to 487.",
+        },
       ],
     },
   ],
@@ -375,7 +564,8 @@ export const tututor: Project = {
         sub: "React Native",
         x: 7,
         y: 74,
-        detail: "Familias, Alumnos and Profesores, on iOS and Android. The native rewrite talks to the same API.",
+        detail:
+          "Familias, Alumnos and Profesores, on iOS and Android. The native rewrite talks to the same API.",
       },
       {
         id: "api",
@@ -394,7 +584,8 @@ export const tututor: Project = {
         sub: "Socket.io + Redis",
         x: 50,
         y: 14,
-        detail: "Chat and live updates. The Redis adapter lets sockets work when the API runs on more than one instance.",
+        detail:
+          "Chat and live updates. The Redis adapter lets sockets work when the API runs on more than one instance.",
       },
       {
         id: "ai",
@@ -413,7 +604,8 @@ export const tututor: Project = {
         sub: "node-cron + locks",
         x: 50,
         y: 86,
-        detail: "Reminders, notifications and cleanups. A lock in Mongo makes sure each job runs once, however many instances are up.",
+        detail:
+          "Reminders, notifications and cleanups. A lock in Mongo makes sure each job runs once, however many instances are up.",
       },
       {
         id: "mongo",
@@ -422,7 +614,8 @@ export const tututor: Project = {
         sub: "~90 models",
         x: 70,
         y: 68,
-        detail: "Schools, classes, sections, people, grades, generations, invoices. Indexed around the queries teachers actually run.",
+        detail:
+          "Schools, classes, sections, people, grades, generations, invoices. Indexed around the queries teachers actually run.",
       },
       {
         id: "r2",
@@ -440,7 +633,8 @@ export const tututor: Project = {
         sub: "OpenAI · Claude",
         x: 87,
         y: 38,
-        detail: "OpenAI, Claude and Gemini. Different tools use different models, and swapping one is a config change, not a code change.",
+        detail:
+          "OpenAI, Claude and Gemini. Different tools use different models, and swapping one is a config change, not a code change.",
       },
       {
         id: "push",
@@ -458,7 +652,8 @@ export const tututor: Project = {
         sub: "Educamos · SEPA",
         x: 87,
         y: 68,
-        detail: "Roster imports in from Educamos; grade exports to Plumier XXI and SEPA direct-debit files out.",
+        detail:
+          "Roster imports in from Educamos; grade exports to Plumier XXI and SEPA direct-debit files out.",
       },
     ],
     edges: [
@@ -506,7 +701,8 @@ export const tututor: Project = {
       {
         id: "billing",
         label: "The school collects monthly fees",
-        description: "The finance module. The output is a bank file, so it has to be exactly right.",
+        description:
+          "The finance module. The output is a bank file, so it has to be exactly right.",
         hops: [
           { from: "web", to: "api", label: "office generates the month's receipts" },
           { from: "api", to: "mongo", label: "mandates and IBANs checked" },

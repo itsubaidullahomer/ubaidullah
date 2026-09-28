@@ -4,6 +4,7 @@ import { Container } from "@/components/primitives/Container";
 import { Pill } from "@/components/primitives/Pill";
 import { AuroraMesh } from "@/components/effects/AuroraMesh";
 import { BrowserFrame } from "@/components/work/BrowserFrame";
+import { ProductShowcase } from "@/components/work/ProductShowcase";
 import type { Project } from "@/content/types";
 
 export function StudyHero({ project }: { project: Project }) {
@@ -51,19 +52,28 @@ export function StudyHero({ project }: { project: Project }) {
           </a>
         )}
 
-        {project.screenshot && (
-          <div className="mt-12 md:mt-16">
-            <BrowserFrame
-              project={project}
-              sizes="(max-width: 1024px) 100vw, 1024px"
-              priority
-              scrollable
-              className="glass rounded-2xl"
-            />
-            <p className="text-fg-subtle mt-3 text-center text-xs">
-              The live site, captured full page. Scroll inside the frame.
-            </p>
-          </div>
+        {project.showcase ? (
+          <ProductShowcase
+            slides={project.showcase}
+            accent={project.accent}
+            priority
+            className="mt-12 md:mt-16"
+          />
+        ) : (
+          project.screenshot && (
+            <div className="mt-12 md:mt-16">
+              <BrowserFrame
+                project={project}
+                sizes="(max-width: 1024px) 100vw, 1024px"
+                priority
+                scrollable
+                className="glass rounded-2xl"
+              />
+              <p className="text-fg-subtle mt-3 text-center text-xs">
+                The live site, captured full page. Scroll inside the frame.
+              </p>
+            </div>
+          )
         )}
       </Container>
     </section>

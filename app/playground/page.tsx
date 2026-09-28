@@ -89,7 +89,7 @@ export default function PlaygroundPage() {
           >
             Tututor.ai
           </Link>{" "}
-          usable for 17,000 students and teachers on the days the AI behind it misbehaves.
+          usable for 20k+ students and teachers on the days the AI behind it misbehaves.
         </p>
       </Container>
 

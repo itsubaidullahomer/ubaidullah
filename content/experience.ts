@@ -8,7 +8,7 @@ export const experience: Experience[] = [
     period: "Nov 2023 – Present",
     location: "Murcia, Spain (Remote)",
     summary:
-      "Joined to fix one bug in someone else's Next.js app. Rebuilt it three times and grew it into eight products on one backend: an AI toolkit for teachers, a school platform, and parent, student and teacher apps in both stores. Around 17,000 students, teachers and families use it.",
+      "Joined to fix one bug in someone else's Next.js app. Rebuilt it three times and grew it into eight products on one backend: an AI toolkit for teachers, a school platform, and parent, student and teacher apps in both stores. 20k+ students, teachers and families use it.",
     highlights: [
       "Rebuilt the frontend in React and Redux, then replaced Firebase with an Express and MongoDB backend I wrote, which moved every AI call and API key off the client.",
       "Grew that backend to about 1,000 endpoints on 90 models: school scoping, realtime chat on Socket.io and Redis, push, R2 storage, Stripe and SEPA direct-debit billing.",
