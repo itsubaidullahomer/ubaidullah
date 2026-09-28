@@ -9,7 +9,7 @@ export const yaksport: Project = {
   company: "Danzee Tech",
   period: "Jan 2023 – Aug 2023",
   status: "live",
-  featured: true,
+  featured: false,
   cover: "/work/yaksport-cover.svg",
   accent: "#FFB07A",
   externalUrl: "https://yaksport.dk/",

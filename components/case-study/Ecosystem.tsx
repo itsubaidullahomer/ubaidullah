@@ -69,25 +69,19 @@ function ProductCard({
   const Icon = KIND_ICON[p.kind];
   const isPhone = p.kind === "mobile" || p.kind === "native";
   return (
-    <article
-      className="glass spotlight relative flex h-full min-w-0 flex-col overflow-hidden rounded-[var(--radius-glass)]"
-      style={
-        wide
-          ? {
-              backgroundImage: `radial-gradient(900px circle at top left, color-mix(in oklab, ${accent} 12%, transparent), transparent 60%)`,
-            }
-          : undefined
-      }
-    >
+    <article className="surface spotlight relative flex h-full min-w-0 flex-col overflow-hidden rounded-xl">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 z-10 h-px opacity-70"
+        style={{ background: `linear-gradient(90deg, ${accent}, transparent 70%)` }}
+      />
       {p.shot && (
         <div
           className={cn(
             "border-border relative overflow-hidden border-b",
             isPhone ? "flex h-52 justify-center px-6 pt-6" : "aspect-[16/9]",
           )}
-          style={{
-            background: `radial-gradient(120% 100% at 50% 0%, color-mix(in oklab, ${accent} 16%, transparent), transparent 70%)`,
-          }}
+          style={{ background: "var(--bg-raised)" }}
         >
           <Image
             src={p.shot.src}
@@ -98,7 +92,7 @@ function ProductCard({
             quality={70}
             className={cn(
               isPhone
-                ? "h-auto w-32 self-start rounded-t-2xl border border-b-0 border-[var(--border-strong)]"
+                ? "border-border-strong h-auto w-32 self-start rounded-t-2xl border border-b-0"
                 : "h-full w-full object-cover object-top",
             )}
           />
@@ -113,7 +107,7 @@ function ProductCard({
         )}
       >
         <div>
-          <div className="text-fg-muted flex items-center gap-2 text-[11px] tracking-[0.14em] uppercase">
+          <div className="label-mono text-fg-muted flex items-center gap-2">
             <Icon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
             {KIND_LABEL[p.kind]} · {p.audience}
           </div>
@@ -134,7 +128,7 @@ function ProductCard({
             {p.stack.map((t) => (
               <span
                 key={t}
-                className="border-border text-fg-muted rounded-full border px-2.5 py-0.5 text-[11px]"
+                className="border-border text-fg-muted rounded-md border px-2 py-0.5 font-mono text-[11px]"
               >
                 {t}
               </span>

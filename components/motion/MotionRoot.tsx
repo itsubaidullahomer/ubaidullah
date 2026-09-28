@@ -3,12 +3,13 @@
 import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "./gsap";
+import { setLenis } from "@/lib/lenis-store";
 
 /**
  * Site-wide motion plumbing, mounted once in the layout:
  * - Lenis smooth scroll, driven by GSAP's ticker so ScrollTrigger stays in sync
- * - a thin accent progress line along the top of the page
- * - the cursor spotlight on `.spotlight` cards
+ * - a hairline accent progress line along the top of the page
+ * - the cursor spotlight on `.spotlight` surfaces
  * - a safety net that un-hides [data-reveal] content if a reveal never runs
  */
 export function MotionRoot() {
@@ -24,12 +25,17 @@ export function MotionRoot() {
     let lenis: Lenis | null = null;
     let tick: ((time: number) => void) | null = null;
     if (!reduced) {
-      lenis = new Lenis({ duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 4) });
+      lenis = new Lenis({
+        duration: 1.1,
+        easing: (t) => 1 - Math.pow(1 - t, 4),
+        allowNestedScroll: true,
+      });
       lenis.on("scroll", ScrollTrigger.update);
       tick = (time: number) => lenis!.raf(time * 1000);
       gsap.ticker.add(tick);
       gsap.ticker.lagSmoothing(0);
     }
+    setLenis(lenis);
 
     // Scroll progress line.
     const bar = barRef.current;
@@ -62,6 +68,7 @@ export function MotionRoot() {
       progress?.kill();
       if (tick) gsap.ticker.remove(tick);
       lenis?.destroy();
+      setLenis(null);
     };
   }, []);
 
@@ -69,8 +76,7 @@ export function MotionRoot() {
     <div
       ref={barRef}
       aria-hidden
-      className="bg-accent pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] origin-left scale-x-0"
-      style={{ boxShadow: "0 0 12px var(--accent-glow)" }}
+      className="bg-accent pointer-events-none fixed inset-x-0 top-0 z-[60] h-px origin-left scale-x-0"
     />
   );
 }

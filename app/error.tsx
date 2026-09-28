@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { RotateCw } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Button } from "@/components/primitives/Button";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 
 export default function Error({
   error,
@@ -19,12 +19,10 @@ export default function Error({
 
   return (
     <section className="relative isolate flex min-h-[80svh] items-center overflow-hidden">
-      <AuroraMesh variant="section" />
+      <SystemGrid fade="center" />
       <Container className="relative z-10 text-center">
-        <div className="text-fg-subtle font-mono text-xs tracking-[0.18em] uppercase">
-          Something went sideways
-        </div>
-        <h1 className="font-display text-fg mt-4 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
+        <div className="label-mono text-fg-subtle">Something went sideways</div>
+        <h1 className="font-display text-display text-fg mt-5 text-balance">
           A small fire in the engine room.
         </h1>
         <p className="text-fg-muted mx-auto mt-6 max-w-md leading-relaxed">

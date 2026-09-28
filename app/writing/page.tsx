@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, Clock } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Section } from "@/components/primitives/Section";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { writingPosts } from "@/content/writing";
 import { buildMetadata } from "@/lib/seo";
 
@@ -17,12 +17,12 @@ export const metadata: Metadata = buildMetadata({
 export default function WritingPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-        <AuroraMesh variant="section" />
+      <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+        <SystemGrid />
         <Container className="relative z-10">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Writing</div>
-          <h1 className="font-display text-fg mt-4 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
-            Notes from the <em className="text-gradient-accent italic not-italic">workbench.</em>
+          <div className="label-mono text-fg-muted">Writing</div>
+          <h1 className="font-display text-display text-fg mt-5 text-balance">
+            Notes from the <em className="accent-italic">workbench.</em>
           </h1>
           <p className="text-fg-muted mt-6 max-w-xl text-lg leading-relaxed text-pretty">
             Things I've picked up building AI features for products people use. Short, and written
@@ -74,7 +74,7 @@ export default function WritingPage() {
         </ul>
 
         {writingPosts.length === 0 && (
-          <div className="border-border text-fg-muted rounded-[var(--radius-glass)] border p-12 text-center">
+          <div className="border-border text-fg-muted rounded-2xl border p-12 text-center">
             Nothing here yet. I'm drafting in private, so subscribe via RSS if you want to know when
             something lands.
           </div>

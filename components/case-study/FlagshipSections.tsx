@@ -5,7 +5,7 @@ import { ShotFrame } from "./ShotFrame";
 import type { Project, StoryBlock } from "@/content/types";
 
 function Eyebrow({ children }: { children: React.ReactNode }) {
-  return <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">{children}</div>;
+  return <div className="label-mono text-fg-muted">{children}</div>;
 }
 
 export function EcosystemSection({ project }: { project: Project }) {
@@ -14,7 +14,7 @@ export function EcosystemSection({ project }: { project: Project }) {
     <Container className="pb-24">
       <div className="mb-10 max-w-2xl">
         <Eyebrow>The product family</Eyebrow>
-        <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">
+        <h3 className="font-display text-fg mt-4 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02] tracking-[-0.02em] text-balance">
           One login, {project.ecosystem.length} products.
         </h3>
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">
@@ -36,7 +36,9 @@ export function BeforeAfterSection({ project }: { project: Project }) {
     <Container className="pb-24">
       <div className="mb-10 max-w-2xl">
         <Eyebrow>Then and now</Eyebrow>
-        <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">{ba.title}</h3>
+        <h3 className="font-display text-fg mt-4 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02] tracking-[-0.02em] text-balance">
+          {ba.title}
+        </h3>
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">{ba.body}</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
@@ -59,7 +61,7 @@ export function MobileSection({ project }: { project: Project }) {
       <Container>
         <div className="mb-10 max-w-2xl">
           <Eyebrow>On the phone</Eyebrow>
-          <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">
+          <h3 className="font-display text-fg mt-4 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02] tracking-[-0.02em] text-balance">
             {m.title}
           </h3>
           <p className="text-fg-muted mt-4 leading-relaxed text-pretty">{m.body}</p>
@@ -84,14 +86,7 @@ export function MobileSection({ project }: { project: Project }) {
 function Story({ story, accent }: { story: StoryBlock; accent: string }) {
   return (
     <Container className="pb-24">
-      <div className="glass relative overflow-hidden rounded-[var(--radius-glass)] p-6 md:p-12">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-60"
-          style={{
-            background: `radial-gradient(700px circle at top left, color-mix(in oklab, ${accent} 12%, transparent), transparent 60%)`,
-          }}
-        />
+      <div className="surface relative overflow-hidden rounded-xl p-6 md:p-12">
         <div
           className={
             story.moments?.length
@@ -101,7 +96,7 @@ function Story({ story, accent }: { story: StoryBlock; accent: string }) {
         >
           <div>
             <Eyebrow>{story.eyebrow}</Eyebrow>
-            <h3 className="font-display text-fg mt-3 text-3xl leading-tight text-balance md:text-5xl">
+            <h3 className="font-display text-fg mt-4 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02] tracking-[-0.02em] text-balance">
               {story.title}
             </h3>
             <div className="text-fg-muted mt-6 space-y-5 text-lg leading-relaxed text-pretty">
@@ -120,7 +115,7 @@ function Story({ story, accent }: { story: StoryBlock; accent: string }) {
                     className="absolute top-1.5 -left-[27px] h-2 w-2 rounded-full"
                     style={{ backgroundColor: accent }}
                   />
-                  <div className="text-fg-subtle font-mono text-[11px] tracking-wide">{m.date}</div>
+                  <div className="label-mono text-fg-subtle">{m.date}</div>
                   <div className="text-fg-muted mt-1 text-sm leading-relaxed text-pretty">
                     {m.text}
                   </div>

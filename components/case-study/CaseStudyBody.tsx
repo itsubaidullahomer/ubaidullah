@@ -38,10 +38,8 @@ export function CaseStudyBody({ project }: { project: Project }) {
       {project.architecture && (
         <Container className="pb-16">
           <div className="mb-6 max-w-2xl">
-            <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Architecture</div>
-            <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-4xl">
-              How the system is wired.
-            </h3>
+            <div className="label-mono text-fg-muted">Architecture</div>
+            <h3 className="font-display text-heading text-fg mt-3">How the system is wired.</h3>
             <p className="text-fg-muted mt-3 leading-relaxed text-pretty">
               {project.architecture.intro ??
                 "Hover a box to see what it does, or play a scenario to watch a request travel through it."}
@@ -61,7 +59,7 @@ export function CaseStudyBody({ project }: { project: Project }) {
         {!project.journey && <Block label="The outcome">{project.outcome}</Block>}
 
         <div>
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">What I owned</div>
+          <div className="label-mono text-fg-muted">What I owned</div>
           <ul className="mt-6 space-y-4">
             {project.responsibilities.map((r, i) => (
               <li key={i} className="text-fg-muted flex gap-4 leading-relaxed text-pretty">
@@ -75,12 +73,12 @@ export function CaseStudyBody({ project }: { project: Project }) {
         </div>
 
         <div>
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Stack</div>
+          <div className="label-mono text-fg-muted">Stack</div>
           <div className="mt-4 flex flex-wrap gap-2">
             {project.stack.map((s) => (
               <span
                 key={s}
-                className="border-border text-fg-muted rounded-full border px-3 py-1 text-sm"
+                className="border-border text-fg-muted rounded-md border px-2.5 py-1 font-mono text-xs"
               >
                 {s}
               </span>
@@ -94,12 +92,12 @@ export function CaseStudyBody({ project }: { project: Project }) {
           {prev ? (
             <Link
               href={`/work/${prev.slug}`}
-              className="glass group flex items-center gap-4 rounded-2xl p-5 transition-all hover:-translate-y-0.5"
+              className="surface group hover:border-border-strong flex items-center gap-4 rounded-xl p-5 transition-colors"
             >
               <ArrowLeft className="text-fg-muted h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
               <div>
-                <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">Previous</div>
-                <div className="font-display text-fg mt-1 text-xl">{prev.title}</div>
+                <div className="label-mono text-fg-subtle">Previous</div>
+                <div className="font-display text-fg mt-1 text-2xl leading-none">{prev.title}</div>
               </div>
             </Link>
           ) : (
@@ -109,11 +107,11 @@ export function CaseStudyBody({ project }: { project: Project }) {
           {next ? (
             <Link
               href={`/work/${next.slug}`}
-              className="glass group flex items-center justify-end gap-4 rounded-2xl p-5 text-right transition-all hover:-translate-y-0.5 md:col-start-2"
+              className="surface group hover:border-border-strong flex items-center justify-end gap-4 rounded-xl p-5 text-right transition-colors md:col-start-2"
             >
               <div>
-                <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">Next</div>
-                <div className="font-display text-fg mt-1 text-xl">{next.title}</div>
+                <div className="label-mono text-fg-subtle">Next</div>
+                <div className="font-display text-fg mt-1 text-2xl leading-none">{next.title}</div>
               </div>
               <ArrowRight className="text-fg-muted h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
@@ -127,8 +125,8 @@ export function CaseStudyBody({ project }: { project: Project }) {
 function Block({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">{label}</div>
-      <p className="text-fg mt-6 text-xl leading-relaxed text-pretty md:text-2xl">{children}</p>
+      <div className="label-mono text-fg-muted">{label}</div>
+      <p className="text-fg mt-6 text-xl leading-[1.5] text-pretty md:text-[1.6rem]">{children}</p>
     </div>
   );
 }

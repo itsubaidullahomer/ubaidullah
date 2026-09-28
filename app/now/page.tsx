@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/primitives/Container";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { now } from "@/content/now";
 import { buildMetadata } from "@/lib/seo";
 
@@ -19,12 +19,12 @@ export default function NowPage() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-        <AuroraMesh variant="section" />
+      <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+        <SystemGrid />
         <Container size="narrow" className="relative z-10">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Now</div>
-          <h1 className="font-display text-fg mt-4 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
-            What I'm <em className="text-gradient-accent italic not-italic">up to.</em>
+          <div className="label-mono text-fg-muted">Now</div>
+          <h1 className="font-display text-display text-fg mt-5 text-balance">
+            What I'm <em className="accent-italic">up to.</em>
           </h1>
           <p className="text-fg-muted mt-6 max-w-xl text-lg leading-relaxed text-pretty">
             {now.intro}
@@ -51,7 +51,7 @@ export default function NowPage() {
           </div>
         ))}
 
-        <div className="border-border text-fg-subtle mt-12 rounded-[var(--radius-glass)] border p-5 text-sm">
+        <div className="border-border text-fg-subtle mt-12 rounded-2xl border p-5 text-sm">
           Inspired by Derek Sivers'{" "}
           <a
             href="https://nownownow.com/about"

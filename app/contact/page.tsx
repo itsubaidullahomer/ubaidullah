@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Mail, Github, Linkedin, Instagram } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
@@ -22,12 +22,12 @@ const SOCIAL_ICONS = {
 export default function ContactPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-        <AuroraMesh variant="section" />
+      <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+        <SystemGrid />
         <Container className="relative z-10">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Contact</div>
-          <h1 className="font-display text-fg mt-4 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
-            Let's <em className="text-gradient-accent italic not-italic">talk.</em>
+          <div className="label-mono text-fg-muted">Contact</div>
+          <h1 className="font-display text-display text-fg mt-5 text-balance">
+            Let's <em className="accent-italic">talk.</em>
           </h1>
           <p className="text-fg-muted mt-6 max-w-xl text-lg leading-relaxed text-pretty">
             I take on a few engineering and AI projects at a time. If you're building something and
@@ -42,7 +42,7 @@ export default function ContactPage() {
 
           <aside className="space-y-8">
             <div>
-              <div className="text-fg-subtle text-xs tracking-[0.18em] uppercase">Direct</div>
+              <div className="label-mono text-fg-subtle">Direct</div>
               <a
                 href={`mailto:${site.email}`}
                 className="font-display text-fg hover:text-accent mt-3 block text-2xl transition-colors"
@@ -59,7 +59,7 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <div className="text-fg-subtle text-xs tracking-[0.18em] uppercase">Elsewhere</div>
+              <div className="label-mono text-fg-subtle">Elsewhere</div>
               <ul className="mt-3 space-y-1">
                 {Object.entries(site.socials).map(([key, s]) => {
                   const Icon = SOCIAL_ICONS[key as keyof typeof SOCIAL_ICONS] ?? Mail;
@@ -69,7 +69,7 @@ export default function ContactPage() {
                         href={s.url}
                         target={s.url.startsWith("http") ? "_blank" : undefined}
                         rel="noopener noreferrer"
-                        className="group text-fg-muted hover:text-fg -mx-3 flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-[var(--glass-tint)]"
+                        className="group text-fg-muted hover:text-fg hover:bg-tint -mx-3 flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition-colors"
                       >
                         <Icon className="h-4 w-4" strokeWidth={1.75} />
                         <span className="flex-1">{s.label}</span>
@@ -83,10 +83,8 @@ export default function ContactPage() {
               </ul>
             </div>
 
-            <div className="glass rounded-2xl p-5">
-              <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">
-                Response time
-              </div>
+            <div className="surface rounded-2xl p-5">
+              <div className="label-mono text-fg-subtle">Response time</div>
               <div className="text-fg-muted mt-2 text-sm leading-relaxed">
                 Usually within 2 business days. For urgent things, LinkedIn DM is fastest.
               </div>

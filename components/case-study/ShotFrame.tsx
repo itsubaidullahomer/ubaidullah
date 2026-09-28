@@ -23,7 +23,7 @@ export function ShotFrame({
         href={shot.src}
         target="_blank"
         rel="noopener noreferrer"
-        className="border-border group/shot relative block overflow-hidden rounded-xl border bg-[var(--glass-tint)]"
+        className="border-border bg-bg-elevated group/shot relative block overflow-hidden rounded-lg border"
       >
         <div className="border-border flex items-center gap-1.5 border-b px-3 py-2" aria-hidden>
           <span className="h-1.5 w-1.5 rounded-full bg-[#FF5F57]/70" />

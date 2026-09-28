@@ -23,25 +23,19 @@ export function FlagshipProject() {
   ];
 
   return (
-    <section id="flagship" className="relative isolate overflow-hidden py-24 md:py-32">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-[35%] -z-10 h-[70%]"
-        style={{
-          background: `radial-gradient(60% 50% at 50% 40%, color-mix(in oklab, ${p.accent} 9%, transparent), transparent 70%)`,
-        }}
-      />
-
+    <section
+      id="flagship"
+      className="border-border relative isolate overflow-hidden border-t py-24 md:py-32"
+    >
       <Container size="wide">
         <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
           <div className="max-w-3xl">
-            <div className="text-fg-muted mb-4 flex items-center gap-2 text-xs tracking-[0.18em] uppercase">
-              <span className="bg-fg-subtle h-px w-6" />
-              Flagship project · {p.period}
+            <div className="label-mono text-fg-muted mb-5 flex items-center gap-3">
+              <span className="text-accent">01</span>
+              <span className="bg-border-strong h-px w-6" />
+              Flagship · {p.period}
             </div>
-            <h2 className="font-display text-fg text-5xl leading-[0.95] tracking-[-0.025em] text-balance md:text-7xl">
-              {p.title}
-            </h2>
+            <h2 className="font-display text-title text-fg text-balance">{p.title}</h2>
             <p className="text-fg-muted mt-5 max-w-2xl text-lg leading-relaxed text-pretty md:text-xl">
               {p.pitch ?? p.tagline}
             </p>
@@ -59,12 +53,12 @@ export function FlagshipProject() {
         </Reveal>
 
         <Reveal>
-          <dl className="border-border mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-[var(--border)] md:grid-cols-5">
+          <dl className="border-border bg-border mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-xl border md:grid-cols-5">
             {stats.map((m, i) => (
               <div
                 key={m.label}
                 className={cn(
-                  "bg-bg px-5 py-5 md:px-6 md:py-6",
+                  "bg-bg-elevated spotlight px-5 py-5 md:px-6 md:py-6",
                   i === stats.length - 1 && stats.length % 2 === 1 && "col-span-2 md:col-span-1",
                 )}
               >

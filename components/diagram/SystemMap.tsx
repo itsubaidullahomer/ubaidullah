@@ -332,7 +332,7 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
         };
 
   return (
-    <div className={cn("glass relative overflow-hidden rounded-[var(--radius-glass)]", className)}>
+    <div className={cn("surface relative overflow-hidden rounded-2xl", className)}>
       {/* Below md, ten labeled services can't fit without colliding — keep true
           width and let the canvas scroll instead of overlapping. */}
       <div ref={scrollerRef} className="overflow-x-auto">
@@ -496,7 +496,7 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
                     cursor: canDrag ? (dragging === n.id ? "grabbing" : "grab") : "default",
                   }}
                   className={cn(
-                    "glass-strong focus-visible:ring-accent absolute flex -translate-x-1/2 -translate-y-1/2 touch-none items-center gap-2 rounded-xl border px-3 py-2 text-left transition-[opacity,transform,box-shadow] duration-200 focus:outline-none focus-visible:ring-2",
+                    "surface-raised focus-visible:ring-accent absolute flex -translate-x-1/2 -translate-y-1/2 touch-none items-center gap-2 rounded-xl border px-3 py-2 text-left transition-[opacity,transform,box-shadow] duration-200 focus:outline-none focus-visible:ring-2",
                     dim ? "opacity-25" : "opacity-100",
                     (hovered === n.id || isActive) && "scale-[1.06]",
                     dragging === n.id && "z-20",
@@ -561,7 +561,7 @@ export function SystemMap({ nodes, edges, flows = [], className }: Props) {
               className={cn(
                 "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-medium transition-all",
                 on
-                  ? "border-accent text-accent bg-[var(--glass-highlight)]"
+                  ? "border-accent text-accent bg-tint-strong"
                   : "border-border text-fg-muted hover:border-fg-muted hover:text-fg",
               )}
             >

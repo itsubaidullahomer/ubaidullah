@@ -4,6 +4,7 @@ import { experience } from "@/content/experience";
 export function ExperienceTimeline() {
   return (
     <Section
+      index="02"
       eyebrow="Track record"
       title="Where I've been working."
       description="Four years of building web apps. I started as a junior and ended up responsible for the architecture and most of the AI work."
@@ -11,7 +12,7 @@ export function ExperienceTimeline() {
       <ol className="relative space-y-12 md:space-y-16">
         <div
           aria-hidden
-          className="from-accent via-border absolute top-2 bottom-2 left-[7px] w-px bg-gradient-to-b to-transparent md:left-[11px]"
+          className="from-accent via-border-strong absolute top-2 bottom-2 left-[7px] w-px bg-gradient-to-b to-transparent md:left-[11px]"
         />
         {experience.map((e, idx) => (
           <li
@@ -29,12 +30,12 @@ export function ExperienceTimeline() {
             </span>
 
             <div>
-              <div className="text-fg-subtle text-xs tracking-[0.16em] uppercase">{e.period}</div>
+              <div className="label-mono text-fg-subtle">{e.period}</div>
               <div className="text-fg-muted mt-2 text-xs">{e.location}</div>
             </div>
 
             <div>
-              <h3 className="font-display text-fg text-2xl leading-tight">
+              <h3 className="font-display text-fg text-[1.75rem] leading-[1.05] tracking-[-0.02em]">
                 {e.role}
                 <span className="text-fg-muted mt-1 block font-sans text-base not-italic">
                   {e.companyUrl ? (
@@ -69,7 +70,7 @@ export function ExperienceTimeline() {
                 {e.stack.map((s) => (
                   <span
                     key={s}
-                    className="border-border text-fg-muted rounded-full border px-2.5 py-0.5 text-[11px]"
+                    className="border-border text-fg-muted rounded-md border px-2 py-0.5 font-mono text-[11px]"
                   >
                     {s}
                   </span>

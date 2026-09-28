@@ -27,26 +27,32 @@ const tenets = [
 export function Philosophy() {
   return (
     <Section
+      index="04"
       eyebrow="How I think about the work"
       title="Four things I keep coming back to."
       size="default"
     >
-      <Reveal className="grid gap-4 md:grid-cols-2">
-        {tenets.map((t) => (
-          <div
+      <Reveal
+        as="ol"
+        className="surface divide-border grid divide-y overflow-hidden rounded-xl md:grid-cols-2 md:divide-y-0"
+      >
+        {tenets.map((t, i) => (
+          <li
             key={t.n}
-            className="group border-border hover:border-border-strong spotlight relative overflow-hidden rounded-[var(--radius-glass)] border p-7 transition-colors"
+            className={
+              "group spotlight relative p-6 md:p-8 " +
+              (i % 2 === 0 ? "md:border-border md:border-r" : "") +
+              (i < 2 ? "md:border-border md:border-b" : "")
+            }
           >
-            <div className="text-fg-subtle font-mono text-xs">{t.n}</div>
-            <h3 className="font-display text-fg mt-3 text-2xl leading-tight">{t.title}</h3>
-            <p className="text-fg-muted mt-3 text-sm leading-relaxed text-pretty">{t.body}</p>
-
-            <div
-              aria-hidden
-              className="bg-accent absolute right-7 -bottom-1 left-7 h-px scale-x-0 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-x-100"
-              style={{ transformOrigin: "left" }}
-            />
-          </div>
+            <div className="label-mono text-accent">{t.n}</div>
+            <h3 className="font-display text-fg mt-4 text-[1.6rem] leading-[1.05] tracking-[-0.02em] md:text-[1.85rem]">
+              {t.title}
+            </h3>
+            <p className="text-fg-muted mt-3 max-w-md text-[15px] leading-relaxed text-pretty">
+              {t.body}
+            </p>
+          </li>
         ))}
       </Reveal>
     </Section>

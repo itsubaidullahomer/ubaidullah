@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Script from "next/script";
 import {
   Compass,
@@ -15,7 +14,8 @@ import { Section } from "@/components/primitives/Section";
 import { Pill } from "@/components/primitives/Pill";
 import { Button } from "@/components/primitives/Button";
 import { Magnetic } from "@/components/primitives/Magnetic";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { Portrait } from "@/components/effects/Portrait";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { skills } from "@/content/skills";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
@@ -64,15 +64,14 @@ export default function AboutPage() {
         }}
       />
 
-      <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-        <AuroraMesh variant="section" />
+      <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+        <SystemGrid />
         <Container className="relative z-10">
           <div className="grid items-start gap-12 lg:grid-cols-[1fr_auto] lg:gap-16">
             <div className="max-w-3xl">
-              <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">About</div>
-              <h1 className="font-display text-fg mt-4 text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
-                Engineer who thinks like a{" "}
-                <em className="text-gradient-accent italic not-italic">product person.</em>
+              <div className="label-mono text-fg-muted">About</div>
+              <h1 className="font-display text-display text-fg mt-5 text-balance">
+                Engineer who thinks like a <em className="accent-italic">product person.</em>
               </h1>
               <div className="text-fg-muted mt-8 max-w-2xl space-y-6 text-lg leading-relaxed text-pretty">
                 <p>
@@ -133,23 +132,21 @@ export default function AboutPage() {
             </div>
 
             <div className="relative w-full max-w-sm lg:w-80">
-              <div className="glass relative aspect-[4/5] overflow-hidden rounded-[var(--radius-glass)]">
-                <Image
-                  src="/portrait.png"
-                  alt={`Portrait of ${site.name}`}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 80vw, 320px"
-                  className="object-cover"
-                />
-              </div>
+              <Portrait
+                src="/portrait.png"
+                alt={`Portrait of ${site.name}`}
+                sizes="(max-width: 1024px) 80vw, 320px"
+                priority
+                figure="Fig. 01"
+                className="aspect-[4/5]"
+              />
             </div>
           </div>
 
           {/* Numbers strip */}
           <div className="mt-16 grid grid-cols-2 gap-4 md:mt-20 lg:grid-cols-4">
             {NUMBERS.map((n) => (
-              <div key={n.label} className="glass rounded-[var(--radius-glass)] p-6">
+              <div key={n.label} className="surface rounded-xl p-6">
                 <div className="font-display text-fg text-3xl leading-none tracking-[-0.02em] md:text-4xl">
                   {n.value}
                 </div>
@@ -166,7 +163,7 @@ export default function AboutPage() {
         eyebrow="Toolbox"
         title={
           <>
-            What I build with, <em className="text-gradient-accent italic not-italic">and why.</em>
+            What I build with, <em className="accent-italic">and why.</em>
           </>
         }
         description="Not a complete list. These are the ones I reach for without thinking about it, grouped by the job they do."
@@ -178,24 +175,14 @@ export default function AboutPage() {
             return (
               <div
                 key={group.category}
-                className="glass relative overflow-hidden rounded-[var(--radius-glass)] p-6 md:p-7"
+                className="surface relative overflow-hidden rounded-2xl p-6 md:p-7"
               >
-                {lead && (
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0"
-                    style={{
-                      background:
-                        "radial-gradient(700px circle at top right, color-mix(in oklab, var(--accent) 12%, transparent), transparent 60%)",
-                    }}
-                  />
-                )}
                 <div className="relative">
                   <div className="flex items-center gap-3">
                     <span
                       className={cn(
-                        "border-border grid h-9 w-9 place-items-center rounded-xl border",
-                        lead && "bg-accent border-transparent text-[var(--accent-fg)]",
+                        "border-border grid h-9 w-9 place-items-center rounded-md border",
+                        lead && "bg-accent text-accent-fg border-transparent",
                       )}
                     >
                       <Icon className="h-4 w-4" strokeWidth={1.75} />
@@ -209,7 +196,7 @@ export default function AboutPage() {
                     {group.items.map((item) => (
                       <span
                         key={item}
-                        className="border-border text-fg-muted rounded-full border px-2.5 py-1 text-[12px]"
+                        className="border-border text-fg-muted rounded-md border px-2 py-0.5 font-mono text-[11px]"
                       >
                         {item}
                       </span>

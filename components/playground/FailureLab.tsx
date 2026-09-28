@@ -374,9 +374,9 @@ export function FailureLab() {
     <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)]">
         {/* ── The product surface ── */}
-        <div className="glass relative flex flex-col overflow-hidden rounded-[var(--radius-glass)]">
+        <div className="surface relative flex flex-col overflow-hidden rounded-2xl">
           <div className="border-border flex items-center gap-3 border-b px-5 py-3.5">
-            <div className="bg-accent grid h-8 w-8 place-items-center rounded-full text-[var(--accent-fg)]">
+            <div className="bg-accent text-accent-fg grid h-8 w-8 place-items-center rounded-full">
               <Zap className="h-4 w-4" strokeWidth={2} />
             </div>
             <div className="flex-1">
@@ -401,7 +401,7 @@ export function FailureLab() {
             {transcript.map((m) =>
               m.role === "user" ? (
                 <div key={m.id} className="flex justify-end">
-                  <div className="bg-accent max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed text-[var(--accent-fg)]">
+                  <div className="bg-accent text-accent-fg max-w-[85%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed">
                     {m.text}
                   </div>
                 </div>
@@ -412,7 +412,7 @@ export function FailureLab() {
                       "text-fg max-w-[92%] rounded-2xl border px-4 py-3 text-sm leading-relaxed",
                       m.status === "cached"
                         ? "border-dashed border-[#FEBC2E]/50 bg-[#FEBC2E]/5"
-                        : "border-border bg-[var(--glass-tint)]",
+                        : "border-border bg-tint",
                     )}
                   >
                     {m.status === "connecting" && (
@@ -470,7 +470,7 @@ export function FailureLab() {
         </div>
 
         {/* ── Chaos console ── */}
-        <div className="glass relative flex flex-col overflow-hidden rounded-[var(--radius-glass)]">
+        <div className="surface relative flex flex-col overflow-hidden rounded-2xl">
           <div className="border-border flex items-center gap-3 border-b px-5 py-3.5">
             <div className="border-border text-fg-muted grid h-8 w-8 place-items-center rounded-full border">
               <ShieldAlert className="h-4 w-4" strokeWidth={1.75} />
@@ -496,9 +496,7 @@ export function FailureLab() {
                     key={p.id}
                     className={cn(
                       "flex items-center gap-3 rounded-xl border px-3.5 py-2.5 transition-colors",
-                      active
-                        ? "border-[color:var(--accent)]/60 bg-[var(--glass-highlight)]"
-                        : "border-border",
+                      active ? "bg-tint-strong border-[color:var(--accent)]/60" : "border-border",
                     )}
                   >
                     <span
@@ -584,7 +582,7 @@ export function FailureLab() {
       </div>
 
       {/* ── Event log ── */}
-      <div className="glass relative overflow-hidden rounded-[var(--radius-glass)]">
+      <div className="surface relative overflow-hidden rounded-2xl">
         <div className="border-border flex items-center gap-2 border-b px-5 py-3">
           <Activity className="text-fg-muted h-3.5 w-3.5" strokeWidth={2} />
           <span className="text-fg text-xs font-medium">Event log</span>

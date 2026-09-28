@@ -1,19 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
-import { GrainOverlay } from "@/components/effects/GrainOverlay";
-import { CursorHalo } from "@/components/effects/CursorHalo";
 import { MotionRoot } from "@/components/motion/MotionRoot";
+import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
 import { buildMetadata } from "@/lib/seo";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,21 +26,20 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const instrumentSerif = Instrument_Serif({
+// Variable serif with optical size, softness and "wonk" axes. The display
+// utilities in globals.css drive those axes.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-instrument-serif",
+  style: ["normal", "italic"],
+  axes: ["SOFT", "WONK", "opsz"],
+  variable: "--font-fraunces",
 });
 
 export const metadata: Metadata = buildMetadata();
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#08080B" },
-    { media: "(prefers-color-scheme: light)", color: "#FAFAF7" },
-  ],
+  themeColor: "#07080c",
   width: "device-width",
   initialScale: 1,
 };
@@ -52,17 +49,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
     >
       <head>
-        {/* Prevent FOUC: set theme attr before paint */}
+        {/* Marks the document as JS-driven before paint, so scroll reveals can
+            start hidden. Without JS (or with reduced motion) nothing is hidden. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var t = localStorage.getItem('theme') || 'aurora-dark';
-                  document.documentElement.setAttribute('data-theme', t);
                   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
                     document.documentElement.classList.add('js-motion');
                   }
@@ -86,18 +82,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         />
 
-        <ThemeProvider>
-          <CommandPaletteProvider>
-            <MotionRoot />
-            <GrainOverlay />
-            <CursorHalo />
-            <Header />
-            <main id="main" className="relative z-10">
-              {children}
-            </main>
-            <Footer />
-          </CommandPaletteProvider>
-        </ThemeProvider>
+        <CommandPaletteProvider>
+          <MotionRoot />
+          <Header />
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
+          <Footer />
+        </CommandPaletteProvider>
 
         <Analytics />
         <SpeedInsights />

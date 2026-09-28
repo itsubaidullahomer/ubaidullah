@@ -165,9 +165,7 @@ export function ProductShowcase({
       >
         {groups.map((g) => (
           <div key={g.name} className="flex shrink-0 items-center gap-1.5">
-            <span className="text-fg-subtle mr-1 text-[10px] font-medium tracking-[0.16em] uppercase">
-              {g.name}
-            </span>
+            <span className="label-mono text-fg-subtle mr-1">{g.name}</span>
             {g.items.map(({ slide: s, i }) => {
               const active = i === index;
               return (
@@ -181,10 +179,10 @@ export function ProductShowcase({
                   aria-controls="showcase-stage"
                   onClick={() => go(i)}
                   className={cn(
-                    "rounded-full border px-2.5 py-1.5 text-xs font-medium whitespace-nowrap transition-colors",
+                    "label-mono rounded-md border px-2.5 py-1.5 whitespace-nowrap transition-colors",
                     active
-                      ? "bg-accent border-transparent text-[var(--accent-fg)]"
-                      : "border-border text-fg-muted hover:text-fg hover:border-[var(--border-strong)]",
+                      ? "bg-accent text-accent-fg border-transparent"
+                      : "border-border text-fg-muted hover:text-fg hover:border-border-strong",
                   )}
                 >
                   {s.label}
@@ -200,16 +198,8 @@ export function ProductShowcase({
         ref={stageRef}
         id="showcase-stage"
         role="tabpanel"
-        className="glass relative mt-4 overflow-hidden rounded-2xl p-1.5 md:rounded-3xl md:p-2"
+        className="surface relative mt-4 overflow-hidden rounded-xl p-1.5 md:p-2"
       >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -inset-px opacity-70"
-          style={{
-            background: `radial-gradient(900px circle at 50% 0%, color-mix(in oklab, ${accent} 10%, transparent), transparent 60%)`,
-          }}
-        />
-
         {/* Browser chrome */}
         <div className="relative flex items-center gap-3 px-3 py-2 md:px-4 md:py-2.5">
           <div className="flex shrink-0 items-center gap-1.5" aria-hidden>
@@ -217,7 +207,7 @@ export function ProductShowcase({
             <span className="h-2 w-2 rounded-full bg-[#FEBC2E]/80" />
             <span className="h-2 w-2 rounded-full bg-[#28C840]/80" />
           </div>
-          <div className="border-border mx-auto flex max-w-[70%] min-w-0 items-center justify-center rounded-full border bg-[var(--glass-tint)] px-4 py-0.5">
+          <div className="border-border bg-tint mx-auto flex max-w-[70%] min-w-0 items-center justify-center rounded-full border px-4 py-0.5">
             <span className="text-fg-muted truncate font-mono text-[10px] md:text-[11px]">
               {slide.url}
             </span>
@@ -225,7 +215,7 @@ export function ProductShowcase({
           <div className="w-8 shrink-0" aria-hidden />
         </div>
 
-        <div className="bg-bg-elevated relative aspect-[1600/757] overflow-hidden rounded-xl md:rounded-2xl">
+        <div className="bg-bg-raised relative aspect-[1600/757] overflow-hidden rounded-lg">
           <AnimatePresence initial={false} custom={dir}>
             <motion.div
               key={index}
@@ -251,7 +241,7 @@ export function ProductShowcase({
                 <div
                   className="absolute inset-0 flex items-center justify-center gap-[3%]"
                   style={{
-                    background: `radial-gradient(80% 90% at 50% 100%, color-mix(in oklab, #1d5bf0 45%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in oklab, #0b3fbf 30%, var(--bg-elevated)), var(--bg-elevated))`,
+                    background: `radial-gradient(80% 90% at 50% 100%, color-mix(in oklab, ${accent} 28%, transparent), transparent 70%), var(--bg-raised)`,
                   }}
                 >
                   {slide.phones.map((p, i) => (
@@ -288,9 +278,7 @@ export function ProductShowcase({
       {/* Caption + controls */}
       <div className="mt-5 flex items-start justify-between gap-6">
         <div aria-live="polite" className="min-w-0">
-          <div className="text-fg-subtle text-[11px] font-medium tracking-[0.16em] uppercase">
-            {slide.group}
-          </div>
+          <div className="label-mono text-fg-subtle">{slide.group}</div>
           <div className="text-fg mt-1.5 text-lg leading-snug font-medium md:text-xl">
             {slide.title}
           </div>
@@ -305,14 +293,14 @@ export function ProductShowcase({
           <button
             onClick={() => go(index - 1)}
             aria-label="Previous screen"
-            className="border-border text-fg-muted hover:text-fg grid h-9 w-9 place-items-center rounded-full border transition-colors hover:border-[var(--border-strong)]"
+            className="border-border text-fg-muted hover:text-fg hover:border-border-strong grid h-9 w-9 place-items-center rounded-md border transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
           <button
             onClick={() => go(index + 1)}
             aria-label="Next screen"
-            className="border-border text-fg-muted hover:text-fg grid h-9 w-9 place-items-center rounded-full border transition-colors hover:border-[var(--border-strong)]"
+            className="border-border text-fg-muted hover:text-fg hover:border-border-strong grid h-9 w-9 place-items-center rounded-md border transition-colors"
           >
             <ArrowRight className="h-4 w-4" />
           </button>

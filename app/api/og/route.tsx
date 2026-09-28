@@ -16,60 +16,65 @@ export async function GET(req: Request) {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        padding: "80px",
-        background: "#08080B",
+        padding: "72px",
+        background: "#07080c",
         backgroundImage:
-          "radial-gradient(circle at 20% 20%, rgba(75, 107, 251, 0.35), transparent 50%), radial-gradient(circle at 80% 80%, rgba(184, 84, 251, 0.3), transparent 55%), radial-gradient(circle at 60% 30%, rgba(84, 251, 229, 0.2), transparent 50%)",
-        color: "#F5F5F7",
+          "linear-gradient(rgba(242,241,236,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(242,241,236,0.06) 1px, transparent 1px)",
+        backgroundSize: "48px 48px",
+        color: "#f2f1ec",
         fontFamily: "sans-serif",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-        <img
-          src={new URL("/images/avatar.png", req.url).toString()}
-          width={48}
-          height={48}
-          style={{ borderRadius: 999 }}
-          alt=""
-        />
-        <div style={{ fontSize: 24, opacity: 0.7 }}>{site.name}</div>
-        <div style={{ marginLeft: "auto", fontSize: 18, opacity: 0.5 }}>itsubaidullahomer.com</div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontSize: 18,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "#9a9ba5",
+        }}
+      >
+        <div style={{ width: 8, height: 8, borderRadius: 999, background: "#4fe3a3" }} />
+        <div>{site.name}</div>
+        <div style={{ marginLeft: "auto", color: "#5d5e69" }}>itsubaidullahomer.com</div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
         <div
           style={{
-            fontSize: 80,
-            lineHeight: 1.02,
-            letterSpacing: "-0.03em",
+            fontSize: 84,
+            lineHeight: 1,
+            letterSpacing: "-0.035em",
             fontWeight: 500,
-            maxWidth: 980,
+            maxWidth: 1000,
             display: "flex",
           }}
         >
           {title}
         </div>
-        <div style={{ fontSize: 28, opacity: 0.6, display: "flex" }}>{subtitle}</div>
+        <div style={{ fontSize: 28, color: "#9a9ba5", display: "flex", maxWidth: 900 }}>
+          {subtitle}
+        </div>
       </div>
 
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 12,
+          justifyContent: "space-between",
           fontSize: 16,
-          opacity: 0.45,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: "#5d5e69",
         }}
       >
-        <div
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 999,
-            background: "#C7F284",
-          }}
-        />
-        Senior Product Engineer · Available for select work
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 28, height: 2, background: "#ff4d1c" }} />
+          {site.role} · {site.availability}
+        </div>
+        <div>{site.location}</div>
       </div>
     </div>,
     { width: 1200, height: 630 },

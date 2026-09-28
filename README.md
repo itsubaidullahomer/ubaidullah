@@ -6,15 +6,15 @@ Built with **Next.js 15 (App Router)**, **React 19**, **TypeScript** (strict), *
 
 ## Stack
 
-| Layer | Tech |
-|---|---|
-| Framework | Next.js 15 — App Router, RSC by default |
-| Styling | Tailwind v4 — CSS-first design tokens |
-| Animation | Framer Motion |
-| Theming | next-themes + CSS custom properties (3 themes) |
-| Forms | React Server Actions + Resend |
-| AI | Claude Haiku 4.5 (with prompt caching) |
-| Analytics | Vercel Analytics + Speed Insights |
+| Layer     | Tech                                                       |
+| --------- | ---------------------------------------------------------- |
+| Framework | Next.js 15 — App Router, RSC by default                    |
+| Styling   | Tailwind v4 — CSS-first design tokens                      |
+| Animation | Framer Motion                                              |
+| Theming   | One dark theme, CSS custom properties in `app/globals.css` |
+| Forms     | React Server Actions + Resend                              |
+| Scrolling | Lenis (smooth scroll, honours reduced motion)              |
+| Analytics | Vercel Analytics + Speed Insights                          |
 
 ## Getting started
 
@@ -32,41 +32,39 @@ Copy `.env.example` → `.env.local`:
 NEXT_PUBLIC_SITE_URL=https://itsubaidullahomer.com
 RESEND_API_KEY=        # contact form (optional — gracefully degrades)
 CONTACT_TO_EMAIL=itsubaidullahomer@gmail.com
-ANTHROPIC_API_KEY=     # /playground chatbot (optional — shows static demo without it)
 ```
 
 ## Editing the content
 
 Everything is data — **no rebuilding components to change copy**.
 
-| What you want to change | File |
-|---|---|
-| Name, tagline, socials, email | [content/site.ts](content/site.ts) |
-| Job experience | [content/experience.ts](content/experience.ts) |
-| A specific case study | `content/projects/<slug>.ts` |
-| Add a new case study | Create `content/projects/new.ts`, add it to [content/projects/index.ts](content/projects/index.ts) |
-| Skills | [content/skills.ts](content/skills.ts) |
-| /now page | [content/now.ts](content/now.ts) |
-| /uses page | [content/uses.ts](content/uses.ts) |
-| Blog posts | [content/writing/index.ts](content/writing/index.ts) |
+| What you want to change       | File                                                                                               |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| Name, tagline, socials, email | [content/site.ts](content/site.ts)                                                                 |
+| Job experience                | [content/experience.ts](content/experience.ts)                                                     |
+| A specific case study         | `content/projects/<slug>.ts`                                                                       |
+| Add a new case study          | Create `content/projects/new.ts`, add it to [content/projects/index.ts](content/projects/index.ts) |
+| Skills                        | [content/skills.ts](content/skills.ts)                                                             |
+| /now page                     | [content/now.ts](content/now.ts)                                                                   |
+| Blog posts                    | [content/writing/index.ts](content/writing/index.ts)                                               |
 
 ## Editing the design
 
-| What | File |
-|---|---|
-| Colors, themes, fonts, motion tokens | [app/globals.css](app/globals.css) — `@theme` block + `[data-theme]` selectors |
-| Glass effect | `@utility glass` in the same file |
-| Aurora background | [components/effects/AuroraMesh.tsx](components/effects/AuroraMesh.tsx) |
-| Grain noise | [components/effects/GrainOverlay.tsx](components/effects/GrainOverlay.tsx) |
-| Cursor halo | [components/effects/CursorHalo.tsx](components/effects/CursorHalo.tsx) |
-| Header / nav | [components/layout/Header.tsx](components/layout/Header.tsx) |
-| Command palette (⌘K) | [components/layout/CommandPalette.tsx](components/layout/CommandPalette.tsx) |
+| What                                | File                                                                                                        |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Colors, fonts, radii, motion tokens | [app/globals.css](app/globals.css) — `@theme` block + `:root` variables                                     |
+| Surfaces, type scale, mono labels   | `@utility surface`, `text-display/title/heading`, `label-mono` in the same file                             |
+| Hairline grid behind page heroes    | [components/effects/SystemGrid.tsx](components/effects/SystemGrid.tsx)                                      |
+| Homepage request-routing simulation | [components/effects/SystemField.tsx](components/effects/SystemField.tsx)                                    |
+| Streaming headline                  | [components/sections/StreamHeadline.tsx](components/sections/StreamHeadline.tsx) + `.stream` in globals.css |
+| Scroll reveals                      | [components/motion/Reveal.tsx](components/motion/Reveal.tsx)                                                |
+| Header / nav                        | [components/layout/Header.tsx](components/layout/Header.tsx)                                                |
+| Command palette (⌘K)                | [components/layout/CommandPalette.tsx](components/layout/CommandPalette.tsx)                                |
 
 ## Folder structure
 
 ```
 app/                  Routes (App Router)
-  api/chat            Edge function — Anthropic chatbot
   api/og              Dynamic OG image generation
   work/[slug]         Dynamic case studies
   writing/[slug]      Dynamic blog posts
@@ -81,15 +79,17 @@ content/              Single source of truth for all copy
   writing/            Blog posts
   skills.ts
   now.ts
-  uses.ts
 
 components/
-  primitives/         Button, Card, Glass, Pill, Section…
-  effects/            AuroraMesh, GrainOverlay, CursorHalo
-  layout/             Header, Footer, ThemeToggle, CommandPalette
-  sections/           Hero, SelectedWork, etc.
-  case-study/         StudyHero, ArchitectureDiagram, MetricGrid
-  playground/         AskResume (AI chat)
+  primitives/         Button, Card, Pill, Section, Heading, Container, Magnetic
+  effects/            SystemGrid (hairline grid), SystemField (hero simulation), Portrait
+  motion/             gsap.ts, MotionRoot (Lenis + progress line + spotlight), Reveal, CountUp, Tilt
+  layout/             Header, LocalClock, Footer, CommandPalette
+  sections/           Hero, StreamHeadline, FlagshipProject, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA
+  case-study/         StudyHero, CaseStudyBody, MetricGrid, Journey, FlagshipSections, ShotFrame, PhoneFrame
+  work/               ProjectCard, BrowserFrame, ProductShowcase
+  diagram/            SystemMap (interactive architecture diagram)
+  playground/         FailureLab (client-side resilience simulation)
   forms/              ContactForm
 
 lib/
@@ -115,22 +115,19 @@ lib/
 
 Push to GitHub, import in Vercel, add env vars, point `itsubaidullahomer.com` at it. That's it.
 
-## Theme system
+## Design system
 
-Three themes, all driven by `[data-theme]` CSS variables:
+One dark theme. Ink background (`--bg`), bone text (`--fg`), one signal-orange accent (`--accent`) used sparingly, and a green `--ok` for live status. Every colour a component uses is a variable in `app/globals.css`.
 
-- **aurora-dark** (default) — near-black canvas, lime accent, aurora mesh
-- **aurora-light** — warm off-white, deep accent
-- **monochrome** — pure greyscale, no aurora
-
-Switch via header toggle, ⌘K command palette, or `setTheme()` from `next-themes`.
+- **Type**: Fraunces (variable serif) for display, Geist for body, Geist Mono for labels and readouts. `accent-italic` turns on Fraunces' WONK axis for the one accent phrase in a headline.
+- **Surfaces**: `surface` / `surface-raised` are flat and bordered. Nothing blurs or glows.
+- **Concept**: the site behaves like a running system. The hero background is a request-routing simulation with real provider health, the header carries a live clock, cards and metrics read like service readouts.
 
 ## Notes
 
 - The contact form falls back to console.log if `RESEND_API_KEY` isn't set
-- The /playground chatbot falls back to a static demo if `ANTHROPIC_API_KEY` isn't set
-- All animations respect `prefers-reduced-motion`
-- Cursor halo is desktop-only (hover capability check)
+- The /playground Failure Lab and the hero simulation run entirely in the browser; no API keys involved
+- All animations respect `prefers-reduced-motion` (the hero simulation renders a single static frame)
 
 ---
 

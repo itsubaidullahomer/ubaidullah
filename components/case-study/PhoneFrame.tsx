@@ -17,7 +17,7 @@ export function PhoneFrame({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[2rem] border border-[var(--border-strong)] bg-black p-1.5 shadow-[0_24px_48px_-20px_rgba(0,0,0,0.6)]",
+        "border-border-strong relative overflow-hidden rounded-[2rem] border bg-black p-1.5 shadow-[0_24px_48px_-20px_rgba(0,0,0,0.6)]",
         className,
       )}
     >

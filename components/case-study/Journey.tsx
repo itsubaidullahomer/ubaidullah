@@ -7,8 +7,8 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
   return (
     <Container className="pb-24">
       <div className="mb-12 max-w-2xl">
-        <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">The journey</div>
-        <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">
+        <div className="label-mono text-fg-muted">The journey</div>
+        <h3 className="font-display text-fg mt-4 text-[clamp(1.75rem,3.4vw,3rem)] leading-[1.02] tracking-[-0.02em] text-balance">
           Three rebuilds and a lot of commits.
         </h3>
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">
@@ -39,10 +39,10 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
             </span>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="text-fg-subtle text-xs tracking-[0.16em] uppercase">{s.period}</span>
+              <span className="label-mono text-fg-subtle">{s.period}</span>
               {s.tag && (
                 <span
-                  className="rounded-full border px-2.5 py-0.5 text-[11px] font-medium"
+                  className="label-mono rounded-md border px-2 py-0.5"
                   style={{
                     borderColor: `color-mix(in oklab, ${accent} 45%, transparent)`,
                     color: "var(--fg)",
@@ -61,7 +61,7 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
               }
             >
               <div>
-                <h4 className="font-display text-fg text-2xl leading-tight md:text-3xl">
+                <h4 className="font-display text-fg text-[1.75rem] leading-[1.05] tracking-[-0.02em] md:text-[2rem]">
                   {s.title}
                 </h4>
                 <p className="text-fg-muted mt-4 leading-relaxed text-pretty">{s.body}</p>
@@ -70,7 +70,7 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
                     {s.stack.map((t) => (
                       <span
                         key={t}
-                        className="border-border text-fg-muted rounded-full border px-2.5 py-0.5 text-[11px]"
+                        className="border-border text-fg-muted rounded-md border px-2 py-0.5 font-mono text-[11px]"
                       >
                         {t}
                       </span>

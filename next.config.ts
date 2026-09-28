@@ -7,9 +7,7 @@ const config: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.jsdelivr.net" },
-    ],
+    remotePatterns: [{ protocol: "https", hostname: "cdn.jsdelivr.net" }],
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "framer-motion"],

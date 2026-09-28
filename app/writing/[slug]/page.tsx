@@ -4,7 +4,7 @@ import Script from "next/script";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { writingPosts, getPost } from "@/content/writing";
 import { buildMetadata } from "@/lib/seo";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
@@ -67,8 +67,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
       />
 
       <article>
-        <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-          <AuroraMesh variant="section" />
+        <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+          <SystemGrid />
           <Container size="narrow" className="relative z-10">
             <Link
               href="/writing"
