@@ -50,7 +50,7 @@ export function CursorHalo() {
       className="pointer-events-none fixed inset-0 z-[2] hidden md:block"
       style={{
         background:
-          "radial-gradient(280px circle at var(--halo-x, 50%) var(--halo-y, 50%), color-mix(in oklab, var(--accent) 18%, transparent), transparent 70%)",
+          "radial-gradient(280px circle at var(--halo-x, 50%) var(--halo-y, 50%), color-mix(in oklab, var(--accent) 9%, transparent), transparent 70%)",
         mixBlendMode: "plus-lighter",
         transition: "opacity 200ms var(--ease-out-quart)",
       }}

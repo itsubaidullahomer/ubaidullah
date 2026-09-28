@@ -50,35 +50,39 @@
 
 :root,
 [data-theme="aurora-dark"] {
-  --bg: #08080B;
-  --bg-elevated: #0E0E13;
-  --fg: #F5F5F7;
-  --fg-muted: #8A8A95;
-  --fg-subtle: #54545E;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
-  --glass-tint: rgba(255, 255, 255, 0.03);
-  --glass-highlight: rgba(255, 255, 255, 0.08);
-  --accent: #D4F896;
-  --accent-bright: #EFFCC6;
-  --accent-fg: #0A1500;
-  --accent-glow: rgba(199, 242, 132, 0.40);
-  --aurora-1: #4B6BFB;
-  --aurora-2: #B854FB;
-  --aurora-3: #54FBE5;
-  --aurora-opacity: 0.55;
-  --grain-opacity: 0.06;
+  --bg: #000000;
+  --bg-elevated: #0A0A0B;
+  --fg: #FFFFFF;
+  --fg-muted: #A1A1AA;
+  --fg-subtle: #63636B;
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.20);
+  --glass-tint: rgba(255, 255, 255, 0.035);
+  --glass-highlight: rgba(255, 255, 255, 0.09);
+  --accent: #CDFF3A;
+  --accent-bright: #EAFFA3;
+  --accent-fg: #0A1300;
+  --accent-glow: rgba(205, 255, 58, 0.38);
+  --aurora-1: #2F5C00;
+  --aurora-2: #0E2A5C;
+  --aurora-3: #1B3D12;
+  --aurora-opacity: 0.35;
+  --grain-opacity: 0.05;
+  --grid-dot: rgba(255, 255, 255, 0.07);
+  --grid-dot-lit: rgba(205, 255, 58, 0.55);
   color-scheme: dark;
 }
 
 [data-theme="aurora-light"] {
   --bg: #FAFAF7;
   --bg-elevated: #FFFFFF;
-  --fg: #0A0A0F;
-  --fg-muted: #565660;
-  --fg-subtle: #8A8A95;
-  --border: rgba(10, 10, 15, 0.08);
-  --border-strong: rgba(10, 10, 15, 0.16);
+  --fg: #000000;
+  --fg-muted: #4A4A52;
+  --fg-subtle: #7C7C86;
+  --border: rgba(10, 10, 15, 0.10);
+  --border-strong: rgba(10, 10, 15, 0.20);
+  --grid-dot: rgba(10, 10, 15, 0.10);
+  --grid-dot-lit: rgba(31, 67, 20, 0.7);
   --glass-tint: rgba(255, 255, 255, 0.6);
   --glass-highlight: rgba(255, 255, 255, 0.9);
   --accent: #1F4314;
@@ -94,7 +98,9 @@
 }
 
 [data-theme="monochrome"] {
-  --bg: #08080B;
+  --grid-dot: rgba(255, 255, 255, 0.07);
+  --grid-dot-lit: rgba(255, 255, 255, 0.6);
+  --bg: #000000;
   --bg-elevated: #14141A;
   --fg: #F5F5F7;
   --fg-muted: #8A8A95;
@@ -296,4 +302,69 @@ html.theme-ready * {
   .group:focus-within .shot-img {
     transform: none;
   }
+}
+
+/* ── Cursor spotlight on cards ────────────────────────────────────
+   SpotlightTracker writes --mx/--my on the hovered .spotlight element;
+   the ::after draws a soft light and a brighter rim where the cursor is. */
+.spotlight {
+  position: relative;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-quart);
+  background:
+    radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--accent) 9%, transparent), transparent 60%);
+  z-index: 0;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-quart);
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--accent) 70%, transparent), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+}
+.spotlight:hover::after,
+.spotlight:hover::before {
+  opacity: 1;
+}
+@media (hover: none) {
+  .spotlight::after,
+  .spotlight::before {
+    display: none;
+  }
+}
+
+/* Elements GSAP reveals start hidden only once JS has taken over, so the
+   page still reads fine without JS. */
+html.js-motion [data-reveal] {
+  visibility: hidden;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }

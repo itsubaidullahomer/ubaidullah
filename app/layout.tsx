@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
 import { GrainOverlay } from "@/components/effects/GrainOverlay";
 import { CursorHalo } from "@/components/effects/CursorHalo";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import { buildMetadata } from "@/lib/seo";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
@@ -62,6 +63,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 try {
                   var t = localStorage.getItem('theme') || 'aurora-dark';
                   document.documentElement.setAttribute('data-theme', t);
+                  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.documentElement.classList.add('js-motion');
+                  }
                 } catch (e) {}
               })();
             `,
@@ -84,6 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <ThemeProvider>
           <CommandPaletteProvider>
+            <MotionRoot />
             <GrainOverlay />
             <CursorHalo />
             <Header />

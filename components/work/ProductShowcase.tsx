@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useInView, useReducedMotion } from "framer-mot
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { PhoneFrame } from "@/components/case-study/PhoneFrame";
+import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 import type { ShowcaseSlide } from "@/content/types";
 
 const INTERVAL_MS = 6000;
@@ -34,6 +35,27 @@ export function ProductShowcase({
   const inView = useInView(rootRef, { amount: 0.4 });
   const reduced = useReducedMotion();
   const tabRowRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+
+  // The frame tilts back and settles flat as it scrolls into view.
+  useGSAP(
+    () => {
+      const el = stageRef.current;
+      if (!el || prefersReducedMotion()) return;
+      gsap.fromTo(
+        el,
+        { rotateX: 16, scale: 0.92, y: 40, transformPerspective: 1400, transformOrigin: "50% 0%" },
+        {
+          rotateX: 0,
+          scale: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: { trigger: el, start: "top 95%", end: "top 35%", scrub: 0.6 },
+        },
+      );
+    },
+    { scope: stageRef },
+  );
   const [moreRight, setMoreRight] = useState(false);
 
   // Fade the tab row's right edge only while there are tabs hidden past it.
@@ -135,6 +157,7 @@ export function ProductShowcase({
 
       {/* Stage */}
       <div
+        ref={stageRef}
         id="showcase-stage"
         role="tabpanel"
         className="glass relative mt-4 overflow-hidden rounded-2xl p-1.5 md:rounded-3xl md:p-2"

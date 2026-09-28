@@ -1,4 +1,5 @@
 import { Section } from "@/components/primitives/Section";
+import { Reveal } from "@/components/motion/Reveal";
 
 const tenets = [
   {
@@ -30,11 +31,11 @@ export function Philosophy() {
       title="Four things I keep coming back to."
       size="default"
     >
-      <div className="grid gap-4 md:grid-cols-2">
+      <Reveal className="grid gap-4 md:grid-cols-2">
         {tenets.map((t) => (
           <div
             key={t.n}
-            className="group border-border hover:border-border-strong relative overflow-hidden rounded-[var(--radius-glass)] border p-7 transition-colors"
+            className="group border-border hover:border-border-strong spotlight relative overflow-hidden rounded-[var(--radius-glass)] border p-7 transition-colors"
           >
             <div className="text-fg-subtle font-mono text-xs">{t.n}</div>
             <h3 className="font-display text-fg mt-3 text-2xl leading-tight">{t.title}</h3>
@@ -47,7 +48,7 @@ export function Philosophy() {
             />
           </div>
         ))}
-      </div>
+      </Reveal>
     </Section>
   );
 }

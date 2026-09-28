@@ -70,7 +70,7 @@ function ProductCard({
   const isPhone = p.kind === "mobile" || p.kind === "native";
   return (
     <article
-      className="glass relative flex h-full min-w-0 flex-col overflow-hidden rounded-[var(--radius-glass)]"
+      className="glass spotlight relative flex h-full min-w-0 flex-col overflow-hidden rounded-[var(--radius-glass)]"
       style={
         wide
           ? {
@@ -108,7 +108,8 @@ function ProductCard({
       <div
         className={cn(
           "flex flex-1 flex-col p-5 md:p-6",
-          wide && "md:grid md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-end md:gap-10 md:p-8",
+          wide &&
+            "md:grid md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] md:items-end md:gap-10 md:p-8",
         )}
       >
         <div>
@@ -116,7 +117,12 @@ function ProductCard({
             <Icon className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
             {KIND_LABEL[p.kind]} · {p.audience}
           </div>
-          <h4 className={cn("font-display text-fg mt-3 leading-tight", wide ? "text-3xl" : "text-2xl")}>
+          <h4
+            className={cn(
+              "font-display text-fg mt-3 leading-tight",
+              wide ? "text-3xl" : "text-2xl",
+            )}
+          >
             {p.name}
           </h4>
           <p className="text-fg-muted mt-2.5 text-sm leading-relaxed text-pretty">{p.summary}</p>

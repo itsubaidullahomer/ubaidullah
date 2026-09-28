@@ -12,9 +12,9 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
           Three rebuilds and a lot of commits.
         </h3>
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">
-          It didn't start as a platform. It started as someone else's Next.js app with a problem
-          to fix. Each chapter below is a real point in the git history, with what the product
-          looked like at the time.
+          It didn't start as a platform. It started as someone else's Next.js app with a problem to
+          fix. Each chapter below is a real point in the git history, with what the product looked
+          like at the time.
         </p>
       </div>
 
@@ -22,7 +22,9 @@ export function Journey({ steps, accent }: { steps: JourneyStep[]; accent: strin
         <div
           aria-hidden
           className="absolute top-2 bottom-2 left-[7px] w-px md:left-[11px]"
-          style={{ backgroundImage: `linear-gradient(to bottom, ${accent}, var(--border), transparent)` }}
+          style={{
+            backgroundImage: `linear-gradient(to bottom, ${accent}, var(--border), transparent)`,
+          }}
         />
         {steps.map((s, i) => (
           <li key={s.title} className="relative pl-8 md:pl-12">

@@ -2,6 +2,8 @@ import { Container } from "@/components/primitives/Container";
 import { Button } from "@/components/primitives/Button";
 import { ProductShowcase } from "@/components/work/ProductShowcase";
 import { cn } from "@/lib/cn";
+import { CountUp } from "@/components/motion/CountUp";
+import { Reveal } from "@/components/motion/Reveal";
 import { flagshipProject } from "@/content/projects";
 
 /**
@@ -31,7 +33,7 @@ export function FlagshipProject() {
       />
 
       <Container size="wide">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
+        <Reveal className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
           <div className="max-w-3xl">
             <div className="text-fg-muted mb-4 flex items-center gap-2 text-xs tracking-[0.18em] uppercase">
               <span className="bg-fg-subtle h-px w-6" />
@@ -54,25 +56,27 @@ export function FlagshipProject() {
               </Button>
             )}
           </div>
-        </div>
+        </Reveal>
 
-        <dl className="border-border mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-[var(--border)] md:grid-cols-5">
-          {stats.map((m, i) => (
-            <div
-              key={m.label}
-              className={cn(
-                "bg-bg px-5 py-5 md:px-6 md:py-6",
-                i === stats.length - 1 && stats.length % 2 === 1 && "col-span-2 md:col-span-1",
-              )}
-            >
-              <dt className="sr-only">{m.label}</dt>
-              <dd className="font-display text-fg text-3xl leading-none tracking-[-0.02em] md:text-4xl">
-                {m.value}
-              </dd>
-              <dd className="text-fg-muted mt-2 text-xs leading-snug">{m.label}</dd>
-            </div>
-          ))}
-        </dl>
+        <Reveal>
+          <dl className="border-border mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border bg-[var(--border)] md:grid-cols-5">
+            {stats.map((m, i) => (
+              <div
+                key={m.label}
+                className={cn(
+                  "bg-bg px-5 py-5 md:px-6 md:py-6",
+                  i === stats.length - 1 && stats.length % 2 === 1 && "col-span-2 md:col-span-1",
+                )}
+              >
+                <dt className="sr-only">{m.label}</dt>
+                <dd className="font-display text-fg text-3xl leading-none tracking-[-0.02em] md:text-4xl">
+                  <CountUp value={m.value} />
+                </dd>
+                <dd className="text-fg-muted mt-2 text-xs leading-snug">{m.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
 
         {p.showcase && (
           <ProductShowcase slides={p.showcase} accent={p.accent} className="mt-12 md:mt-16" />
