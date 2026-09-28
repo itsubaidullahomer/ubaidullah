@@ -425,3 +425,95 @@ html.lenis body {
 .lenis.lenis-smooth iframe {
   pointer-events: none;
 }
+
+/* ── Hero portrait ────────────────────────────────────────────────
+   Black-and-white print with a halftone screen and an accent light;
+   a lens follows the cursor and shows the colour photo underneath. */
+@property --lens {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.portrait-mono {
+  filter: grayscale(1) contrast(1.28) brightness(0.92);
+}
+.portrait-halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.5) 0.8px, transparent 1.2px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.38;
+}
+.portrait-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 70% at 85% 110%, color-mix(in oklab, var(--accent) 70%, transparent), transparent 60%),
+    linear-gradient(to top, color-mix(in oklab, var(--accent) 22%, transparent), transparent 45%);
+  mix-blend-mode: overlay;
+}
+.portrait-color {
+  --lens: 0px;
+  -webkit-mask-image: radial-gradient(
+    circle var(--lens) at var(--px, 50%) var(--py, 40%),
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--lens) at var(--px, 50%) var(--py, 40%),
+    #000 55%,
+    transparent 100%
+  );
+  transition: --lens 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portrait:hover .portrait-color {
+  --lens: 150px;
+}
+.portrait-lens-ring {
+  position: absolute;
+  left: var(--px, 50%);
+  top: var(--py, 40%);
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, transparent);
+  box-shadow: 0 0 30px -6px var(--accent-glow);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.4s ease,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.portrait:hover .portrait-lens-ring {
+  opacity: 0.8;
+  transform: scale(1);
+}
+.portrait-scan {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent);
+  box-shadow:
+    0 0 18px 2px var(--accent-glow),
+    0 -40px 60px -20px color-mix(in oklab, var(--accent) 35%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+.crop-mark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+}
+@media (hover: none) {
+  .portrait-lens-ring {
+    display: none;
+  }
+}

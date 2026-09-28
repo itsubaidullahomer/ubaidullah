@@ -71,7 +71,16 @@ export function Hero() {
           { clipPath: "inset(100% 0% 0% 0% round 20px)", scale: 1.06, duration: 1.4 },
           0.25,
         )
-        .from(q("[data-hero-portrait] img"), { scale: 1.25, duration: 1.8 }, 0.25);
+        .from(q("[data-hero-portrait] img"), { scale: 1.25, duration: 1.8 }, 0.25)
+        // One scan line sweeps down the print once it has opened.
+        .fromTo(
+          q("[data-hero-scan]"),
+          { top: "0%", autoAlpha: 1 },
+          { top: "100%", duration: 1.3, ease: "power2.inOut" },
+          1.1,
+        )
+        .to(q("[data-hero-scan]"), { autoAlpha: 0, duration: 0.3 }, ">-0.15")
+        .from(q("[data-hero-hud]"), { autoAlpha: 0, duration: 0.6, stagger: 0.05 }, 1.3);
 
       // The rotating phrase: each word rises in, holds, and leaves upwards.
       const words = q("[data-rotate-word]");
@@ -198,16 +207,71 @@ export function Hero() {
           <div className="mx-auto flex w-full max-w-md min-w-0 flex-col gap-4 lg:mx-0 lg:max-w-none lg:gap-4">
             <div
               data-hero-portrait
-              className="glass relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-glass)] lg:aspect-[5/6]"
+              onPointerMove={(e) => {
+                const r = e.currentTarget.getBoundingClientRect();
+                e.currentTarget.style.setProperty("--px", `${e.clientX - r.left}px`);
+                e.currentTarget.style.setProperty("--py", `${e.clientY - r.top}px`);
+              }}
+              className="portrait glass relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-glass)] bg-black lg:aspect-[5/6]"
             >
+              {/* Black-and-white print */}
               <Image
                 src="/portrait.png"
                 alt={`Portrait of ${site.name}, senior product engineer`}
                 fill
                 priority
                 sizes="(max-width: 1024px) min(28rem, 90vw), (max-width: 1536px) 32vw, 420px"
-                className="object-cover"
+                className="portrait-mono object-cover"
               />
+              <div aria-hidden className="portrait-halftone" />
+              <div aria-hidden className="portrait-tint" />
+              {/* The colour photo, shown through a lens that follows the cursor */}
+              <Image
+                src="/portrait.png"
+                alt=""
+                aria-hidden
+                fill
+                sizes="(max-width: 1024px) min(28rem, 90vw), (max-width: 1536px) 32vw, 420px"
+                className="portrait-color object-cover"
+              />
+              <div aria-hidden className="portrait-lens-ring" />
+              <div aria-hidden data-hero-scan className="portrait-scan" />
+
+              {/* Figure marks */}
+              <span
+                aria-hidden
+                data-hero-hud
+                className="crop-mark top-3 left-3 border-t border-l"
+              />
+              <span
+                aria-hidden
+                data-hero-hud
+                className="crop-mark top-3 right-3 border-t border-r"
+              />
+              <span
+                aria-hidden
+                data-hero-hud
+                className="crop-mark bottom-3 left-3 border-b border-l"
+              />
+              <span
+                aria-hidden
+                data-hero-hud
+                className="crop-mark right-3 bottom-3 border-r border-b"
+              />
+              <span
+                aria-hidden
+                data-hero-hud
+                className="absolute top-5 left-8 font-mono text-[10px] tracking-[0.18em] text-white/70 uppercase"
+              >
+                Fig. 01
+              </span>
+              <span
+                aria-hidden
+                data-hero-hud
+                className="absolute top-5 right-8 hidden font-mono text-[10px] tracking-[0.18em] text-white/70 uppercase sm:block"
+              >
+                Hover for colour
+              </span>
               <div
                 aria-hidden
                 className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
