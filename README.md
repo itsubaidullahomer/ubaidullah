@@ -87,7 +87,7 @@ components/
   layout/             Header, LocalClock, Footer, CommandPalette
   sections/           Hero, StreamHeadline, FlagshipProject, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA
   case-study/         StudyHero, CaseStudyBody, MetricGrid, Journey, FlagshipSections, ShotFrame, PhoneFrame
-  work/               ProjectCard, BrowserFrame, ProductShowcase
+  work/               ProjectCard, BrowserFrame, ArchiveRegistry, ProductShowcase
   diagram/            SystemMap (interactive architecture diagram)
   playground/         FailureLab (client-side resilience simulation)
   forms/              ContactForm
