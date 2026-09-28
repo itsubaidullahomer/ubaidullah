@@ -3,6 +3,13 @@ import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { MetricGrid } from "./MetricGrid";
 import { SystemMap } from "@/components/diagram/SystemMap";
+import { Journey } from "./Journey";
+import {
+  BeforeAfterSection,
+  EcosystemSection,
+  MobileSection,
+  StoriesSection,
+} from "./FlagshipSections";
 import type { Project } from "@/content/types";
 import { getAdjacentProjects } from "@/content/projects";
 
@@ -20,6 +27,11 @@ export function CaseStudyBody({ project }: { project: Project }) {
         <Block label="The approach">{project.approach}</Block>
       </Container>
 
+      <EcosystemSection project={project} />
+      {project.journey && <Journey steps={project.journey} accent={project.accent} />}
+      <BeforeAfterSection project={project} />
+      <MobileSection project={project} />
+
       {project.architecture && (
         <Container className="pb-16">
           <div className="mb-6 max-w-2xl">
@@ -28,9 +40,8 @@ export function CaseStudyBody({ project }: { project: Project }) {
               How the system is wired.
             </h3>
             <p className="text-fg-muted mt-3 leading-relaxed text-pretty">
-              The part that mattered was keeping the teacher UI responsive while the heavy AI work
-              happens behind a WebSocket and a separate service. Play a scenario to watch a request
-              travel through it.
+              {project.architecture.intro ??
+                "Hover a box to see what it does, or play a scenario to watch a request travel through it."}
             </p>
           </div>
           <SystemMap
@@ -40,6 +51,8 @@ export function CaseStudyBody({ project }: { project: Project }) {
           />
         </Container>
       )}
+
+      <StoriesSection project={project} />
 
       <Container size="narrow" className="space-y-20 pb-20">
         <Block label="The outcome">{project.outcome}</Block>

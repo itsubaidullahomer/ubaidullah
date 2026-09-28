@@ -4,7 +4,7 @@ export const site = {
   role: "Senior Product Engineer",
   tagline: "I build AI products people rely on.",
   description:
-    "Product engineer working on AI features inside education and analytics products. Currently building Tututor.ai, used by around 17,000 students and teachers. Four years with React, Node.js, MongoDB and LLM APIs.",
+    "Product engineer building AI and education products. I rebuilt Tututor.ai three times and grew it into eight products on one backend, used by around 17,000 students, teachers and families. Four years with React, Node.js, MongoDB and LLM APIs.",
   url: "https://itsubaidullahomer.com",
   email: "itsubaidullahomer@gmail.com",
   phone: "+92 329 2380929",

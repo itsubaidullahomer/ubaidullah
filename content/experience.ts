@@ -2,28 +2,29 @@ import type { Experience } from "./types";
 
 export const experience: Experience[] = [
   {
-    company: "Tututor.ai",
+    company: "Tututor.ai / EduNova",
     companyUrl: "https://tututor.ai",
-    role: "Full-Stack / Product Engineer",
+    role: "Lead Engineer",
     period: "Nov 2023 – Present",
     location: "Murcia, Spain (Remote)",
     summary:
-      "Building the platform that around 17,000 students and teachers in Murcia use. Lesson prep that used to take an evening now takes minutes. I'm responsible for the AI services, the school CRM and the student-facing app.",
+      "Joined to fix one bug in someone else's Next.js app. Rebuilt it three times and grew it into eight products on one backend: an AI toolkit for teachers, a school platform, and parent, student and teacher apps in both stores. Around 17,000 students, teachers and families use it.",
     highlights: [
-      "Built the chatbot system that lets teachers create a tutor for a topic, then read the conversations to see where students struggled.",
-      "Built AI quiz generator with automatic grading and per-class performance analytics on top of lesson content.",
-      "Architected the school CRM (students, classes, content) so admins manage everything from one platform.",
-      "Moved the heavy AI work behind WebSockets and a separate service so the teacher UI stays responsive under load.",
+      "Rebuilt the frontend in React and Redux, then replaced Firebase with an Express and MongoDB backend I wrote, which moved every AI call and API key off the client.",
+      "Grew that backend to about 1,000 endpoints on 90 models: school scoping, realtime chat on Socket.io and Redis, push, R2 storage, Stripe and SEPA direct-debit billing.",
+      "Built the Educamos roster import and the Plumier XXI grades export, golden-tested against real files from the regional system.",
+      "Shipped three React Native apps to the App Store and Google Play, and started a native Kotlin Multiplatform + SwiftUI rewrite.",
+      "Taught the non-technical founder to code. He now ships full features himself.",
     ],
     stack: [
       "React",
       "Node.js",
       "Express",
       "MongoDB",
-      "WebSockets",
-      "Microservices",
-      "OpenAI API",
-      "ElevenLabs API",
+      "Socket.io + Redis",
+      "React Native",
+      "Kotlin Multiplatform",
+      "OpenAI / Claude / Gemini",
     ],
   },
   {

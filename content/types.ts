@@ -38,6 +38,43 @@ export type Screenshot = {
   height: number;
 };
 
+/** An image with the text a screen reader and caption need. */
+export type Shot = Screenshot & {
+  alt: string;
+  caption?: string;
+};
+
+/** One product inside a bigger suite (flagship case studies only). */
+export type SubProduct = {
+  name: string;
+  kind: "web" | "mobile" | "backend" | "native";
+  audience: string;
+  summary: string;
+  stack: string[];
+  /** Short evidence line, e.g. "1,240 commits · since Mar 2024". */
+  stat?: string;
+  shot?: Shot;
+};
+
+/** A chapter of how the product got to where it is. */
+export type JourneyStep = {
+  period: string;
+  /** Small badge, e.g. "Rebuild 1". */
+  tag?: string;
+  title: string;
+  body: string;
+  stack?: string[];
+  shots?: Shot[];
+};
+
+export type StoryBlock = {
+  eyebrow: string;
+  title: string;
+  paragraphs: string[];
+  /** Optional dated moments shown beside the text. */
+  moments?: Array<{ date: string; text: string }>;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -64,10 +101,20 @@ export type Project = {
   externalUrl?: string;
 
   architecture?: {
+    /** One or two sentences above the system map. */
+    intro?: string;
     nodes: ArchitectureNode[];
     edges: ArchitectureEdge[];
     flows?: ArchitectureFlow[];
   };
+
+  /** Flagship-only: gets its own section on the home page. */
+  flagship?: boolean;
+  ecosystem?: SubProduct[];
+  journey?: JourneyStep[];
+  beforeAfter?: { before: Shot; after: Shot; title: string; body: string };
+  mobile?: { title: string; body: string; shots: Array<Shot & { app: string }> };
+  stories?: StoryBlock[];
 };
 
 export type Experience = {

@@ -86,11 +86,15 @@ export default function AboutPage() {
                   It's less elegant than it sounds. Mostly it means fewer rewrites later.
                 </p>
                 <p>
-                  Right now I'm at <span className="text-fg">Tututor.ai</span>, an education
-                  platform used by around 17,000 students and teachers in schools around Murcia,
-                  Spain. I look after the AI services, the school CRM and the student side of the
-                  app, which in practice means backend, frontend and most of the UX decisions in
-                  between.
+                  Right now I'm at <span className="text-fg">Tututor.ai</span>. It came to me as
+                  someone else's Next.js app with one bug to fix. I rebuilt it three times, wrote
+                  the backend, and grew it into eight products: an AI toolkit for teachers, a
+                  school platform, and parent, student and teacher apps in both stores. Around
+                  17,000 students, teachers and families in Murcia, Spain use it.
+                </p>
+                <p>
+                  Along the way I taught the founder to code. He started by changing a few words
+                  of Spanish. Now he ships whole features.
                 </p>
                 <p>
                   Before that I spent two years at <span className="text-fg">Danzee Tech</span> in

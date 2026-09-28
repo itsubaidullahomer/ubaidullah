@@ -8,10 +8,10 @@ export function SelectedWork() {
   return (
     <Section
       id="work"
-      eyebrow="Selected work"
+      eyebrow="More work"
       title={
         <>
-          A few things I've <em className="text-gradient-accent italic not-italic">built.</em>
+          Other things I've <em className="text-gradient-accent italic not-italic">built.</em>
         </>
       }
       description="All of these are live. Hover a card to scroll through the site as it looks today."
