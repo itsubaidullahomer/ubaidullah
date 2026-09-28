@@ -20,7 +20,8 @@ export function EcosystemSection({ project }: { project: Project }) {
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">
           What schools see as “Tututor” is a set of separate apps, each with its own repo and
           release cycle, sharing one backend and one data model. I built that backend and most of
-          what sits on it. Other developers, and later the founder himself, committed alongside me.
+          what sits on it. The junior developers I led, and later the founder himself, committed
+          alongside me.
         </p>
       </div>
       <Ecosystem products={project.ecosystem} accent={project.accent} />
@@ -39,7 +40,11 @@ export function BeforeAfterSection({ project }: { project: Project }) {
         <p className="text-fg-muted mt-4 leading-relaxed text-pretty">{ba.body}</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
-        <ShotFrame shot={ba.before} label="first version" sizes="(max-width: 1024px) 100vw, 560px" />
+        <ShotFrame
+          shot={ba.before}
+          label="first version"
+          sizes="(max-width: 1024px) 100vw, 560px"
+        />
         <ShotFrame shot={ba.after} label="today" sizes="(max-width: 1024px) 100vw, 560px" />
       </div>
     </Container>
@@ -54,12 +59,14 @@ export function MobileSection({ project }: { project: Project }) {
       <Container>
         <div className="mb-10 max-w-2xl">
           <Eyebrow>On the phone</Eyebrow>
-          <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">{m.title}</h3>
+          <h3 className="font-display text-fg mt-3 text-3xl leading-tight md:text-5xl">
+            {m.title}
+          </h3>
           <p className="text-fg-muted mt-4 leading-relaxed text-pretty">{m.body}</p>
         </div>
       </Container>
       {/* Full-bleed scroller so the phones can run off the edge on small screens. */}
-      <div className="mx-auto max-w-7xl overflow-x-auto overscroll-x-contain px-6 pb-4 md:px-10 [scrollbar-width:thin]">
+      <div className="mx-auto max-w-7xl [scrollbar-width:thin] overflow-x-auto overscroll-x-contain px-6 pb-4 md:px-10">
         <ul className="flex w-max gap-5 md:gap-6">
           {m.shots.map((s) => (
             <li key={s.src} className="w-[200px] shrink-0 md:w-[230px]">
@@ -114,7 +121,9 @@ function Story({ story, accent }: { story: StoryBlock; accent: string }) {
                     style={{ backgroundColor: accent }}
                   />
                   <div className="text-fg-subtle font-mono text-[11px] tracking-wide">{m.date}</div>
-                  <div className="text-fg-muted mt-1 text-sm leading-relaxed text-pretty">{m.text}</div>
+                  <div className="text-fg-muted mt-1 text-sm leading-relaxed text-pretty">
+                    {m.text}
+                  </div>
                 </li>
               ))}
             </ol>

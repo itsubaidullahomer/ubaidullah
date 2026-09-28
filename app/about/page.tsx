@@ -88,13 +88,14 @@ export default function AboutPage() {
                 <p>
                   Right now I'm at <span className="text-fg">Tututor.ai</span>. It came to me as
                   someone else's Next.js app with one bug to fix. I rebuilt it three times, wrote
-                  the backend, and grew it into eight products: an AI toolkit for teachers, a
-                  school platform, and parent, student and teacher apps in both stores. More
-                  than 20,000 students, teachers and families in Murcia, Spain use it.
+                  the backend, and grew it into eight products: an AI toolkit for teachers, a school
+                  platform, and parent, student and teacher apps in both stores. More than 20,000
+                  students, teachers and families in Murcia, Spain use it.
                 </p>
                 <p>
-                  Along the way I taught the founder to code. He started by changing a few words
-                  of Spanish. Now he ships whole features.
+                  Along the way I led a small team of junior developers, and taught the founder to
+                  code. He started by changing a few words of Spanish. Now he ships whole features,
+                  and the two of us run the product between us.
                 </p>
                 <p>
                   Before that I spent two years at <span className="text-fg">Danzee Tech</span> in

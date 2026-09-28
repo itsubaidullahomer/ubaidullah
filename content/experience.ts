@@ -14,7 +14,8 @@ export const experience: Experience[] = [
       "Grew that backend to about 1,000 endpoints on 90 models: school scoping, realtime chat on Socket.io and Redis, push, R2 storage, Stripe and SEPA direct-debit billing.",
       "Built the Educamos roster import and the Plumier XXI grades export, golden-tested against real files from the regional system.",
       "Shipped three React Native apps to the App Store and Google Play, and started a native Kotlin Multiplatform + SwiftUI rewrite.",
-      "Taught the non-technical founder to code. He now ships full features himself.",
+      "Led a team of junior developers (three app developers, a couple of web developers): set the architecture and split the work.",
+      "Taught the non-technical founder to code. Today the product is run by the two of us, and he ships full features himself.",
     ],
     stack: [
       "React",

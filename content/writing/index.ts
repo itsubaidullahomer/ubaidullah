@@ -34,6 +34,8 @@ At some level, yes. I've taught the client to do part of what he pays me for, an
 
 A client who understands his product makes better decisions. When he asks for a feature now, he already knows roughly what it touches, so the conversation starts in a better place. He can tell a hard problem from an easy one, so he trusts the estimates. And he doesn't need me for every word on every screen, which frees me for the work that actually needs me: the backend, the architecture, the rebuilds, the store releases.
 
+There's a practical side too. The junior developers I led through 2025 have moved on, and the product didn't slow down, because the founder could take on the work they used to do. Today it's the two of us, and either of us can pick up anything in the stack.
+
 I also think it's simply fair. He's building a company on this code. He should be able to read it.
 
 **What I'd tell another developer**

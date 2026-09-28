@@ -363,7 +363,7 @@ export const tututor: Project = {
       period: "Mar – Dec 2025",
       tag: "The turn",
       title: "From a tool teachers use to a platform schools run on.",
-      body: "Schools liked the tools and asked for everything else. I added a school model to the backend in March 2025, then attendance, students, grades and messaging over the next months, and started the teacher platform and the admin panel on top. A few developers joined to help carry the load, while I kept hold of the architecture and most of the backend. The parent app followed in September 2025.",
+      body: "Schools liked the tools and asked for everything else. I added a school model to the backend in March 2025, then attendance, students, grades and messaging over the next months, and started the teacher platform and the admin panel on top. The work outgrew one person, so I led a small team of junior developers: three app developers and a couple of web developers. I set the architecture and split the work between them, and kept most of the backend myself. The parent app followed in September 2025.",
       stack: ["Socket.io", "FCM push", "2FA", "Redis"],
     },
     {
@@ -372,6 +372,12 @@ export const tututor: Project = {
       title: "The unglamorous things schools actually need.",
       body: "Infant-school report cards graded by observation, not numbers. A finance module that builds SEPA direct-debit files by hand, so schools can collect fees from families' banks. Importing a school's whole roster from Educamos, and exporting grades to Plumier XXI, the regional system, in its exact format: golden-tested against real exports, 1,833 out of 1,833 matched. Then the scaling work: queries scoped by school, a Redis adapter so sockets work across instances, locks so scheduled jobs run once, file storage moved from Cloudinary to Cloudflare R2, and indexes and aggregations where the queries got slow.",
       stack: ["SEPA pain.008", "Educamos", "Plumier XXI", "Cloudflare R2"],
+    },
+    {
+      period: "Mid 2026",
+      tag: "Team of two",
+      title: "Down to two people, and both of us can do everything.",
+      body: "By the middle of 2026 the juniors had moved on. By then the founder had grown into a real developer, and he now builds features the juniors used to. Since then it has been the two of us, and either of us can pick up anything from the database to the App Store release.",
     },
     {
       period: "Sep 2026",
@@ -487,7 +493,7 @@ export const tututor: Project = {
       title: "I taught my client to code. Now he ships features.",
       paragraphs: [
         "When we started, the founder couldn't read code. He'd send me lists of wording changes: this button should be in Spanish, this label is wrong. So I showed him how to do it himself. Find the string, change it, commit, push. His first commit in the backend changed three lines. His first in the frontend translated three strings.",
-        "Then it kept going. He copied an existing tool to make a new one. He learned to edit prompts, then to add fields, then whole screens. Two years later he builds complete features across the backend, web and mobile apps: dining, absenteeism tracking, family invoices, tax forms. He works the way I do now, with an AI assistant and conventional commits. In July 2026 he made more backend commits than I did.",
+        "Then it kept going. He copied an existing tool to make a new one. He learned to edit prompts, then to add fields, then whole screens. Two years later he builds complete features across the backend, web and mobile apps: dining, absenteeism tracking, family invoices, tax forms. He works the way I do now, with an AI assistant and conventional commits. In July 2026 he made more backend commits than I did. The juniors I led have moved on, and today the founder and I run the whole product between us.",
         "At some level, that's a threat to my job. I'm fine with that, and I'd do it again. A client who understands his own product makes better decisions, gives better feedback and trusts the work, because he's seen how it's made. I think teaching the people you build for is part of the job, and it's the fair thing to do.",
       ],
       moments: [
@@ -509,6 +515,10 @@ export const tututor: Project = {
           text: "Builds billing receipts and returned-payment handling for SEPA direct debits.",
         },
         {
+          date: "Mid 2026",
+          text: "The junior team moves on. From here it's the two of us, and he takes on the work they used to do.",
+        },
+        {
           date: "Sep 2026",
           text: "Ships an absenteeism system of about 10,000 lines. His median commit has grown from 16 lines to 487.",
         },
@@ -522,7 +532,7 @@ export const tututor: Project = {
     "Built the finance module (SEPA direct-debit batches, receipts, surcharges), the Educamos import and the Plumier XXI grades export.",
     "Did the scaling work: Redis socket adapter, cron locks, the R2 storage migration, index and aggregation rewrites, an authentication floor across the API.",
     "Shipped three React Native apps to both stores, and started the native Kotlin Multiplatform + SwiftUI rewrite.",
-    "Worked alongside the developers who joined in 2025, and taught the founder to code.",
+    "Led a team of junior developers through 2025 and early 2026 (three app developers and a couple of web developers): set the architecture and split the work. Taught the founder to code; today it is the two of us.",
   ],
 
   stack: [
