@@ -38,15 +38,16 @@ CONTACT_TO_EMAIL=itsubaidullahomer@gmail.com
 
 Everything is data — **no rebuilding components to change copy**.
 
-| What you want to change       | File                                                                                               |
-| ----------------------------- | -------------------------------------------------------------------------------------------------- |
-| Name, tagline, socials, email | [content/site.ts](content/site.ts)                                                                 |
-| Job experience                | [content/experience.ts](content/experience.ts)                                                     |
-| A specific case study         | `content/projects/<slug>.ts`                                                                       |
-| Add a new case study          | Create `content/projects/new.ts`, add it to [content/projects/index.ts](content/projects/index.ts) |
-| Skills                        | [content/skills.ts](content/skills.ts)                                                             |
-| /now page                     | [content/now.ts](content/now.ts)                                                                   |
-| Blog posts                    | [content/writing/index.ts](content/writing/index.ts)                                               |
+| What you want to change           | File                                                                                                                                               |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Name, tagline, socials, email     | [content/site.ts](content/site.ts)                                                                                                                 |
+| Job experience                    | [content/experience.ts](content/experience.ts)                                                                                                     |
+| A specific case study             | `content/projects/<slug>.ts`                                                                                                                       |
+| Add a new case study              | Create `content/projects/new.ts`, add it to [content/projects/index.ts](content/projects/index.ts)                                                 |
+| Skills                            | [content/skills.ts](content/skills.ts)                                                                                                             |
+| /now page                         | [content/now.ts](content/now.ts)                                                                                                                   |
+| Blog posts                        | [content/writing/index.ts](content/writing/index.ts)                                                                                               |
+| A before/after rebuild on a phone | `compare` in the project file, then `npm run capture:compare` for the screenshots (see [scripts/capture-compare.mjs](scripts/capture-compare.mjs)) |
 
 ## Editing the design
 
@@ -86,8 +87,8 @@ components/
   motion/             gsap.ts, MotionRoot (Lenis + progress line + spotlight), Reveal, CountUp, Tilt
   layout/             Header, LocalClock, Footer, CommandPalette
   sections/           Hero, StreamHeadline, FlagshipProject, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA
-  case-study/         StudyHero, CaseStudyBody, MetricGrid, Journey, FlagshipSections, ShotFrame, PhoneFrame
-  work/               ProjectCard, BrowserFrame, ArchiveRegistry, ProductShowcase
+  case-study/         StudyHero, CaseStudyBody, MetricGrid, Journey, FlagshipSections, PhoneCompare, ShotFrame, PhoneFrame
+  work/               ProjectCard, CompareCard, PhoneShell, BrowserFrame, ArchiveRegistry, ProductShowcase
   diagram/            SystemMap (interactive architecture diagram)
   playground/         FailureLab (client-side resilience simulation)
   forms/              ContactForm

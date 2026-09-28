@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { Pill } from "@/components/primitives/Pill";
 import { SystemGrid } from "@/components/effects/SystemGrid";
-import { BrowserFrame } from "@/components/work/BrowserFrame";
+import { BrowserFrame, STATUS_DOT, STATUS_LABEL } from "@/components/work/BrowserFrame";
 import { ProductShowcase } from "@/components/work/ProductShowcase";
 import type { Project } from "@/content/types";
 
@@ -28,9 +28,9 @@ export function StudyHero({ project }: { project: Project }) {
           <Pill className="text-fg">
             <span
               className="inline-block h-1.5 w-1.5 rounded-full"
-              style={{ backgroundColor: project.status === "live" ? "var(--ok)" : project.accent }}
+              style={{ backgroundColor: STATUS_DOT[project.status] }}
             />
-            {project.status === "live" ? "Live" : "Shipped"}
+            {STATUS_LABEL[project.status]}
           </Pill>
           <Pill>{project.period}</Pill>
           <Pill>{project.role}</Pill>
@@ -43,16 +43,36 @@ export function StudyHero({ project }: { project: Project }) {
           {project.tagline}
         </p>
 
-        {project.externalUrl && (
-          <a
-            href={project.externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group text-fg hover:text-accent mt-8 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
-          >
-            Visit {project.title}
-            <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
+        {project.compare ? (
+          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2">
+            {[
+              { href: project.compare.before.url, text: "The old site" },
+              { href: project.compare.after.url, text: "The new build" },
+            ].map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group text-fg hover:text-accent inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
+              >
+                {l.text}
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            ))}
+          </div>
+        ) : (
+          project.externalUrl && (
+            <a
+              href={project.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group text-fg hover:text-accent mt-8 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
+            >
+              Visit {project.title}
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+          )
         )}
 
         {project.showcase ? (

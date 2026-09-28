@@ -88,6 +88,25 @@ export type StoryBlock = {
   moments?: Array<{ date: string; text: string }>;
 };
 
+/** One page of a site, captured on a phone before and after a rebuild. */
+export type CompareScreen = {
+  /** Tab label, e.g. "Home". */
+  name: string;
+  /** One line on what to look at. */
+  title: string;
+  notes?: string[];
+  /** Full-page phone screenshots. Missing until they have been captured. */
+  before?: Shot;
+  after?: Shot;
+};
+
+/** The previous version of a product next to the new one, on a phone. */
+export type DeviceCompare = {
+  before: { label: string; url: string };
+  after: { label: string; url: string };
+  screens: CompareScreen[];
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -131,6 +150,13 @@ export type Project = {
   beforeAfter?: { before: Shot; after: Shot; title: string; body: string };
   mobile?: { title: string; body: string; shots: Array<Shot & { app: string }> };
   stories?: StoryBlock[];
+
+  /**
+   * A rebuild shown as the old site next to the new one on a phone. Gives
+   * the project the phone card on /work and the home page, and a pinned
+   * scroll-linked comparison at the top of its case study.
+   */
+  compare?: DeviceCompare;
 };
 
 export type Experience = {

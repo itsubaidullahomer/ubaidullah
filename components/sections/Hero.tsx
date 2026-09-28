@@ -10,6 +10,7 @@ import { LocalClock } from "@/components/layout/LocalClock";
 import { StreamHeadline, type Token } from "./StreamHeadline";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
+import { STATUS_DOT, STATUS_LABEL } from "@/components/work/BrowserFrame";
 
 /** Everything marked featured, flagship included, for the readout strip. */
 const STRIP = projects.filter((p) => p.featured);
@@ -107,23 +108,29 @@ export function Hero() {
       {/* Readout strip: the flagship products as running services. */}
       <div className="border-border bg-bg relative z-10 mt-16 border-t lg:mt-8">
         <Container size="wide">
-          <ul className="divide-border -mx-5 flex snap-x snap-mandatory overflow-x-auto md:mx-0 md:grid md:grid-cols-3 md:divide-x md:overflow-visible">
+          <ul className="divide-border -mx-5 flex snap-x snap-mandatory overflow-x-auto md:mx-0 lg:grid lg:grid-cols-4 lg:divide-x lg:overflow-visible">
             {STRIP.map((p, i) => {
               const lead = p.metrics[0];
               return (
-                <li key={p.slug} className="min-w-[78%] shrink-0 snap-start md:min-w-0">
+                <li
+                  key={p.slug}
+                  className="border-border min-w-[78%] shrink-0 snap-start border-r last:border-r-0 md:min-w-[42%] lg:min-w-0 lg:border-r-0"
+                >
                   <Link
                     href={`/work/${p.slug}`}
                     className="group hover:bg-tint flex h-full flex-col gap-4 px-5 py-5 transition-colors md:px-6 md:py-6"
                   >
-                    <div className="label-mono text-fg-subtle flex items-center justify-between">
-                      <span className="flex items-center gap-2">
+                    <div className="label-mono text-fg-subtle flex items-center justify-between gap-3">
+                      <span className="flex min-w-0 items-center gap-2">
                         <span className="text-accent">0{i + 1}</span>
-                        <span className="text-fg-muted">{p.title}</span>
+                        <span className="text-fg-muted truncate">{p.title}</span>
                       </span>
-                      <span className="inline-flex items-center gap-1.5">
-                        <span className="bg-ok h-1.5 w-1.5 rounded-full" />
-                        {p.status === "live" ? "live" : p.status}
+                      <span className="inline-flex shrink-0 items-center gap-1.5">
+                        <span
+                          className="h-1.5 w-1.5 rounded-full"
+                          style={{ backgroundColor: STATUS_DOT[p.status] }}
+                        />
+                        {STATUS_LABEL[p.status]}
                       </span>
                     </div>
                     <div className="flex items-end justify-between gap-4">

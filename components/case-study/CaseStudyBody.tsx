@@ -4,6 +4,7 @@ import { Container } from "@/components/primitives/Container";
 import { MetricGrid } from "./MetricGrid";
 import { SystemMap } from "@/components/diagram/SystemMap";
 import { Journey } from "./Journey";
+import { PhoneCompare } from "./PhoneCompare";
 import {
   BeforeAfterSection,
   EcosystemSection,
@@ -16,14 +17,27 @@ import { getAdjacentProjects } from "@/content/projects";
 export function CaseStudyBody({ project }: { project: Project }) {
   const { prev, next } = getAdjacentProjects(project.slug);
 
+  // Flagships tell the story through the journey, rebuilds through the comparison.
+  const narrative = !project.journey && !project.compare;
+
   return (
     <>
-      <Container size="default" className="pb-16">
-        <MetricGrid metrics={project.metrics} accent={project.accent} />
-      </Container>
+      {project.compare && (
+        <section aria-label="Before and after, on a phone" className="pb-16">
+          <PhoneCompare compare={project.compare} accent={project.accent} />
+          <Container size="narrow" className="pt-16">
+            <Block label="The brief">{project.summary}</Block>
+          </Container>
+        </section>
+      )}
 
-      {/* Flagships tell this through the journey instead. */}
-      {!project.journey && (
+      {project.metrics.length > 1 && (
+        <Container size="default" className="pb-16">
+          <MetricGrid metrics={project.metrics} accent={project.accent} />
+        </Container>
+      )}
+
+      {narrative && (
         <Container size="narrow" className="space-y-20 pb-16">
           <Block label="The problem">{project.problem}</Block>
           <Block label="The approach">{project.approach}</Block>
@@ -56,35 +70,39 @@ export function CaseStudyBody({ project }: { project: Project }) {
       <StoriesSection project={project} />
 
       <Container size="narrow" className="space-y-20 pb-20">
-        {!project.journey && <Block label="The outcome">{project.outcome}</Block>}
+        {narrative && <Block label="The outcome">{project.outcome}</Block>}
 
-        <div>
-          <div className="label-mono text-fg-muted">What I owned</div>
-          <ul className="mt-6 space-y-4">
-            {project.responsibilities.map((r, i) => (
-              <li key={i} className="text-fg-muted flex gap-4 leading-relaxed text-pretty">
-                <span className="text-fg-subtle shrink-0 pt-1.5 font-mono text-xs tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span>{r}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <div className="label-mono text-fg-muted">Stack</div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {project.stack.map((s) => (
-              <span
-                key={s}
-                className="border-border text-fg-muted rounded-md border px-2.5 py-1 font-mono text-xs"
-              >
-                {s}
-              </span>
-            ))}
+        {project.responsibilities.length > 0 && (
+          <div>
+            <div className="label-mono text-fg-muted">What I owned</div>
+            <ul className="mt-6 space-y-4">
+              {project.responsibilities.map((r, i) => (
+                <li key={i} className="text-fg-muted flex gap-4 leading-relaxed text-pretty">
+                  <span className="text-fg-subtle shrink-0 pt-1.5 font-mono text-xs tabular-nums">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span>{r}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        )}
+
+        {project.stack.length > 0 && (
+          <div>
+            <div className="label-mono text-fg-muted">Stack</div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {project.stack.map((s) => (
+                <span
+                  key={s}
+                  className="border-border text-fg-muted rounded-md border px-2.5 py-1 font-mono text-xs"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </Container>
 
       <Container className="border-border border-t pt-12 pb-20">

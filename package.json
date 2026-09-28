@@ -2,7 +2,7 @@
   "name": "itsubaidullahomer",
   "version": "1.0.0",
   "private": true,
-  "description": "Portfolio of Ubaidullah \u2014 Senior product engineer building AI products.",
+  "description": "Portfolio of Ubaidullah — Senior product engineer building AI products.",
   "scripts": {
     "dev": "next dev",
     "dev:turbo": "next dev --turbopack",
@@ -10,7 +10,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "capture:compare": "node scripts/capture-compare.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -36,6 +37,7 @@
     "@types/react-dom": "^19.0.2",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.5.18",
+    "playwright": "^1.63.0",
     "postcss": "^8.5.10",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.9",

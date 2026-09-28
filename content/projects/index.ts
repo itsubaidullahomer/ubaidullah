@@ -1,5 +1,6 @@
 import type { Project } from "../types";
 import { tututor } from "./tututor";
+import { aliFoodies } from "./ali-foodies";
 import { insightX } from "./insight-x";
 import { aiHumanizer } from "./ai-humanizer";
 import { jurri } from "./jurri";
@@ -9,6 +10,7 @@ import { animatedLanding } from "./animated-landing";
 
 export const projects: Project[] = [
   tututor,
+  aliFoodies,
   insightX,
   aiHumanizer,
   jurri,
@@ -22,6 +24,11 @@ export const flagshipProject = projects.find((p) => p.flagship);
 
 /** Home-page grid: featured work, minus the flagship shown above it. */
 export const featuredProjects = projects.filter((p) => p.featured && !p.flagship);
+
+/** Cards that take a full row in the work grids: the flagship and phone comparisons. */
+export function spansFullRow(p: Project) {
+  return !!p.flagship || !!p.compare;
+}
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

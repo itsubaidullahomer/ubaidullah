@@ -7,7 +7,7 @@ import { CountUp } from "@/components/motion/CountUp";
 import { Tilt } from "@/components/motion/Tilt";
 import { ProjectCard } from "@/components/work/ProjectCard";
 import { ArchiveRegistry } from "@/components/work/ArchiveRegistry";
-import { projects } from "@/content/projects";
+import { projects, spansFullRow } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 
@@ -109,9 +109,9 @@ export default function WorkPage() {
           <Rule index="01" label="Flagships" note={`${top.length} projects`} />
           <Reveal className="grid gap-4 md:grid-cols-2 md:gap-5" stagger={0.1}>
             {top.map((p, i) =>
-              p.flagship ? (
+              spansFullRow(p) ? (
                 <div key={p.slug} className="md:col-span-2">
-                  <ProjectCard project={p} wide priority index={i + 1} />
+                  <ProjectCard project={p} wide={p.flagship} priority={i < 2} index={i + 1} />
                 </div>
               ) : (
                 <Tilt key={p.slug} max={3} className="h-full">

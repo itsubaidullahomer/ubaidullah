@@ -385,6 +385,28 @@ a:focus-visible {
   transform: translate(-50%, 0);
 }
 
+/* ── Phone screens ─────────────────────────────────────────────────
+   The screen (.phone-viewport) is a size container, so 100cqh is its
+   height and (-100% + 100cqh) is exactly how far the page overflows it.
+   .phone-img follows --p (0 top, 1 bottom), set by a scroll trigger on an
+   ancestor. .phone-img-hover pans part-way down on card hover. */
+.phone-viewport {
+  container-type: size;
+}
+@supports (height: 100cqh) {
+  .phone-img {
+    transform: translateY(calc(var(--p, 0) * (-100% + 100cqh)));
+    will-change: transform;
+  }
+  .phone-img-hover {
+    transition: transform 5s cubic-bezier(0.45, 0, 0.55, 1);
+  }
+  .group:hover .phone-img-hover,
+  .group:focus-within .phone-img-hover {
+    transform: translateY(calc(0.45 * (-100% + 100cqh)));
+  }
+}
+
 /* ── Cursor spotlight on surfaces ─────────────────────────────────
    MotionRoot writes --mx/--my on the hovered .spotlight element; a soft
    light and a brighter rim follow the cursor. Light only, no blur. */
@@ -568,5 +590,10 @@ html.js-motion [data-reveal] {
   .shot-b,
   .shot-tag {
     transition: opacity 0.2s ease;
+  }
+
+  .group:hover .phone-img-hover,
+  .group:focus-within .phone-img-hover {
+    transform: none;
   }
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Card } from "@/components/primitives/Card";
 import { BrowserFrame, STATUS_LABEL } from "./BrowserFrame";
+import { CompareCard } from "./CompareCard";
 import { cn } from "@/lib/cn";
 import type { Project, Shot } from "@/content/types";
 
@@ -37,6 +38,9 @@ export function ProjectCard({
   wide,
   index,
 }: ProjectCardProps) {
+  // Rebuilds shown on a phone get their own full-row card.
+  if (p.compare) return <CompareCard project={p} index={index} priority={priority} />;
+
   const views = wide ? productViews(p) : undefined;
   const readouts = p.metrics.slice(0, wide ? 4 : 3);
 
