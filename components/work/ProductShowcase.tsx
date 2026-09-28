@@ -10,6 +10,40 @@ import { gsap, useGSAP, prefersReducedMotion } from "@/components/motion/gsap";
 import type { ShowcaseSlide } from "@/content/types";
 
 const INTERVAL_MS = 6000;
+const EASE = [0.77, 0, 0.18, 1] as const;
+
+/**
+ * The next screen wipes in from the side you're moving towards and settles
+ * from a slight zoom; the old one sinks back and dims underneath it.
+ */
+const WIPE = {
+  enter: (d: number) => ({
+    clipPath: d > 0 ? "inset(0% 0% 0% 100%)" : "inset(0% 100% 0% 0%)",
+    scale: 1.08,
+    filter: "brightness(1.25)",
+    zIndex: 2,
+  }),
+  center: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    scale: 1,
+    filter: "brightness(1)",
+    zIndex: 2,
+    transition: { duration: 0.95, ease: EASE },
+  },
+  exit: (d: number) => ({
+    scale: 0.94,
+    x: d > 0 ? "-4%" : "4%",
+    filter: "brightness(0.45)",
+    zIndex: 1,
+    transition: { duration: 0.95, ease: EASE },
+  }),
+};
+
+const FADE = {
+  enter: { opacity: 0 },
+  center: { opacity: 1, transition: { duration: 0.3 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
 
 /**
  * A tour of the real product: tabs grouped by product, one large browser
@@ -28,6 +62,8 @@ export function ProductShowcase({
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
+  // 1 = moving forward, -1 = back; decides which side the next screen wipes in from.
+  const [dir, setDir] = useState(1);
   const [autoplay, setAutoplay] = useState(true);
   const [hovered, setHovered] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -86,7 +122,10 @@ export function ProductShowcase({
 
   useEffect(() => {
     if (!playing) return;
-    const t = window.setTimeout(() => setIndex((i) => (i + 1) % slides.length), INTERVAL_MS);
+    const t = window.setTimeout(() => {
+      setDir(1);
+      setIndex((i) => (i + 1) % slides.length);
+    }, INTERVAL_MS);
     return () => window.clearTimeout(t);
   }, [playing, index, slides.length]);
 
@@ -101,6 +140,7 @@ export function ProductShowcase({
 
   const go = (i: number) => {
     setAutoplay(false);
+    setDir(i >= index ? 1 : -1);
     setIndex((i + slides.length) % slides.length);
   };
 
@@ -186,14 +226,15 @@ export function ProductShowcase({
         </div>
 
         <div className="bg-bg-elevated relative aspect-[1600/757] overflow-hidden rounded-xl md:rounded-2xl">
-          <AnimatePresence initial={false}>
+          <AnimatePresence initial={false} custom={dir}>
             <motion.div
               key={index}
+              custom={dir}
+              variants={reduced ? FADE : WIPE}
+              initial="enter"
+              animate="center"
+              exit="exit"
               className="absolute inset-0"
-              initial={reduced ? false : { opacity: 0, scale: 1.015 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
               {slide.shot && (
                 <Image

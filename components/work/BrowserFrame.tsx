@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/content/types";
 
@@ -26,7 +27,8 @@ type BrowserFrameProps = {
 
 /**
  * A browser-chrome frame around the project's full-page screenshot.
- * Cards show the top of the page, held still.
+ * On cards, hovering the surrounding `.group` wipes from the top of the
+ * site to a view further down (see `.shot-a` / `.shot-b` in globals.css).
  */
 export function BrowserFrame({
   project,
@@ -66,7 +68,7 @@ export function BrowserFrame({
           windowClassName,
         )}
       >
-        {project.screenshot ? (
+        {project.screenshot && scrollable ? (
           <Image
             src={project.screenshot.src}
             width={project.screenshot.width}
@@ -75,11 +77,42 @@ export function BrowserFrame({
             sizes={sizes}
             priority={priority}
             quality={70}
-            className={cn(
-              "block h-auto w-full",
-              !scrollable && "min-h-full object-cover object-top",
-            )}
+            className="block h-auto w-full"
           />
+        ) : project.screenshot ? (
+          <>
+            {/* View A: the top of the site */}
+            <Image
+              src={project.screenshot.src}
+              alt={`Screenshot of the ${project.title} website`}
+              fill
+              sizes={sizes}
+              priority={priority}
+              quality={70}
+              className="shot-a object-cover object-top"
+            />
+            {/* View B: further down the page, wiped in on hover */}
+            <Image
+              src={project.screenshot.src}
+              alt=""
+              aria-hidden
+              fill
+              sizes={sizes}
+              quality={70}
+              className="shot-b object-cover"
+              style={{
+                objectPosition:
+                  project.screenshot.height / project.screenshot.width > 1.2
+                    ? "50% 32%"
+                    : "50% 50%",
+              }}
+            />
+            <div aria-hidden className="shot-sheen" />
+            <span aria-hidden className="shot-tag">
+              Read case study
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </span>
+          </>
         ) : (
           <div
             aria-hidden
