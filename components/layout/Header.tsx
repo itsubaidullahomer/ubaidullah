@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useLenis } from "lenis/react";
 import { Command, Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { site } from "@/content/site";
 import { useCommandPalette } from "./CommandPaletteProvider";
+import { getLenis } from "@/lib/lenis-store";
 import { LocalClock } from "./LocalClock";
 
 const NAV = [
@@ -23,7 +23,6 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const { open } = useCommandPalette();
-  const lenis = useLenis();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -42,6 +41,7 @@ export function Header() {
       if (e.key === "Escape") setMenuOpen(false);
     };
     window.addEventListener("keydown", onKey);
+    const lenis = getLenis();
     lenis?.stop();
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -50,7 +50,7 @@ export function Header() {
       document.body.style.overflow = prev;
       lenis?.start();
     };
-  }, [menuOpen, lenis]);
+  }, [menuOpen]);
 
   const isActive = (href: string) => pathname === href || pathname.startsWith(href + "/");
 

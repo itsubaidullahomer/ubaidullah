@@ -329,22 +329,227 @@ a:focus-visible {
 }
 
 /* ── Live-site screenshot preview (project cards) ─────────────────
-   The full-page screenshot sits in a fixed-ratio window; hovering the
-   card slowly pans down the page, like scrolling the real site.
-   100cqh = the window's own height (container-type: size). */
+   Two views of the same full-page screenshot. On hover the second view
+   (further down the page) wipes up over the first, which zooms back and
+   dims; a tag rises from the bottom. */
 .shot-window {
-  container-type: size;
+  --shot-ease: cubic-bezier(0.77, 0, 0.18, 1);
+}
+.shot-a {
+  transition:
+    transform 1.2s var(--ease-out-expo),
+    filter 0.9s var(--ease-out-expo);
+}
+.shot-b {
+  clip-path: inset(100% 0 0 0);
+  transform: scale(1.12);
+  transition:
+    clip-path 0.9s var(--ease-out-expo),
+    transform 1.3s var(--ease-out-expo);
+}
+.shot-tag {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-fg);
+  background: var(--accent);
+  opacity: 0;
+  transform: translate(-50%, 20px);
+  transition:
+    transform 0.7s var(--shot-ease) 0.1s,
+    opacity 0.5s ease 0.1s;
+  pointer-events: none;
+}
+.group:hover .shot-a,
+.group:focus-within .shot-a {
+  transform: scale(1.06);
+  filter: brightness(0.5);
+}
+.group:hover .shot-b,
+.group:focus-within .shot-b {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+.group:hover .shot-tag,
+.group:focus-within .shot-tag {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
-.shot-img {
-  transition: transform 6.5s cubic-bezier(0.45, 0, 0.55, 1);
-  will-change: transform;
+/* ── Cursor spotlight on surfaces ─────────────────────────────────
+   MotionRoot writes --mx/--my on the hovered .spotlight element; a soft
+   light and a brighter rim follow the cursor. Light only, no blur. */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-quart);
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--fg) 5%, transparent),
+    transparent 60%
+  );
+  z-index: -1;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 1px;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-out-quart);
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    color-mix(in oklab, var(--accent) 60%, transparent),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 1;
+}
+.spotlight:hover::after,
+.spotlight:hover::before {
+  opacity: 1;
+}
+@media (hover: none) {
+  .spotlight::after,
+  .spotlight::before {
+    display: none;
+  }
 }
 
-@supports (height: 100cqh) {
-  .group:hover .shot-img,
-  .group:focus-within .shot-img {
-    transform: translateY(calc(-100% + 100cqh));
+/* Elements GSAP reveals start hidden only once JS has taken over, so the
+   page still reads fine without JS. MotionRoot clears the class if a
+   reveal never runs. */
+html.js-motion [data-reveal] {
+  visibility: hidden;
+}
+
+/* ── Editorial portrait ───────────────────────────────────────────
+   Black-and-white print with a halftone screen and an accent light;
+   a lens follows the cursor and shows the colour photo underneath. */
+@property --lens {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+.portrait-mono {
+  filter: grayscale(1) contrast(1.28) brightness(0.92);
+}
+.portrait-halftone {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.5) 0.8px, transparent 1.2px);
+  background-size: 4px 4px;
+  mix-blend-mode: multiply;
+  opacity: 0.38;
+}
+.portrait-tint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 70% at 85% 110%,
+      color-mix(in oklab, var(--accent) 60%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(to top, color-mix(in oklab, var(--accent) 18%, transparent), transparent 45%);
+  mix-blend-mode: overlay;
+}
+.portrait-color {
+  --lens: 0px;
+  -webkit-mask-image: radial-gradient(
+    circle var(--lens) at var(--px, 50%) var(--py, 40%),
+    #000 55%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--lens) at var(--px, 50%) var(--py, 40%),
+    #000 55%,
+    transparent 100%
+  );
+  transition: --lens 0.7s var(--ease-out-expo);
+}
+.portrait:hover .portrait-color {
+  --lens: 150px;
+}
+.portrait-lens-ring {
+  position: absolute;
+  left: var(--px, 50%);
+  top: var(--py, 40%);
+  width: 300px;
+  height: 300px;
+  margin: -150px 0 0 -150px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--accent) 60%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.4);
+  transition:
+    opacity 0.4s ease,
+    transform 0.7s var(--ease-out-expo);
+}
+.portrait:hover .portrait-lens-ring {
+  opacity: 0.8;
+  transform: scale(1);
+}
+.portrait-scan {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 18px 2px var(--accent-glow);
+  opacity: 0;
+  pointer-events: none;
+  animation: portrait-scan 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.6s 1 forwards;
+}
+@keyframes portrait-scan {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+.crop-mark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: rgba(242, 241, 236, 0.55);
+  pointer-events: none;
+}
+@media (hover: none) {
+  .portrait-lens-ring {
+    display: none;
   }
 }
 
@@ -359,8 +564,9 @@ a:focus-visible {
     transition-duration: 0.01ms !important;
   }
 
-  .group:hover .shot-img,
-  .group:focus-within .shot-img {
-    transform: none;
+  .shot-a,
+  .shot-b,
+  .shot-tag {
+    transition: opacity 0.2s ease;
   }
 }

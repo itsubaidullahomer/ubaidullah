@@ -1,5 +1,5 @@
 import { Section } from "@/components/primitives/Section";
-import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
 
 const tenets = [
   {
@@ -27,21 +27,20 @@ const tenets = [
 export function Philosophy() {
   return (
     <Section
-      index="03"
+      index="04"
       eyebrow="How I think about the work"
       title="Four things I keep coming back to."
       size="default"
     >
-      <RevealGroup
+      <Reveal
         as="ol"
         className="surface divide-border grid divide-y overflow-hidden rounded-xl md:grid-cols-2 md:divide-y-0"
       >
         {tenets.map((t, i) => (
-          <RevealItem
+          <li
             key={t.n}
-            as="li"
             className={
-              "group relative p-6 md:p-8 " +
+              "group spotlight relative p-6 md:p-8 " +
               (i % 2 === 0 ? "md:border-border md:border-r" : "") +
               (i < 2 ? "md:border-border md:border-b" : "")
             }
@@ -53,9 +52,9 @@ export function Philosophy() {
             <p className="text-fg-muted mt-3 max-w-md text-[15px] leading-relaxed text-pretty">
               {t.body}
             </p>
-          </RevealItem>
+          </li>
         ))}
-      </RevealGroup>
+      </Reveal>
     </Section>
   );
 }

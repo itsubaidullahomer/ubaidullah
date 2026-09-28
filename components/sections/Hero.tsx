@@ -9,7 +9,10 @@ import { SystemField } from "@/components/effects/SystemField";
 import { LocalClock } from "@/components/layout/LocalClock";
 import { StreamHeadline, type Token } from "./StreamHeadline";
 import { site } from "@/content/site";
-import { featuredProjects } from "@/content/projects";
+import { projects } from "@/content/projects";
+
+/** Everything marked featured, flagship included, for the readout strip. */
+const STRIP = projects.filter((p) => p.featured);
 
 const HEADLINE: Token[] = [
   { text: "I" },
@@ -74,7 +77,8 @@ export function Hero() {
                 >
                   Tututor.ai
                 </a>
-                , used by about 17,000 students and teachers every day.
+                : eight products on one backend, used by 20k+ students, teachers and families every
+                day.
               </p>
 
               <div className="rise-in mt-9 flex flex-wrap items-center gap-3 [animation-delay:1250ms] md:mt-10">
@@ -104,7 +108,7 @@ export function Hero() {
       <div className="border-border bg-bg relative z-10 mt-16 border-t lg:mt-8">
         <Container size="wide">
           <ul className="divide-border -mx-5 flex snap-x snap-mandatory overflow-x-auto md:mx-0 md:grid md:grid-cols-3 md:divide-x md:overflow-visible">
-            {featuredProjects.map((p, i) => {
+            {STRIP.map((p, i) => {
               const lead = p.metrics[0];
               return (
                 <li key={p.slug} className="min-w-[78%] shrink-0 snap-start md:min-w-0">

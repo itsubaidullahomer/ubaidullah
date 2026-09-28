@@ -17,7 +17,11 @@ export const projects: Project[] = [
   animatedLanding,
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
+/** The one project that leads the home page with its own section. */
+export const flagshipProject = projects.find((p) => p.flagship);
+
+/** Home-page grid: featured work, minus the flagship shown above it. */
+export const featuredProjects = projects.filter((p) => p.featured && !p.flagship);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

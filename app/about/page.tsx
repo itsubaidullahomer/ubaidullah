@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Script from "next/script";
 import {
   Compass,
@@ -15,6 +14,7 @@ import { Section } from "@/components/primitives/Section";
 import { Pill } from "@/components/primitives/Pill";
 import { Button } from "@/components/primitives/Button";
 import { Magnetic } from "@/components/primitives/Magnetic";
+import { Portrait } from "@/components/effects/Portrait";
 import { SystemGrid } from "@/components/effects/SystemGrid";
 import { skills } from "@/content/skills";
 import { site } from "@/content/site";
@@ -25,13 +25,13 @@ import { cn } from "@/lib/cn";
 
 export const metadata: Metadata = buildMetadata({
   title: "About",
-  description: `Product engineer based in Pakistan, four years building AI features into production apps. Currently at Tututor.ai, used by 17,000+ people.`,
+  description: `Product engineer based in Pakistan, four years building AI features into production apps. Currently at Tututor.ai, used by 20k+ people.`,
   path: "/about",
 });
 
 const NUMBERS = [
   { value: "4+", label: "Years building production software" },
-  { value: "17,000+", label: "People using what I build at Tututor.ai" },
+  { value: "20k+", label: "People using what I build at Tututor.ai" },
   { value: String(projects.length), label: "Products shipped to production" },
   { value: "$250k", label: "Raised with help from my analytics work" },
 ];
@@ -85,11 +85,16 @@ export default function AboutPage() {
                   It's less elegant than it sounds. Mostly it means fewer rewrites later.
                 </p>
                 <p>
-                  Right now I'm at <span className="text-fg">Tututor.ai</span>, an education
-                  platform used by around 17,000 students and teachers in schools around Murcia,
-                  Spain. I look after the AI services, the school CRM and the student side of the
-                  app, which in practice means backend, frontend and most of the UX decisions in
-                  between.
+                  Right now I'm at <span className="text-fg">Tututor.ai</span>. It came to me as
+                  someone else's Next.js app with one bug to fix. I rebuilt it three times, wrote
+                  the backend, and grew it into eight products: an AI toolkit for teachers, a school
+                  platform, and parent, student and teacher apps in both stores. More than 20,000
+                  students, teachers and families in Murcia, Spain use it.
+                </p>
+                <p>
+                  Along the way I led a small team of junior developers, and taught the founder to
+                  code. He started by changing a few words of Spanish. Now he ships whole features,
+                  and the two of us run the product between us.
                 </p>
                 <p>
                   Before that I spent two years at <span className="text-fg">Danzee Tech</span> in
@@ -127,16 +132,14 @@ export default function AboutPage() {
             </div>
 
             <div className="relative w-full max-w-sm lg:w-80">
-              <div className="surface relative aspect-[4/5] overflow-hidden rounded-xl">
-                <Image
-                  src="/portrait.png"
-                  alt={`Portrait of ${site.name}`}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 80vw, 320px"
-                  className="object-cover"
-                />
-              </div>
+              <Portrait
+                src="/portrait.png"
+                alt={`Portrait of ${site.name}`}
+                sizes="(max-width: 1024px) 80vw, 320px"
+                priority
+                figure="Fig. 01"
+                className="aspect-[4/5]"
+              />
             </div>
           </div>
 

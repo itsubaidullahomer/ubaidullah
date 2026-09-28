@@ -2,29 +2,31 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/primitives/Section";
 import { ProjectCard } from "@/components/work/ProjectCard";
-import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
+import { Tilt } from "@/components/motion/Tilt";
 import { featuredProjects } from "@/content/projects";
 
+/** The featured products that aren't the flagship, which has its own section above. */
 export function SelectedWork() {
   return (
     <Section
       id="work"
-      index="01"
-      eyebrow="Selected work"
+      index="02"
+      eyebrow="More work"
       title={
         <>
-          Three products, all <em className="accent-italic">in production.</em>
+          Also <em className="accent-italic">in production.</em>
         </>
       }
-      description="Each one is live with real users. Hover a card to scroll through the site as it looks today."
+      description="Each one is live with real users and has its own case study. Hover a card to see more of the site."
     >
-      <RevealGroup className="grid gap-4 md:grid-cols-2 md:gap-5">
+      <Reveal className="grid gap-4 md:grid-cols-2 md:gap-5" stagger={0.12}>
         {featuredProjects.map((p, i) => (
-          <RevealItem key={p.slug} className={i === 0 ? "md:col-span-2" : undefined}>
-            <ProjectCard project={p} priority={i < 2} wide={i === 0} index={i + 1} />
-          </RevealItem>
+          <Tilt key={p.slug} max={4} className="h-full">
+            <ProjectCard project={p} priority={i < 2} index={i + 2} />
+          </Tilt>
         ))}
-      </RevealGroup>
+      </Reveal>
 
       <div className="mt-10 flex justify-end">
         <Link

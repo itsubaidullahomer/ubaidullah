@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { Project } from "@/content/types";
 
@@ -19,15 +20,15 @@ type BrowserFrameProps = {
   priority?: boolean;
   /** Aspect ratio of the visible window. */
   windowClassName?: string;
-  /** Let the viewer scroll the full page themselves instead of hover-panning. */
+  /** Let the viewer scroll the full page themselves. */
   scrollable?: boolean;
   className?: string;
 };
 
 /**
  * A browser-chrome frame around the project's full-page screenshot.
- * Hovering the surrounding `.group` slowly pans down the page (see
- * `.shot-window` / `.shot-img` in globals.css).
+ * On cards, hovering the surrounding `.group` wipes from the top of the
+ * site to a view further down (see `.shot-a` / `.shot-b` in globals.css).
  */
 export function BrowserFrame({
   project,
@@ -68,7 +69,7 @@ export function BrowserFrame({
           windowClassName,
         )}
       >
-        {project.screenshot ? (
+        {project.screenshot && scrollable ? (
           <Image
             src={project.screenshot.src}
             width={project.screenshot.width}
@@ -77,17 +78,49 @@ export function BrowserFrame({
             sizes={sizes}
             priority={priority}
             quality={70}
-            className={cn(
-              "block h-auto w-full",
-              !scrollable && "shot-img min-h-full object-cover object-top",
-            )}
+            className="block h-auto w-full"
           />
+        ) : project.screenshot ? (
+          <>
+            {/* View A: the top of the site */}
+            <Image
+              src={project.screenshot.src}
+              alt={`Screenshot of the ${project.title} website`}
+              fill
+              sizes={sizes}
+              priority={priority}
+              quality={70}
+              className="shot-a object-cover object-top"
+            />
+            {/* View B: further down the page, wiped in on hover */}
+            <Image
+              src={project.screenshot.src}
+              alt=""
+              aria-hidden
+              fill
+              sizes={sizes}
+              quality={70}
+              className="shot-b object-cover"
+              style={{
+                objectPosition:
+                  project.screenshot.height / project.screenshot.width > 1.2
+                    ? "50% 32%"
+                    : "50% 50%",
+              }}
+            />
+            <span aria-hidden className="shot-tag">
+              Read case study
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </span>
+          </>
         ) : (
           <div
             aria-hidden
-            className="absolute inset-0"
+            className="bg-bg-raised absolute inset-0"
             style={{
-              background: `radial-gradient(120% 120% at 20% 0%, color-mix(in oklab, ${project.accent} 28%, transparent), transparent 70%)`,
+              backgroundImage: `linear-gradient(90deg, ${project.accent}, transparent 70%)`,
+              backgroundSize: "100% 1px",
+              backgroundRepeat: "no-repeat",
             }}
           >
             <span className="font-display text-fg/20 absolute inset-0 grid place-items-center text-6xl">
@@ -96,7 +129,7 @@ export function BrowserFrame({
           </div>
         )}
 
-        {/* Soft inner edge so the shot sits "inside" the surface */}
+        {/* Soft inner edge so the shot sits inside the frame */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 [box-shadow:inset_0_-24px_32px_-28px_rgba(0,0,0,0.55)]"

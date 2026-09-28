@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import { FlagshipProject } from "@/components/sections/FlagshipProject";
 import { SelectedWork } from "@/components/sections/SelectedWork";
 import { ExperienceTimeline } from "@/components/sections/ExperienceTimeline";
 import { Philosophy } from "@/components/sections/Philosophy";
@@ -8,6 +9,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <FlagshipProject />
       <SelectedWork />
       <ExperienceTimeline />
       <Philosophy />

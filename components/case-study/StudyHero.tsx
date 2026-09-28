@@ -4,6 +4,7 @@ import { Container } from "@/components/primitives/Container";
 import { Pill } from "@/components/primitives/Pill";
 import { SystemGrid } from "@/components/effects/SystemGrid";
 import { BrowserFrame } from "@/components/work/BrowserFrame";
+import { ProductShowcase } from "@/components/work/ProductShowcase";
 import type { Project } from "@/content/types";
 
 export function StudyHero({ project }: { project: Project }) {
@@ -54,19 +55,28 @@ export function StudyHero({ project }: { project: Project }) {
           </a>
         )}
 
-        {project.screenshot && (
-          <div className="mt-12 md:mt-16">
-            <BrowserFrame
-              project={project}
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              priority
-              scrollable
-              className="surface rounded-xl"
-            />
-            <p className="label-mono text-fg-subtle mt-3 text-center">
-              The live site, captured full page. Scroll inside the frame.
-            </p>
-          </div>
+        {project.showcase ? (
+          <ProductShowcase
+            slides={project.showcase}
+            accent={project.accent}
+            priority
+            className="mt-12 md:mt-16"
+          />
+        ) : (
+          project.screenshot && (
+            <div className="mt-12 md:mt-16">
+              <BrowserFrame
+                project={project}
+                sizes="(max-width: 1280px) 100vw, 1280px"
+                priority
+                scrollable
+                className="surface rounded-xl"
+              />
+              <p className="label-mono text-fg-subtle mt-3 text-center">
+                The live site, captured full page. Scroll inside the frame.
+              </p>
+            </div>
+          )
         )}
       </Container>
     </section>

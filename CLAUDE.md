@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Personal portfolio of Ubaidullah (itsubaidullahomer.com) — Next.js 15 App Router, React 19, TypeScript strict, Tailwind CSS v4, Framer Motion, Lenis. Deployed on Vercel. No test suite exists; verification is `npm run typecheck` + `npm run build` (there is no ESLint config, so `npm run lint` prompts interactively — don't rely on it). For visual checks, build, `next start`, and screenshot with Playwright (Chromium is at `/opt/pw-browsers/chromium` in the cloud container).
+Personal portfolio of Ubaidullah (itsubaidullahomer.com) — Next.js 15 App Router, React 19, TypeScript strict, Tailwind CSS v4, GSAP (scroll and timeline motion), Framer Motion (component transitions), Lenis. Deployed on Vercel. No test suite exists; verification is `npm run typecheck` + `npm run build` (there is no ESLint config, so `npm run lint` prompts interactively — don't rely on it). For visual checks, build, `next start`, and screenshot with Playwright (Chromium is at `/opt/pw-browsers/chromium` in the cloud container).
 
 Design concept: **the site behaves like a running system**. One dark theme, ink background, bone text, a single signal-orange accent, hairline grid textures, mono readouts. The homepage hero background is a real request-routing simulation, the header carries a live clock, cards and metrics read like service status. Bold typography (Fraunces) carries the editorial side. Keep new work inside that language: no glassmorphism, no blurred gradient blobs, no second accent colour.
 
@@ -25,7 +25,8 @@ The core pattern of this codebase: **all copy lives as typed TypeScript objects 
 
 - `content/types.ts` — the schema for everything (`Project`, `Experience`, `WritingPost`, `SkillGroup`, `ArchitectureNode/Edge/Flow`).
 - `content/site.ts` — identity: name, role, socials, email, keywords. Imported everywhere (SEO, JSON-LD, footer, hero…).
-- `content/projects/` — one file per case study, registered manually in `content/projects/index.ts` (which also defines display order and exports `featuredProjects`, `getProject`, `getAdjacentProjects`). **Adding a case study = create `content/projects/<slug>.ts` + add it to the array in `index.ts`.** `featured: true` marks a flagship (currently Tututor, Insight-X/Illume, Viloi); flagships appear in the hero readout strip and the homepage work section, everything else only on `/work`. Full-page screenshots go in `public/images/screens/`.
+- `content/projects/` — one file per case study, registered manually in `content/projects/index.ts` (which also defines display order and exports `flagshipProject`, `featuredProjects`, `getProject`, `getAdjacentProjects`). **Adding a case study = create `content/projects/<slug>.ts` + add it to the array in `index.ts`.** `featured: true` puts a project in the hero readout strip and the homepage "More work" grid (currently Tututor, Insight-X/Illume, Viloi); `flagship: true` (Tututor only) gives it the `FlagshipProject` section on the home page and the extended case study. Everything else appears only on `/work`. Full-page screenshots go in `public/images/screens/`, flagship product shots under `public/images/<slug>/`.
+- Flagship-only fields on `Project`: `pitch`, `showcase` (tabbed real screens, rendered by `ProductShowcase`), `ecosystem` (the product family), `journey` (dated chapters with screenshots), `beforeAfter`, `mobile` (store shots in `PhoneFrame`s), `stories`, and `architecture.intro`. When `journey` is set, `CaseStudyBody` skips the problem/approach/outcome blocks.
 - `content/writing/index.ts` — blog posts (body is a markdown-ish string rendered by the writing page).
 - `content/experience.ts`, `content/skills.ts`, `content/now.ts` — data for their pages.
 
@@ -33,19 +34,19 @@ Downstream consumers that derive from `content/` automatically (no extra registr
 
 ## Server vs client components
 
-Pages under `app/` are React Server Components by default and export `metadata` via `buildMetadata()` from `lib/seo.ts`. Client components (`"use client"`) are pushed to the leaves: `components/effects/SystemField.tsx`, `components/motion/*`, `components/layout/*` (Header, LocalClock, CommandPalette), `components/providers/SmoothScroll.tsx`, `components/forms/ContactForm.tsx`, `components/playground/FailureLab.tsx`, `components/diagram/SystemMap.tsx`, `components/primitives/Magnetic.tsx`. Keep new pages as RSCs and isolate interactivity in a client child. The hero's streaming headline (`StreamHeadline`) is deliberately a server component driven by CSS, so the full text is in the HTML.
+Pages under `app/` are React Server Components by default and export `metadata` via `buildMetadata()` from `lib/seo.ts`. Client components (`"use client"`) are pushed to the leaves: `components/effects/SystemField.tsx` and `Portrait.tsx`, `components/motion/*`, `components/layout/*` (Header, LocalClock, CommandPalette), `components/work/ProductShowcase.tsx`, `components/forms/ContactForm.tsx`, `components/playground/FailureLab.tsx`, `components/diagram/SystemMap.tsx`, `components/primitives/Magnetic.tsx`. Keep new pages as RSCs and isolate interactivity in a client child. The hero's streaming headline (`StreamHeadline`) is deliberately a server component driven by CSS, so the full text is in the HTML.
 
 Component directories by role:
 
 - `primitives/` — Button, Card, Container, Section, Heading, Pill, Magnetic (design-system atoms; reuse these before writing new markup). `Section` takes `index` ("01") + `eyebrow` + `title`.
-- `sections/` — homepage sections (Hero, StreamHeadline, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA)
-- `case-study/` — StudyHero, CaseStudyBody, MetricGrid
+- `sections/` — homepage sections in order: Hero, FlagshipProject (Tututor pitch, numbers strip, ProductShowcase), SelectedWork (the other featured cards), ExperienceTimeline, Philosophy, ContactCTA. Section indices 01–05 are hard-coded in that order.
+- `case-study/` — StudyHero (showcase for flagships, scrollable full-page shot otherwise), CaseStudyBody, MetricGrid, Journey, FlagshipSections (Ecosystem, before/after, mobile, stories), ShotFrame, PhoneFrame
 - `diagram/` — SystemMap (renders a project's `architecture` nodes/edges/flows as an animated map)
-- `work/` — ProjectCard, BrowserFrame (live-site screenshot in browser chrome; hover pans the page)
+- `work/` — ProjectCard, BrowserFrame (live-site screenshot in browser chrome; hover wipes to a view further down the page), ProductShowcase (autoplaying tabbed tour of real screens)
 - `layout/` — Header (thin bar, live PKT clock, ⌘K), Footer (readout row with build sha), CommandPalette + provider
-- `effects/` — `SystemGrid` (pure-CSS hairline grid behind page heroes) and `SystemField` (canvas request-routing simulation behind the homepage hero: clients → api → cache/db/providers, provider outages on a timer or on click, rerouting drawn in accent, live stats readout; pauses off-screen; static frame under reduced motion)
-- `motion/` — `Reveal`, `RevealGroup`, `RevealItem` (Framer Motion in-view fades; respect reduced motion)
-- `providers/` — `SmoothScroll` (Lenis on the window, `allowNestedScroll`; add `data-lenis-prevent` to any scroll area that must never be smoothed)
+- `effects/` — `SystemGrid` (pure-CSS hairline grid behind page heroes), `SystemField` (canvas request-routing simulation behind the homepage hero: clients → api → cache/db/providers, provider outages on a timer or on click, rerouting drawn in accent, live stats readout; pauses off-screen; static frame under reduced motion), `Portrait` (halftone black-and-white print with a colour lens on hover, used on /about)
+- `motion/` — GSAP layer. `gsap.ts` registers ScrollTrigger once (import gsap from here, never from "gsap"). `MotionRoot` (mounted once in the layout) owns Lenis on the GSAP ticker, the top progress line, the `.spotlight` cursor tracking and the `[data-reveal]` safety net. `Reveal` rises its direct children on scroll, `CountUp` animates a stat, `Tilt` tilts toward the cursor. `lib/lenis-store.ts` exposes the Lenis instance so the Header can pause it. Add `data-lenis-prevent` to any scroll area that must never be smoothed.
+- Framer Motion remains only for component-level transitions (ProductShowcase wipes, CommandPalette, Magnetic). Don't add a third motion library.
 
 ## Theming (Tailwind v4, CSS-first)
 
@@ -53,7 +54,7 @@ There is **no `tailwind.config`** — this is Tailwind v4. All design tokens liv
 
 - `@theme` block — fonts (`--font-display` is Fraunces, loaded in `app/layout.tsx` with the `SOFT`, `WONK`, `opsz` axes), easings, radius scale (deliberately tight), animations.
 - `:root` — the single theme's variables: `--bg`, `--bg-elevated`, `--bg-raised`, `--fg`, `--fg-muted`, `--fg-subtle`, `--border`, `--border-strong`, `--tint`, `--tint-strong`, `--accent`, `--accent-bright`, `--accent-fg`, `--accent-glow`, `--ok`, `--warn`, `--grid-line`. Components consume the variables (via `bg-bg`, `text-fg`, `border-border`, `bg-ok`…), never raw colours. `SystemField.tsx` mirrors a few RGB triplets for canvas drawing; keep them in sync if the palette changes.
-- Custom utilities via `@utility`: `surface`, `surface-raised` (flat bordered panels), `font-display`, `accent-italic` (the one accent phrase in a headline), `label-mono` (uppercase mono metadata), `text-display` / `text-title` / `text-heading` (the type scale), `bg-grid`, `rise-in`, `ring-accent`. The `.stream .tok` rules drive the streaming headline.
+- Custom utilities via `@utility`: `surface`, `surface-raised` (flat bordered panels), `font-display`, `accent-italic` (the one accent phrase in a headline), `label-mono` (uppercase mono metadata), `text-display` / `text-title` / `text-heading` (the type scale), `bg-grid`, `rise-in`, `ring-accent`. Plain-CSS blocks: `.stream .tok` (streaming headline), `.shot-a/.shot-b/.shot-tag` (card hover wipe), `.spotlight` (cursor light on surfaces), `html.js-motion [data-reveal]` (reveal gate, set by the inline script in `app/layout.tsx`), `.portrait-*`.
 - `lib/cn.ts` extends tailwind-merge so `text-display/title/heading` are treated as font sizes; without that, `cn("text-display", "text-fg")` would drop the size. Register any new `text-*` utility there.
 - Per-project accent (`project.accent`) is used only as a hairline/dot on that project's card and case study; the site accent stays orange.
 
@@ -61,7 +62,7 @@ There is **no `tailwind.config`** — this is Tailwind v4. All design tokens liv
 
 - **Contact form** (`lib/contact-action.ts`, a server action): Zod validation + honeypot field (`website` must be empty). Without `RESEND_API_KEY` it logs a warning and still returns success. With it, sends via Resend to `CONTACT_TO_EMAIL`.
 - **Playground** (`components/playground/FailureLab.tsx`) and the hero **SystemField** are client-side simulations with no API calls and no keys.
-- Every animation respects `prefers-reduced-motion`: the global rule in `globals.css` zeroes durations and delays, Lenis disables smoothing, `SystemField` draws one static frame, `Reveal` skips the vertical travel.
+- Every animation respects `prefers-reduced-motion`: the global rule in `globals.css` zeroes durations and delays, `MotionRoot` skips Lenis, the `js-motion` class is never added so nothing starts hidden, `SystemField` draws one static frame, and the GSAP helpers all check `prefersReducedMotion()` first.
 
 ## SEO plumbing
 

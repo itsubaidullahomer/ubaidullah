@@ -42,7 +42,7 @@ const EDGES: Array<[string, string]> = [
 const WIDE: Layout = {
   nodes: [
     { id: "you", kind: "client", label: "you", sub: "this session", x: 0.06, y: 0.12 },
-    { id: "users", kind: "client", label: "tututor.ai", sub: "17k users", x: 0.58, y: 0.9 },
+    { id: "users", kind: "client", label: "tututor.ai", sub: "20k users", x: 0.58, y: 0.9 },
     { id: "api", kind: "edge", label: "api", sub: "node · ws", x: 0.68, y: 0.5 },
     { id: "cache", kind: "cache", label: "cache", sub: "redis", x: 0.8, y: 0.16 },
     { id: "db", kind: "data", label: "db", sub: "mongo", x: 0.8, y: 0.84 },
@@ -57,7 +57,7 @@ const WIDE: Layout = {
 const COMPACT: Layout = {
   nodes: [
     { id: "you", kind: "client", label: "you", x: 0.08, y: 0.3 },
-    { id: "users", kind: "client", label: "17k users", x: 0.08, y: 0.7 },
+    { id: "users", kind: "client", label: "20k users", x: 0.08, y: 0.7 },
     { id: "api", kind: "edge", label: "api", x: 0.4, y: 0.5 },
     { id: "cache", kind: "cache", label: "cache", x: 0.6, y: 0.14 },
     { id: "db", kind: "data", label: "db", x: 0.6, y: 0.86 },

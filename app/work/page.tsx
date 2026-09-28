@@ -11,6 +11,7 @@ import { projects } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { cn } from "@/lib/cn";
+import { Tilt } from "@/components/motion/Tilt";
 
 export const metadata: Metadata = buildMetadata({
   title: "Work",
@@ -45,7 +46,7 @@ export default function WorkPage() {
             Things I've <em className="accent-italic">shipped.</em>
           </>
         }
-        description="Each one is running in production right now. Hover a screenshot to scroll through the live site. They're ordered by how recent they are, not by how much I like them."
+        description="Each one is running in production right now. They're ordered by how recent they are, not by how much I like them."
       >
         <div className="space-y-6 md:space-y-8">
           {projects.map((p, i) => {
@@ -73,12 +74,14 @@ export default function WorkPage() {
                       flip && "lg:order-2",
                     )}
                   >
-                    <BrowserFrame
-                      project={p}
-                      sizes="(max-width: 1024px) 100vw, 560px"
-                      priority={i === 0}
-                      className="surface rounded-xl"
-                    />
+                    <Tilt max={4}>
+                      <BrowserFrame
+                        project={p}
+                        sizes="(max-width: 1024px) 100vw, 560px"
+                        priority={i === 0}
+                        className="surface rounded-xl"
+                      />
+                    </Tilt>
                   </div>
 
                   {/* Details */}

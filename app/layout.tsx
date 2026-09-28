@@ -6,7 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SmoothScroll } from "@/components/providers/SmoothScroll";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
 import { buildMetadata } from "@/lib/seo";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
@@ -46,7 +46,28 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}
+    >
+      <head>
+        {/* Marks the document as JS-driven before paint, so scroll reveals can
+            start hidden. Without JS (or with reduced motion) nothing is hidden. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.documentElement.classList.add('js-motion');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="relative">
         <Script
           id="person-jsonld"
@@ -61,15 +82,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         />
 
-        <SmoothScroll>
-          <CommandPaletteProvider>
-            <Header />
-            <main id="main" className="relative z-10">
-              {children}
-            </main>
-            <Footer />
-          </CommandPaletteProvider>
-        </SmoothScroll>
+        <CommandPaletteProvider>
+          <MotionRoot />
+          <Header />
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
+          <Footer />
+        </CommandPaletteProvider>
 
         <Analytics />
         <SpeedInsights />

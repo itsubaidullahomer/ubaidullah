@@ -10,9 +10,9 @@ export function ContactCTA() {
     <section className="border-border relative isolate overflow-hidden border-t py-28 md:py-40">
       <SystemGrid fade="center" />
       <Container size="default" className="relative z-10">
-        <Reveal>
+        <Reveal stagger={0.1}>
           <div className="label-mono text-fg-muted flex items-center gap-3">
-            <span className="text-accent">04</span>
+            <span className="text-accent">05</span>
             <span className="bg-border-strong h-px w-6" />
             Get in touch
           </div>

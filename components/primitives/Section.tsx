@@ -1,5 +1,6 @@
 import { cn } from "@/lib/cn";
 import { Container } from "./Container";
+import { Reveal } from "@/components/motion/Reveal";
 
 type SectionProps = {
   children: React.ReactNode;
@@ -29,7 +30,7 @@ export function Section({
     <section id={id} className={cn("relative py-20 md:py-28", className)}>
       <Container size={size} className={innerClassName}>
         {(eyebrow || title || description) && (
-          <header className="mb-12 max-w-3xl md:mb-16">
+          <Reveal as="header" className="mb-12 max-w-3xl md:mb-16">
             {eyebrow && (
               <div className="label-mono text-fg-muted mb-5 flex items-center gap-3">
                 {index && <span className="text-accent">{index}</span>}
@@ -43,7 +44,7 @@ export function Section({
                 {description}
               </p>
             )}
-          </header>
+          </Reveal>
         )}
         {children}
       </Container>

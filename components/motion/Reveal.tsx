@@ -1,102 +1,63 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { useRef } from "react";
 import { cn } from "@/lib/cn";
+import { gsap, useGSAP, prefersReducedMotion } from "./gsap";
 
 type RevealProps = {
   children: React.ReactNode;
   className?: string;
-  /** Seconds to wait before starting. */
-  delay?: number;
-  /** Vertical travel in px. */
+  /** Delay between direct children, in seconds. */
+  stagger?: number;
+  /** Starting offset in px. */
   y?: number;
-  as?: "div" | "section" | "li" | "article" | "header";
-  once?: boolean;
+  as?: "div" | "header" | "section" | "ul" | "ol";
 };
 
-const ease = [0.16, 1, 0.3, 1] as const;
-
 /**
- * Fade-and-rise when the element enters the viewport. Renders children
- * immediately (no opacity: 0) under reduced motion or before hydration
- * matters, so nothing depends on it for correctness.
+ * Rises its direct children into place, one after another, the first time
+ * they scroll into view.
  */
 export function Reveal({
   children,
   className,
-  delay = 0,
-  y = 18,
-  as = "div",
-  once = true,
+  stagger = 0.08,
+  y = 28,
+  as: As = "div",
 }: RevealProps) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as];
+  const ref = useRef<HTMLDivElement>(null);
 
-  const variants: Variants = {
-    hidden: { opacity: 0, y: reduce ? 0 : y },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease, delay } },
-  };
-
-  return (
-    <Comp
-      className={cn(className)}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once, margin: "0px 0px -12% 0px" }}
-      variants={variants}
-    >
-      {children}
-    </Comp>
+  useGSAP(
+    () => {
+      const el = ref.current;
+      if (!el) return;
+      const items = Array.from(el.children) as HTMLElement[];
+      if (prefersReducedMotion()) {
+        gsap.set([el, ...items], { autoAlpha: 1 });
+        return;
+      }
+      gsap.set(el, { autoAlpha: 1 });
+      gsap.fromTo(
+        items,
+        { autoAlpha: 0, y, filter: "blur(6px)" },
+        {
+          autoAlpha: 1,
+          y: 0,
+          filter: "blur(0px)",
+          duration: 0.9,
+          ease: "expo.out",
+          stagger,
+          scrollTrigger: { trigger: el, start: "top 85%", once: true },
+          clearProps: "filter",
+        },
+      );
+    },
+    { scope: ref },
   );
-}
 
-/** Stagger container for lists of Reveal-able children. */
-export function RevealGroup({
-  children,
-  className,
-  stagger = 0.07,
-  as = "div",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  stagger?: number;
-  as?: "div" | "ul" | "ol";
-}) {
-  const Comp = motion[as];
   return (
-    <Comp
-      className={className}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger } } }}
-    >
+    <As ref={ref as React.Ref<never>} data-reveal="" className={cn(className)}>
       {children}
-    </Comp>
-  );
-}
-
-/** A child of RevealGroup. */
-export function RevealItem({
-  children,
-  className,
-  as = "div",
-}: {
-  children: React.ReactNode;
-  className?: string;
-  as?: "div" | "li" | "article";
-}) {
-  const reduce = useReducedMotion();
-  const Comp = motion[as];
-  return (
-    <Comp
-      className={className}
-      variants={{
-        hidden: { opacity: 0, y: reduce ? 0 : 18 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.7, ease } },
-      }}
-    >
-      {children}
-    </Comp>
+    </As>
   );
 }

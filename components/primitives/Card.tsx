@@ -10,12 +10,13 @@ type CardProps = {
 };
 
 /**
- * Flat, bordered surface. Interactive cards lift a touch and their border
- * brightens; nothing blurs or glows.
+ * Flat, bordered surface with a cursor spotlight (see `.spotlight` in
+ * globals.css). Interactive cards lift a touch and their border brightens;
+ * nothing blurs.
  */
 export function Card({ children, className, href, external, interactive = !!href }: CardProps) {
   const cls = cn(
-    "group surface relative block overflow-hidden rounded-2xl p-6 md:p-8",
+    "group surface spotlight relative block overflow-hidden rounded-2xl p-6 md:p-8",
     interactive &&
       "transition-[transform,border-color,box-shadow] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[0_24px_48px_-28px_rgba(0,0,0,0.8)]",
     className,

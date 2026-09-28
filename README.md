@@ -82,15 +82,15 @@ content/              Single source of truth for all copy
 
 components/
   primitives/         Button, Card, Pill, Section, Heading, Container, Magnetic
-  effects/            SystemGrid (hairline grid), SystemField (hero simulation)
-  motion/             Reveal, RevealGroup, RevealItem
+  effects/            SystemGrid (hairline grid), SystemField (hero simulation), Portrait
+  motion/             gsap.ts, MotionRoot (Lenis + progress line + spotlight), Reveal, CountUp, Tilt
   layout/             Header, LocalClock, Footer, CommandPalette
-  sections/           Hero, StreamHeadline, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA
-  case-study/         StudyHero, CaseStudyBody, MetricGrid
+  sections/           Hero, StreamHeadline, FlagshipProject, SelectedWork, ExperienceTimeline, Philosophy, ContactCTA
+  case-study/         StudyHero, CaseStudyBody, MetricGrid, Journey, FlagshipSections, ShotFrame, PhoneFrame
+  work/               ProjectCard, BrowserFrame, ProductShowcase
   diagram/            SystemMap (interactive architecture diagram)
   playground/         FailureLab (client-side resilience simulation)
   forms/              ContactForm
-  providers/          SmoothScroll (Lenis)
 
 lib/
   seo.ts              buildMetadata() helper
