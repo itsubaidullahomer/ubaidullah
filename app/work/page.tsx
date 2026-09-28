@@ -35,13 +35,14 @@ export default function WorkPage() {
         }}
       />
 
-      <div className="pt-32 md:pt-40" />
+      <div className="pt-24 md:pt-28" />
 
       <Section
+        index="01"
         eyebrow="Case studies"
         title={
           <>
-            Things I've <em className="text-gradient-accent italic not-italic">shipped.</em>
+            Things I've <em className="accent-italic">shipped.</em>
           </>
         }
         description="Each one is running in production right now. Hover a screenshot to scroll through the live site. They're ordered by how recent they are, not by how much I like them."
@@ -60,10 +61,8 @@ export default function WorkPage() {
 
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 opacity-50 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{
-                    background: `radial-gradient(900px circle at ${flip ? "top left" : "top right"}, color-mix(in oklab, ${p.accent} 13%, transparent), transparent 62%)`,
-                  }}
+                  className="absolute inset-x-0 top-0 z-20 h-px opacity-70"
+                  style={{ background: `linear-gradient(90deg, ${p.accent}, transparent 70%)` }}
                 />
 
                 <div className="relative grid grid-cols-[minmax(0,1fr)] items-stretch lg:grid-cols-[1.05fr_1fr]">
@@ -78,7 +77,7 @@ export default function WorkPage() {
                       project={p}
                       sizes="(max-width: 1024px) 100vw, 560px"
                       priority={i === 0}
-                      className="border-border rounded-2xl border"
+                      className="surface rounded-xl"
                     />
                   </div>
 
@@ -90,10 +89,10 @@ export default function WorkPage() {
                     )}
                   >
                     <div className="flex flex-wrap items-center gap-2">
-                      <Pill>
+                      <Pill className="text-fg">
                         <span
                           className="inline-block h-1.5 w-1.5 rounded-full"
-                          style={{ backgroundColor: p.accent }}
+                          style={{ backgroundColor: p.status === "live" ? "var(--ok)" : p.accent }}
                         />
                         {STATUS_LABEL[p.status]}
                       </Pill>
@@ -101,10 +100,10 @@ export default function WorkPage() {
                       {p.featured && <Pill>Featured</Pill>}
                     </div>
 
-                    <h3 className="font-display text-fg mt-5 text-3xl leading-tight md:text-4xl">
+                    <h3 className="font-display text-fg mt-5 text-[2rem] leading-[1.02] tracking-[-0.02em] md:text-[2.5rem]">
                       {p.title}
                     </h3>
-                    <p className="text-fg-subtle mt-1 text-sm">
+                    <p className="label-mono text-fg-subtle mt-2">
                       {p.role} · {p.company}
                     </p>
                     <p className="text-fg-muted mt-4 max-w-2xl leading-relaxed text-pretty">
@@ -128,7 +127,7 @@ export default function WorkPage() {
                       {p.stack.slice(0, 6).map((s) => (
                         <span
                           key={s}
-                          className="border-border text-fg-muted rounded-full border px-2.5 py-0.5 text-[11px]"
+                          className="border-border text-fg-muted rounded-md border px-2 py-0.5 font-mono text-[11px]"
                         >
                           {s}
                         </span>
@@ -150,7 +149,7 @@ export default function WorkPage() {
                           href={p.externalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="border-border text-fg-muted hover:border-accent hover:text-accent relative z-20 inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors"
+                          className="label-mono border-border text-fg-muted hover:border-accent hover:text-accent relative z-20 inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 transition-colors"
                         >
                           <Globe className="h-3 w-3" strokeWidth={2} />
                           Visit live site

@@ -8,22 +8,15 @@ type HeadingProps = {
 };
 
 const sizes = {
-  h1: "text-5xl md:text-7xl lg:text-[88px] leading-[0.95]",
-  h2: "text-4xl md:text-5xl lg:text-6xl leading-[1.02]",
-  h3: "text-2xl md:text-3xl leading-tight",
+  h1: "text-display",
+  h2: "text-title",
+  h3: "text-heading",
   h4: "text-xl md:text-2xl leading-snug",
 };
 
 export function Heading({ children, as: As = "h2", className, display = true }: HeadingProps) {
   return (
-    <As
-      className={cn(
-        display && "font-display",
-        "text-fg tracking-[-0.02em] text-balance",
-        sizes[As],
-        className,
-      )}
-    >
+    <As className={cn(display && "font-display", "text-fg text-balance", sizes[As], className)}>
       {children}
     </As>
   );

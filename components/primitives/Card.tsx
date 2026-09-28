@@ -9,11 +9,15 @@ type CardProps = {
   interactive?: boolean;
 };
 
+/**
+ * Flat, bordered surface. Interactive cards lift a touch and their border
+ * brightens; nothing blurs or glows.
+ */
 export function Card({ children, className, href, external, interactive = !!href }: CardProps) {
   const cls = cn(
-    "group glass relative block overflow-hidden rounded-[var(--radius-glass)] p-6 md:p-8",
+    "group surface relative block overflow-hidden rounded-2xl p-6 md:p-8",
     interactive &&
-      "transition-all duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-1 hover:[box-shadow:inset_0_1px_0_0_var(--glass-highlight),0_24px_48px_-16px_rgba(0,0,0,0.4)]",
+      "transition-[transform,border-color,box-shadow] duration-300 ease-[var(--ease-out-expo)] hover:-translate-y-0.5 hover:border-[var(--border-strong)] hover:shadow-[0_24px_48px_-28px_rgba(0,0,0,0.8)]",
     className,
   );
 

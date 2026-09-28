@@ -1,18 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono, Fraunces } from "next/font/google";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
-import { GrainOverlay } from "@/components/effects/GrainOverlay";
-import { CursorHalo } from "@/components/effects/CursorHalo";
 import { buildMetadata } from "@/lib/seo";
 import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -27,47 +26,27 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
 });
 
-const instrumentSerif = Instrument_Serif({
+// Variable serif with optical size, softness and "wonk" axes. The display
+// utilities in globals.css drive those axes.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-instrument-serif",
+  style: ["normal", "italic"],
+  axes: ["SOFT", "WONK", "opsz"],
+  variable: "--font-fraunces",
 });
 
 export const metadata: Metadata = buildMetadata();
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#08080B" },
-    { media: "(prefers-color-scheme: light)", color: "#FAFAF7" },
-  ],
+  themeColor: "#07080c",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
-    >
-      <head>
-        {/* Prevent FOUC: set theme attr before paint */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var t = localStorage.getItem('theme') || 'aurora-dark';
-                  document.documentElement.setAttribute('data-theme', t);
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable}`}>
       <body className="relative">
         <Script
           id="person-jsonld"
@@ -82,17 +61,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
         />
 
-        <ThemeProvider>
+        <SmoothScroll>
           <CommandPaletteProvider>
-            <GrainOverlay />
-            <CursorHalo />
             <Header />
             <main id="main" className="relative z-10">
               {children}
             </main>
             <Footer />
           </CommandPaletteProvider>
-        </ThemeProvider>
+        </SmoothScroll>
 
         <Analytics />
         <SpeedInsights />

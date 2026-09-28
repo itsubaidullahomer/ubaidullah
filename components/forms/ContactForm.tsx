@@ -13,8 +13,8 @@ export function ContactForm() {
 
   if (state.status === "success") {
     return (
-      <div className="glass rounded-[var(--radius-glass)] p-8 text-center md:p-10">
-        <div className="bg-accent mx-auto grid h-12 w-12 place-items-center rounded-full text-[var(--accent-fg)]">
+      <div className="surface rounded-xl p-8 text-center md:p-10">
+        <div className="bg-accent text-accent-fg mx-auto grid h-12 w-12 place-items-center rounded-full">
           <Check className="h-5 w-5" strokeWidth={2.5} />
         </div>
         <h3 className="font-display text-fg mt-5 text-2xl">{state.message ?? "Sent."}</h3>
@@ -72,7 +72,7 @@ export function ContactForm() {
       </Field>
 
       {state.status === "error" && state.message && !state.fieldErrors && (
-        <div className="border-border text-fg-muted rounded-xl border bg-[var(--glass-tint)] px-4 py-3 text-sm">
+        <div className="border-border text-fg-muted bg-tint rounded-xl border px-4 py-3 text-sm">
           {state.message}
         </div>
       )}
@@ -97,7 +97,7 @@ function Field({
     <label
       htmlFor={name}
       className={cn(
-        "glass focus-within:border-fg-muted block rounded-[var(--radius-glass)] px-5 py-4 transition-colors",
+        "surface focus-within:border-fg-muted block rounded-lg px-5 py-4 transition-colors",
         error && "border-red-400/40",
       )}
     >
@@ -116,7 +116,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="group bg-accent inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-[15px] font-medium text-[var(--accent-fg)] transition-all duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] disabled:opacity-60"
+      className="group bg-accent text-accent-fg inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 text-[15px] font-medium transition-all duration-200 ease-[var(--ease-out-expo)] hover:-translate-y-px hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] disabled:opacity-60"
     >
       {pending ? (
         <>

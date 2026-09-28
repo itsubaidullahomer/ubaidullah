@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
-import { AuroraMesh } from "@/components/effects/AuroraMesh";
+import { SystemGrid } from "@/components/effects/SystemGrid";
 import { FailureLab } from "@/components/playground/FailureLab";
 import { SystemMap } from "@/components/diagram/SystemMap";
 import { tututor } from "@/content/projects/tututor";
@@ -41,12 +41,12 @@ const PATTERNS = [
 export default function PlaygroundPage() {
   return (
     <>
-      <section className="relative isolate overflow-hidden pt-32 pb-12 md:pt-40">
-        <AuroraMesh variant="section" />
+      <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
+        <SystemGrid />
         <Container className="relative z-10">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">Playground</div>
-          <h1 className="font-display text-fg mt-4 max-w-3xl text-5xl leading-[0.96] tracking-[-0.025em] text-balance md:text-7xl">
-            Try to break <em className="text-gradient-accent italic not-italic">my AI.</em>
+          <div className="label-mono text-fg-muted">Playground</div>
+          <h1 className="font-display text-display text-fg mt-5 max-w-4xl text-balance">
+            Try to break <em className="accent-italic">my AI.</em>
           </h1>
           <p className="text-fg-muted mt-6 max-w-2xl text-lg leading-relaxed text-pretty">
             Most of the work in an AI feature goes into what happens when the model doesn't
@@ -59,9 +59,7 @@ export default function PlaygroundPage() {
 
       <Container className="pb-16">
         <div className="mb-6">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">
-            Exhibit 01 — The Failure Lab
-          </div>
+          <div className="label-mono text-fg-muted">Exhibit 01 — The Failure Lab</div>
           <h2 className="font-display text-fg mt-3 text-3xl leading-tight md:text-4xl">
             A stream that refuses to die.
           </h2>
@@ -74,7 +72,7 @@ export default function PlaygroundPage() {
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {PATTERNS.map((p) => (
-            <div key={p.title} className="glass rounded-[var(--radius-glass)] p-5">
+            <div key={p.title} className="surface rounded-2xl p-5">
               <div className="text-fg text-sm font-medium">{p.title}</div>
               <p className="text-fg-muted mt-2 text-[13px] leading-relaxed">{p.detail}</p>
             </div>
@@ -95,9 +93,7 @@ export default function PlaygroundPage() {
 
       <Container className="pb-24">
         <div className="mb-5">
-          <div className="text-fg-muted text-xs tracking-[0.18em] uppercase">
-            Exhibit 02 — Where this runs in production
-          </div>
+          <div className="label-mono text-fg-muted">Exhibit 02 — Where this runs in production</div>
           <h2 className="font-display text-fg mt-3 text-3xl leading-tight md:text-4xl">
             The system these patterns live in.
           </h2>

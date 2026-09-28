@@ -3,17 +3,28 @@ import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { site } from "@/content/site";
 
+const NAV = [
+  ["/work", "Work"],
+  ["/about", "About"],
+  ["/now", "Now"],
+  ["/playground", "Playground"],
+  ["/writing", "Writing"],
+  ["/contact", "Contact"],
+] as const;
+
 export function Footer() {
   const year = new Date().getFullYear();
+  const sha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7);
+
   return (
-    <footer className="border-border relative mt-20 border-t py-16">
-      <Container>
-        <div className="grid gap-12 md:grid-cols-[2fr_1fr_1fr] md:gap-16">
+    <footer className="border-border relative mt-24 border-t">
+      <Container size="wide" className="py-16 md:py-20">
+        <div className="grid gap-12 md:grid-cols-[1.6fr_1fr_1fr] md:gap-16">
           <div>
-            <div className="font-display text-fg max-w-md text-3xl leading-tight text-balance">
-              Let's build something <em className="text-gradient-accent not-italic">that ships.</em>
+            <div className="font-display text-fg max-w-md text-[2rem] leading-[1.02] tracking-[-0.02em] text-balance md:text-[2.5rem]">
+              Let's build something <em className="accent-italic">that ships.</em>
             </div>
-            <p className="text-fg-muted mt-4 max-w-md text-sm leading-relaxed">
+            <p className="text-fg-muted mt-5 max-w-md text-sm leading-relaxed">
               I take on a few product engineering projects at a time. If you need someone who can
               own a feature from the data model to the last CSS fix, that's the part I'm good at.
             </p>
@@ -27,15 +38,9 @@ export function Footer() {
           </div>
 
           <nav aria-label="Footer">
-            <div className="text-fg-subtle text-xs tracking-[0.18em] uppercase">Sitemap</div>
-            <ul className="mt-4 space-y-2 text-sm">
-              {[
-                ["/work", "Work"],
-                ["/about", "About"],
-                ["/now", "Now"],
-                ["/playground", "Playground"],
-                ["/contact", "Contact"],
-              ].map(([href, label]) => (
+            <div className="label-mono text-fg-subtle">Sitemap</div>
+            <ul className="mt-5 space-y-2.5 text-sm">
+              {NAV.map(([href, label]) => (
                 <li key={href}>
                   <Link href={href} className="text-fg-muted hover:text-fg transition-colors">
                     {label}
@@ -46,8 +51,8 @@ export function Footer() {
           </nav>
 
           <nav aria-label="Social">
-            <div className="text-fg-subtle text-xs tracking-[0.18em] uppercase">Elsewhere</div>
-            <ul className="mt-4 space-y-2 text-sm">
+            <div className="label-mono text-fg-subtle">Elsewhere</div>
+            <ul className="mt-5 space-y-2.5 text-sm">
               {Object.values(site.socials).map((s) => (
                 <li key={s.url}>
                   <a
@@ -65,11 +70,19 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="border-border text-fg-subtle mt-16 flex flex-col gap-2 border-t pt-8 text-xs md:flex-row md:items-center md:justify-between">
+        {/* Readout row */}
+        <div className="border-border label-mono text-fg-subtle mt-16 flex flex-col gap-3 border-t pt-6 md:flex-row md:items-center md:justify-between">
           <div>
-            © {year} {site.name}. Built in {site.location}.
+            © {year} {site.name} · Built in {site.location}
           </div>
-          <div className="font-mono text-[11px]">Next.js · React 19 · Tailwind v4 · Vercel</div>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span className="inline-flex items-center gap-1.5">
+              <span className="bg-ok h-1.5 w-1.5 rounded-full" />
+              All systems normal
+            </span>
+            {sha && <span>build {sha}</span>}
+            <span>Next.js · React 19 · Vercel</span>
+          </div>
         </div>
       </Container>
     </footer>

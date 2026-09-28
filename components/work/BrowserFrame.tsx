@@ -44,14 +44,14 @@ export function BrowserFrame({
       className={cn("relative flex h-full flex-col overflow-hidden rounded-t-[inherit]", className)}
     >
       {/* Chrome bar */}
-      <div className="border-border relative flex items-center gap-3 border-b bg-[var(--glass-tint)] px-4 py-2.5">
+      <div className="border-border bg-bg-raised relative flex items-center gap-3 border-b px-4 py-2.5">
         <div className="flex shrink-0 items-center gap-1.5" aria-hidden>
           <span className="h-2 w-2 rounded-full bg-[#FF5F57]/80" />
           <span className="h-2 w-2 rounded-full bg-[#FEBC2E]/80" />
           <span className="h-2 w-2 rounded-full bg-[#28C840]/80" />
         </div>
         <div className="border-border mx-auto flex max-w-[70%] min-w-0 items-center justify-center gap-1.5 rounded-full border px-3 py-0.5">
-          <span className="text-fg-muted truncate font-mono text-[10px] tracking-tight">
+          <span className="text-fg-muted truncate font-mono text-[10px] tracking-tight normal-case">
             {domain ?? project.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}
           </span>
         </div>
@@ -60,6 +60,7 @@ export function BrowserFrame({
 
       {/* Screenshot window */}
       <div
+        data-lenis-prevent={scrollable ? "" : undefined}
         className={cn(
           scrollable
             ? "relative max-h-[70vh] overflow-y-auto overscroll-contain"
@@ -95,10 +96,10 @@ export function BrowserFrame({
           </div>
         )}
 
-        {/* Soft inner edge so the shot sits "inside" the glass */}
+        {/* Soft inner edge so the shot sits "inside" the surface */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 [box-shadow:inset_0_1px_0_0_var(--glass-highlight),inset_0_-24px_32px_-28px_rgba(0,0,0,0.55)]"
+          className="pointer-events-none absolute inset-0 [box-shadow:inset_0_-24px_32px_-28px_rgba(0,0,0,0.55)]"
         />
       </div>
     </div>

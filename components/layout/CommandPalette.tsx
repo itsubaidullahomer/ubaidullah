@@ -16,11 +16,7 @@ import {
   Instagram,
   Copy,
   Download,
-  Sun,
-  Moon,
-  Contrast,
 } from "lucide-react";
-import { useTheme } from "next-themes";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
 import { cn } from "@/lib/cn";
@@ -36,7 +32,6 @@ type Cmd = {
 
 export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const router = useRouter();
-  const { setTheme } = useTheme();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -106,27 +101,6 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
         perform: () => window.open(site.resumeUrl, "_blank"),
       },
       {
-        id: "theme-dark",
-        label: "Dark aurora",
-        group: "Theme",
-        icon: Moon,
-        perform: () => setTheme("aurora-dark"),
-      },
-      {
-        id: "theme-light",
-        label: "Light aurora",
-        group: "Theme",
-        icon: Sun,
-        perform: () => setTheme("aurora-light"),
-      },
-      {
-        id: "theme-mono",
-        label: "Monochrome",
-        group: "Theme",
-        icon: Contrast,
-        perform: () => setTheme("monochrome"),
-      },
-      {
         id: "social-github",
         label: "GitHub",
         group: "Social",
@@ -148,7 +122,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
         perform: () => window.open(site.socials.instagram.url, "_blank"),
       },
     ],
-    [router, setTheme],
+    [router],
   );
 
   const filtered = useMemo(() => {
@@ -204,7 +178,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
           exit={{ opacity: 0 }}
           transition={{ duration: 0.15 }}
           onClick={onClose}
-          className="fixed inset-0 z-[100] flex items-start justify-center bg-[rgba(0,0,0,0.55)] px-4 pt-[14vh] backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-start justify-center bg-[rgba(7,8,12,0.72)] px-4 pt-[14vh]"
         >
           <motion.div
             initial={{ y: -8, opacity: 0, scale: 0.98 }}
@@ -212,7 +186,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
             exit={{ y: -8, opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="glass-strong w-full max-w-xl overflow-hidden rounded-2xl"
+            className="surface-raised w-full max-w-xl overflow-hidden rounded-xl"
           >
             <div className="border-border flex items-center gap-3 border-b px-4 py-3">
               <Search className="text-fg-muted h-4 w-4" />
@@ -231,7 +205,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
               </kbd>
             </div>
 
-            <div className="max-h-[60vh] overflow-y-auto py-2">
+            <div className="max-h-[60vh] overflow-y-auto py-2" data-lenis-prevent>
               {filtered.length === 0 && (
                 <div className="text-fg-muted px-4 py-8 text-center text-sm">No matches.</div>
               )}
@@ -239,9 +213,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                 let runningIdx = -1;
                 return grouped.map(([group, items]) => (
                   <div key={group}>
-                    <div className="text-fg-subtle px-4 pt-3 pb-1 text-[10px] tracking-[0.16em] uppercase">
-                      {group}
-                    </div>
+                    <div className="label-mono text-fg-subtle px-4 pt-3 pb-1">{group}</div>
                     {items.map((cmd) => {
                       runningIdx += 1;
                       const isSel = runningIdx === selected;
@@ -257,9 +229,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                           }}
                           className={cn(
                             "flex w-full items-center gap-3 px-4 py-2 text-left text-sm transition-colors",
-                            isSel
-                              ? "text-fg bg-[var(--glass-highlight)]"
-                              : "text-fg-muted hover:text-fg",
+                            isSel ? "text-fg bg-tint-strong" : "text-fg-muted hover:text-fg",
                           )}
                         >
                           <Icon className="h-4 w-4 shrink-0" strokeWidth={1.75} />

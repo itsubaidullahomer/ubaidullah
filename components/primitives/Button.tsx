@@ -16,19 +16,19 @@ type CommonProps = {
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-accent text-[var(--accent-fg)] hover:shadow-[0_8px_32px_-8px_var(--accent-glow)] hover:-translate-y-px",
-  secondary: "glass text-fg hover:bg-[var(--glass-highlight)] hover:-translate-y-px",
-  ghost: "text-fg hover:bg-[var(--glass-tint)]",
+    "bg-accent text-accent-fg hover:bg-accent-bright hover:shadow-[0_12px_32px_-12px_var(--accent-glow)]",
+  secondary: "border border-border-strong text-fg hover:border-fg-muted hover:bg-tint",
+  ghost: "text-fg-muted hover:text-fg hover:bg-tint",
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "h-9 px-4 text-sm",
-  md: "h-11 px-5 text-[15px]",
-  lg: "h-14 px-7 text-base",
+  sm: "h-9 px-3.5 text-[13px]",
+  md: "h-11 px-5 text-[14px]",
+  lg: "h-13 px-6 text-[15px]",
 };
 
 const base =
-  "group inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-[-0.01em] transition-all duration-200 ease-[var(--ease-out-expo)] will-change-transform disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex items-center justify-center gap-2 rounded-lg font-medium tracking-[-0.01em] transition-[background-color,border-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-expo)] will-change-transform active:translate-y-px disabled:opacity-50 disabled:pointer-events-none";
 
 type ButtonProps = CommonProps &
   ({ href: string } | (React.ButtonHTMLAttributes<HTMLButtonElement> & { href?: undefined }));
