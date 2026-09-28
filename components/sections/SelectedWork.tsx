@@ -15,7 +15,7 @@ export function SelectedWork() {
           Other things I've <em className="text-gradient-accent italic not-italic">built.</em>
         </>
       }
-      description="All of these are live. Hover a card to scroll through the site as it looks today."
+      description="All of these are live, and each has a case study."
     >
       <Reveal className="grid gap-4 md:grid-cols-2 md:gap-6" stagger={0.12}>
         {featuredProjects.map((p, i) => (

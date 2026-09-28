@@ -44,7 +44,7 @@ export default function WorkPage() {
             Things I've <em className="text-gradient-accent italic not-italic">shipped.</em>
           </>
         }
-        description="Each one is running in production right now. Hover a screenshot to scroll through the live site. They're ordered by how recent they are, not by how much I like them."
+        description="Each one is running in production right now. They're ordered by how recent they are, not by how much I like them."
       >
         <div className="space-y-6 md:space-y-8">
           {projects.map((p, i) => {

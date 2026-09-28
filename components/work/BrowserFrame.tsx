@@ -19,15 +19,14 @@ type BrowserFrameProps = {
   priority?: boolean;
   /** Aspect ratio of the visible window. */
   windowClassName?: string;
-  /** Let the viewer scroll the full page themselves instead of hover-panning. */
+  /** Let the viewer scroll the full page themselves. */
   scrollable?: boolean;
   className?: string;
 };
 
 /**
  * A browser-chrome frame around the project's full-page screenshot.
- * Hovering the surrounding `.group` slowly pans down the page (see
- * `.shot-window` / `.shot-img` in globals.css).
+ * Cards show the top of the page, held still.
  */
 export function BrowserFrame({
   project,
@@ -78,7 +77,7 @@ export function BrowserFrame({
             quality={70}
             className={cn(
               "block h-auto w-full",
-              !scrollable && "shot-img min-h-full object-cover object-top",
+              !scrollable && "min-h-full object-cover object-top",
             )}
           />
         ) : (

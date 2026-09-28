@@ -278,30 +278,9 @@ html.theme-ready * {
 }
 
 /* ── Live-site screenshot preview (project cards) ─────────────────
-   The full-page screenshot sits in a fixed-ratio window; hovering the
-   card slowly pans down the page, like scrolling the real site.
-   100cqh = the window's own height (container-type: size). */
+   The top of the full-page screenshot, held still in a fixed-ratio window. */
 .shot-window {
   container-type: size;
-}
-
-.shot-img {
-  transition: transform 6.5s cubic-bezier(0.45, 0, 0.55, 1);
-  will-change: transform;
-}
-
-@supports (height: 100cqh) {
-  .group:hover .shot-img,
-  .group:focus-within .shot-img {
-    transform: translateY(calc(-100% + 100cqh));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .group:hover .shot-img,
-  .group:focus-within .shot-img {
-    transform: none;
-  }
 }
 
 /* ── Cursor spotlight on cards ────────────────────────────────────
@@ -309,6 +288,7 @@ html.theme-ready * {
    the ::after draws a soft light and a brighter rim where the cursor is. */
 .spotlight {
   position: relative;
+  isolation: isolate;
 }
 .spotlight::after {
   content: "";
@@ -320,7 +300,7 @@ html.theme-ready * {
   transition: opacity 300ms var(--ease-out-quart);
   background:
     radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--accent) 9%, transparent), transparent 60%);
-  z-index: 0;
+  z-index: -1;
 }
 .spotlight::before {
   content: "";
