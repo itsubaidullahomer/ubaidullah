@@ -145,7 +145,7 @@ export function BrowserFrame({
             src={shot.src}
             width={shot.width}
             height={shot.height}
-            alt={`Screenshot of the ${project.title} website`}
+            alt={shot.alt ?? `Screenshot of the ${project.title} website`}
             sizes={sizes}
             priority={priority}
             quality={70}
@@ -156,7 +156,7 @@ export function BrowserFrame({
             {/* View A: the top of the site */}
             <Image
               src={shot.src}
-              alt={`Screenshot of the ${project.title} website`}
+              alt={shot.alt ?? `Screenshot of the ${project.title} website`}
               fill
               sizes={sizes}
               priority={priority}

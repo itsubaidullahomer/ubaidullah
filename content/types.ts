@@ -119,8 +119,8 @@ export type Project = {
   featured: boolean;
   cover: string;
   accent: string;
-  /** Full-page screenshot of the live product, shown in a browser frame. */
-  screenshot?: Screenshot;
+  /** Screenshot of the live product, shown in a browser frame. */
+  screenshot?: Screenshot & { alt?: string };
 
   summary: string;
   problem: string;
@@ -131,6 +131,12 @@ export type Project = {
   responsibilities: string[];
   stack: string[];
   externalUrl?: string;
+  /**
+   * `rel` for links out to `externalUrl`. Defaults to "noopener noreferrer".
+   * "noopener" alone passes the referrer, so the product's own analytics
+   * can see visits from here. Never "nofollow".
+   */
+  externalRel?: string;
 
   architecture?: {
     /** One or two sentences above the system map. */

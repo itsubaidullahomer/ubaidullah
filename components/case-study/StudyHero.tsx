@@ -66,10 +66,10 @@ export function StudyHero({ project }: { project: Project }) {
             <a
               href={project.externalUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel={project.externalRel ?? "noopener noreferrer"}
               className="group text-fg hover:text-accent mt-8 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"
             >
-              Visit {project.title}
+              {`Visit ${project.title}`}
               <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
           )
@@ -93,7 +93,9 @@ export function StudyHero({ project }: { project: Project }) {
                 className="surface rounded-xl"
               />
               <p className="label-mono text-fg-subtle mt-3 text-center">
-                The live site, captured full page. Scroll inside the frame.
+                {project.screenshot.height / project.screenshot.width > 1.2
+                  ? "The live site, captured full page. Scroll inside the frame."
+                  : "The live site."}
               </p>
             </div>
           )

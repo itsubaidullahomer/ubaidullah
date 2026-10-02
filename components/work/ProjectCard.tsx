@@ -137,7 +137,7 @@ export function ProjectCard({
               <a
                 href={p.externalUrl}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel={p.externalRel ?? "noopener noreferrer"}
                 className="label-mono border-border text-fg-muted hover:border-accent hover:text-accent relative z-20 inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 transition-colors"
               >
                 Live

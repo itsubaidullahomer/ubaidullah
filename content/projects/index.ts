@@ -7,6 +7,7 @@ import { jurri } from "./jurri";
 import { yaksport } from "./yaksport";
 import { crownKabab } from "./crown-kabab";
 import { animatedLanding } from "./animated-landing";
+import { toolkitjar } from "./toolkitjar";
 
 export const projects: Project[] = [
   tututor,
@@ -17,6 +18,8 @@ export const projects: Project[] = [
   yaksport,
   crownKabab,
   animatedLanding,
+  // Last on purpose: a small side project, listed at the bottom of the archive.
+  toolkitjar,
 ];
 
 /** The one project that leads the home page with its own section. */

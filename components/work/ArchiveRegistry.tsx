@@ -97,12 +97,13 @@ export function ArchiveRegistry({
       >
         {projects.map((p, i) => (
           <li key={p.slug} onPointerEnter={() => setActive(i)}>
-            <Link
-              href={`/work/${p.slug}`}
-              className={cn(
-                "group border-border hover:bg-tint relative grid grid-cols-[2.5rem_minmax(0,1fr)_1.5rem] gap-x-4 gap-y-2 border-b py-6 transition-colors lg:grid-cols-[3.5rem_minmax(0,1.7fr)_minmax(0,1fr)_10rem_6.5rem_2rem] lg:items-baseline lg:gap-6 lg:py-7",
-              )}
-            >
+            <div className="group border-border hover:bg-tint relative grid grid-cols-[2.5rem_minmax(0,1fr)_1.5rem] gap-x-4 gap-y-2 border-b py-6 transition-colors lg:grid-cols-[3.5rem_minmax(0,1.7fr)_minmax(0,1fr)_10rem_6.5rem_2rem] lg:items-baseline lg:gap-6 lg:py-7">
+              {/* The whole row opens the case study; the visit link sits above it. */}
+              <Link
+                href={`/work/${p.slug}`}
+                aria-label={`${p.title}: read the case study`}
+                className="absolute inset-0 z-10"
+              />
               {/* Project colour marks the row on hover */}
               <span
                 aria-hidden
@@ -114,7 +115,7 @@ export function ArchiveRegistry({
                 {String(startIndex + i).padStart(2, "0")}
               </span>
 
-              <span className="min-w-0">
+              <div className="min-w-0">
                 <span className="font-display text-fg block text-[1.75rem] leading-[1.05] tracking-[-0.02em] transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:translate-x-1.5 lg:text-[2.25rem]">
                   {p.title}
                 </span>
@@ -132,7 +133,18 @@ export function ArchiveRegistry({
                   </span>
                   <span>{p.period}</span>
                 </span>
-              </span>
+                {p.externalUrl && (
+                  <a
+                    href={p.externalUrl}
+                    target="_blank"
+                    rel={p.externalRel ?? "noopener noreferrer"}
+                    className="label-mono border-border text-fg-muted hover:border-accent hover:text-accent relative z-20 mt-4 inline-flex h-8 items-center gap-1.5 rounded-md border px-2.5 transition-colors"
+                  >
+                    {`Visit ${p.title}`}
+                    <ArrowUpRight className="h-3 w-3" strokeWidth={2} />
+                  </a>
+                )}
+              </div>
 
               <span className="text-fg-muted hidden text-sm leading-snug lg:block">
                 {p.role}
@@ -154,7 +166,7 @@ export function ArchiveRegistry({
                 className="text-fg-subtle group-hover:text-fg mt-2 h-4 w-4 justify-self-end transition-transform duration-300 group-hover:rotate-45 lg:mt-0"
                 strokeWidth={1.75}
               />
-            </Link>
+            </div>
           </li>
         ))}
       </ol>
