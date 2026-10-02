@@ -43,7 +43,10 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
 
   // Graceful no-key path — log so dev can see it locally
   if (!apiKey) {
-    console.warn("[contact] RESEND_API_KEY not set — message would have been sent:", { name, email });
+    console.warn("[contact] RESEND_API_KEY not set — message would have been sent:", {
+      name,
+      email,
+    });
     return {
       status: "success",
       message: "Got it. I'll get back to you soon.",

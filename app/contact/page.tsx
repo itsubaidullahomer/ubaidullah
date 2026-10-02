@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, Github, Linkedin, Instagram } from "lucide-react";
+import { Mail, Github, Linkedin, Instagram, Facebook } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { SystemGrid } from "@/components/effects/SystemGrid";
 import { ContactForm } from "@/components/forms/ContactForm";
@@ -16,6 +16,7 @@ const SOCIAL_ICONS = {
   github: Github,
   linkedin: Linkedin,
   instagram: Instagram,
+  facebook: Facebook,
   email: Mail,
 } as const;
 

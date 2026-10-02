@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Container } from "@/components/primitives/Container";
 import { SystemGrid } from "@/components/effects/SystemGrid";
 import { Reveal } from "@/components/motion/Reveal";
@@ -9,6 +8,7 @@ import { ProjectCard } from "@/components/work/ProjectCard";
 import { ArchiveRegistry } from "@/components/work/ArchiveRegistry";
 import { projects, spansFullRow } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 
 export const metadata: Metadata = buildMetadata({
@@ -56,17 +56,11 @@ function Rule({ index, label, note }: { index: string; label: string; note: stri
 export default function WorkPage() {
   return (
     <>
-      <Script
-        id="work-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "Work", path: "/work" },
-            ]),
-          ),
-        }}
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Work", path: "/work" },
+        ])}
       />
 
       {/* ── Hero ───────────────────────────────────────────── */}

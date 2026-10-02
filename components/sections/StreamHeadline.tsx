@@ -5,7 +5,7 @@ export type Token = { text: string; accent?: boolean };
 type StreamHeadlineProps = {
   tokens: Token[];
   className?: string;
-  as?: "h1" | "h2" | "p";
+  as?: "h1" | "h2" | "p" | "span";
 };
 
 /**

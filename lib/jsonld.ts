@@ -1,21 +1,32 @@
 import { site } from "@/content/site";
-import { siteUrl } from "./seo";
+import { absoluteUrl, siteUrl } from "./seo";
+
+const personId = `${siteUrl}/#person`;
+
+/** Profiles that are the same person: every social link except email. */
+const sameAs = Object.values(site.socials)
+  .map((s) => s.url)
+  .filter((url) => url.startsWith("https://"));
 
 export function personJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": personId,
     name: site.name,
-    alternateName: site.handle,
+    alternateName: "Ubaidullah",
     url: siteUrl,
-    image: `${siteUrl}/portrait.png`,
+    image: absoluteUrl(site.photo),
     jobTitle: site.role,
     description: site.description,
-    email: `mailto:${site.email}`,
-    address: { "@type": "PostalAddress", addressCountry: "PK", addressLocality: site.location },
-    worksFor: { "@type": "Organization", name: "Tututor.ai", url: "https://tututor.ai" },
-    knowsAbout: site.keywords,
-    sameAs: Object.values(site.socials).map((s) => s.url),
+    worksFor: { "@type": "Organization", name: site.employer.name, url: site.employer.url },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: site.address.locality,
+      addressRegion: site.address.region,
+      addressCountry: site.address.countryCode,
+    },
+    sameAs,
   };
 }
 
@@ -23,11 +34,11 @@ export function websiteJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": `${siteUrl}/#website`,
     name: site.name,
     url: siteUrl,
-    description: site.description,
     inLanguage: "en",
-    author: { "@type": "Person", name: site.name, url: siteUrl },
+    publisher: { "@id": personId },
   };
 }
 
@@ -39,7 +50,7 @@ export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
       "@type": "ListItem",
       position: i + 1,
       name: item.name,
-      item: new URL(item.path, siteUrl).toString(),
+      item: absoluteUrl(item.path),
     })),
   };
 }
@@ -60,20 +71,25 @@ export function articleJsonLd(p: {
     image: p.image ?? `${siteUrl}/api/og?title=${encodeURIComponent(p.title)}`,
     datePublished: p.publishedTime,
     dateModified: p.modifiedTime ?? p.publishedTime,
-    author: { "@type": "Person", name: site.name, url: siteUrl },
-    publisher: { "@type": "Person", name: site.name, url: siteUrl },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}/writing/${p.slug}` },
+    author: { "@type": "Person", "@id": personId, name: site.name, url: siteUrl },
+    publisher: { "@type": "Person", "@id": personId, name: site.name, url: siteUrl },
+    mainEntityOfPage: { "@type": "WebPage", "@id": absoluteUrl(`/writing/${p.slug}`) },
   };
 }
 
-export function caseStudyJsonLd(p: { title: string; description: string; slug: string; image?: string }) {
+export function caseStudyJsonLd(p: {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string;
+}) {
   return {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: p.title,
     description: p.description,
     image: p.image ?? `${siteUrl}/api/og?title=${encodeURIComponent(p.title)}`,
-    url: `${siteUrl}/work/${p.slug}`,
-    creator: { "@type": "Person", name: site.name, url: siteUrl },
+    url: absoluteUrl(`/work/${p.slug}`),
+    creator: { "@type": "Person", "@id": personId, name: site.name, url: siteUrl },
   };
 }

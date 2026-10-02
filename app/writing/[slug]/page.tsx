@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
 import { Container } from "@/components/primitives/Container";
 import { SystemGrid } from "@/components/effects/SystemGrid";
 import { writingPosts, getPost } from "@/content/writing";
 import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
@@ -38,32 +38,20 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   return (
     <>
-      <Script
-        id={`jsonld-${post.slug}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            articleJsonLd({
-              title: post.title,
-              description: post.description,
-              slug: post.slug,
-              publishedTime: post.publishedAt,
-            }),
-          ),
-        }}
+      <JsonLd
+        data={articleJsonLd({
+          title: post.title,
+          description: post.description,
+          slug: post.slug,
+          publishedTime: post.publishedAt,
+        })}
       />
-      <Script
-        id={`breadcrumb-${post.slug}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "Writing", path: "/writing" },
-              { name: post.title, path: `/writing/${post.slug}` },
-            ]),
-          ),
-        }}
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Writing", path: "/writing" },
+          { name: post.title, path: `/writing/${post.slug}` },
+        ])}
       />
 
       <article>

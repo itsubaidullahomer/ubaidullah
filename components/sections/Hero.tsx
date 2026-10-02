@@ -51,25 +51,33 @@ export function Hero() {
                 </span>
               </div>
 
-              {/* Headline streams in */}
-              <StreamHeadline
-                tokens={HEADLINE}
-                className="font-display text-fg mt-7 text-[clamp(2.75rem,7vw,6.75rem)] leading-[0.94] tracking-[-0.03em] text-balance md:mt-9"
-              />
+              {/* The H1 carries the full name (what people search for), then the
+                  headline, which streams in. The hidden dash keeps the two
+                  readable as one sentence for crawlers and screen readers. */}
+              <h1 className="mt-7 md:mt-9">
+                <span className="font-display text-fg-muted rise-in block text-[clamp(1.375rem,2.4vw,2rem)] leading-none tracking-[-0.015em] [animation-delay:120ms]">
+                  {site.name}
+                </span>
+                <span className="sr-only"> – </span>
+                <StreamHeadline
+                  as="span"
+                  tokens={HEADLINE}
+                  className="font-display text-fg mt-4 block text-[clamp(2.75rem,7vw,6.75rem)] leading-[0.94] tracking-[-0.03em] text-balance md:mt-5"
+                />
+              </h1>
 
               <p className="text-fg-muted rise-in mt-7 max-w-xl text-[17px] leading-relaxed text-pretty [animation-delay:1100ms] md:mt-9 md:text-lg">
                 <Image
                   src="/images/avatar.png"
-                  alt=""
+                  alt={site.name}
                   width={28}
                   height={28}
                   priority
                   className="border-border-strong mr-2 inline-block h-7 w-7 -translate-y-px rounded-full border object-cover align-middle"
                 />
-                I'm <span className="text-fg">Ubaidullah</span>, a product engineer in Pakistan.
-                Most of what I build has a language model somewhere behind it, and my job is the
-                part around the model: the streaming, the failure modes, the data shape. Right now
-                that's{" "}
+                I'm a product engineer in {site.location}. Most of what I build has a language model
+                somewhere behind it, and my job is the part around the model: the streaming, the
+                failure modes, the data shape. Right now that's{" "}
                 <a
                   href="https://tututor.ai"
                   target="_blank"

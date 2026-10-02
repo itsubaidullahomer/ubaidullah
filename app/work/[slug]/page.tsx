@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import { StudyHero } from "@/components/case-study/StudyHero";
 import { CaseStudyBody } from "@/components/case-study/CaseStudyBody";
 import { projects, getProject } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { caseStudyJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
 
 export function generateStaticParams() {
@@ -34,31 +34,19 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <Script
-        id={`jsonld-${project.slug}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            caseStudyJsonLd({
-              title: project.title,
-              description: project.tagline,
-              slug: project.slug,
-            }),
-          ),
-        }}
+      <JsonLd
+        data={caseStudyJsonLd({
+          title: project.title,
+          description: project.tagline,
+          slug: project.slug,
+        })}
       />
-      <Script
-        id={`breadcrumb-${project.slug}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "Work", path: "/work" },
-              { name: project.title, path: `/work/${project.slug}` },
-            ]),
-          ),
-        }}
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Work", path: "/work" },
+          { name: project.title, path: `/work/${project.slug}` },
+        ])}
       />
 
       <StudyHero project={project} />

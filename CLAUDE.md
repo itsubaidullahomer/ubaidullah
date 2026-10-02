@@ -70,7 +70,12 @@ There is **no `tailwind.config`** — this is Tailwind v4. All design tokens liv
 
 ## SEO plumbing
 
-Every route's `metadata` goes through `buildMetadata()` in `lib/seo.ts` (canonical URL, OG/Twitter cards, dynamic OG image via `/api/og?title=...` rendered by `app/api/og/route.tsx` with `@vercel/og`, styled with the same ink/bone/orange palette). Structured data lives in `lib/jsonld.ts` (Person + WebSite injected in `app/layout.tsx`; BreadcrumbList/CreativeWork/BlogPosting on detail pages). New pages should call `buildMetadata({ title, description, path })` rather than hand-rolling `Metadata`.
+The site should rank for "Ubaidullah Omer". `site.name` is the full name and is used in titles, the H1, the header wordmark, photo alt text and JSON-LD; don't shorten it.
+
+- Every route's `metadata` goes through `buildMetadata()` in `lib/seo.ts`: title (`Page – Ubaidullah Omer`; the home page is `Ubaidullah Omer – Senior Product Engineer`), description (default `site.description`, kept at 150–160 characters), canonical, Open Graph (1200×630 image from `/api/og?title=…`, rendered by `app/api/og/route.tsx`) and a `summary_large_image` Twitter card. New pages call `buildMetadata({ title, description, path })`.
+- **One URL form everywhere:** `siteUrl` / `absoluteUrl()` in `lib/seo.ts` produce `https://itsubaidullahomer.com` (no www, no trailing slash; the home page is the bare origin). Canonicals, og:url, the sitemap and JSON-LD all use them. The origin comes from `site.url`, never from an environment variable.
+- **Structured data is rendered with `components/seo/JsonLd.tsx`**, a plain server `<script type="application/ld+json">`. Never use `next/script` for it: that injects the JSON with JavaScript after load, so it is missing from the HTML crawlers read. Builders live in `lib/jsonld.ts`. Person (with `sameAs` from `site.socials`, address and employer from `site.ts`) and WebSite are on the home page only; detail pages carry BreadcrumbList plus CreativeWork or BlogPosting.
+- `app/sitemap.ts` derives every public URL from `content/`; `app/robots.ts` allows everything (the share images live under `/api/`, so don't disallow it).
 
 ## Conventions
 

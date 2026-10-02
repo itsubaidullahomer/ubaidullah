@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Fraunces } from "next/font/google";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -9,7 +8,6 @@ import { Footer } from "@/components/layout/Footer";
 import { MotionRoot } from "@/components/motion/MotionRoot";
 import { CommandPaletteProvider } from "@/components/layout/CommandPaletteProvider";
 import { buildMetadata } from "@/lib/seo";
-import { personJsonLd, websiteJsonLd } from "@/lib/jsonld";
 
 import "lenis/dist/lenis.css";
 import "./globals.css";
@@ -36,7 +34,10 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
 });
 
-export const metadata: Metadata = buildMetadata();
+// Site-wide defaults. Every page sets its own canonical through buildMetadata,
+// so pages without one (the 404) don't inherit the home page's.
+const { alternates: _homeCanonical, ...defaults } = buildMetadata();
+export const metadata: Metadata = defaults;
 
 export const viewport: Viewport = {
   themeColor: "#07080c",
@@ -69,19 +70,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="relative">
-        <Script
-          id="person-jsonld"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd()) }}
-        />
-        <Script
-          id="website-jsonld"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
-        />
-
         <CommandPaletteProvider>
           <MotionRoot />
           <Header />

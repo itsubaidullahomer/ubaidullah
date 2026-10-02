@@ -29,7 +29,6 @@ npm run dev
 Copy `.env.example` → `.env.local`:
 
 ```bash
-NEXT_PUBLIC_SITE_URL=https://itsubaidullahomer.com
 RESEND_API_KEY=        # contact form (optional — gracefully degrades)
 CONTACT_TO_EMAIL=itsubaidullahomer@gmail.com
 ```

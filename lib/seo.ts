@@ -1,7 +1,19 @@
 import type { Metadata } from "next";
 import { site } from "@/content/site";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? site.url;
+/**
+ * The one origin every canonical, og:url, sitemap entry and JSON-LD URL
+ * uses: https, no www, no trailing slash. Deliberately not read from an
+ * environment variable, so a preview or misconfigured env can never
+ * publish a different canonical.
+ */
+export const siteUrl = site.url.replace(/\/+$/, "");
+
+/** Absolute URL for a path. The home page is the bare origin; other paths never end in "/". */
+export function absoluteUrl(path = "/") {
+  const clean = path === "/" ? "" : `/${path.replace(/^\/+|\/+$/g, "")}`;
+  return `${siteUrl}${clean}`;
+}
 
 type BuildMetadata = {
   title?: string;
@@ -22,16 +34,16 @@ export function buildMetadata({
   type = "website",
   publishedTime,
 }: BuildMetadata = {}): Metadata {
-  const url = new URL(path, SITE_URL).toString();
-  const fullTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
-  const ogImage = image ?? `${SITE_URL}/api/og?title=${encodeURIComponent(title ?? site.name)}`;
+  const url = absoluteUrl(path);
+  const fullTitle = title ? `${title} – ${site.name}` : `${site.name} – ${site.role}`;
+  const ogImage = image ?? `${siteUrl}/api/og?title=${encodeURIComponent(title ?? site.name)}`;
 
   return {
-    metadataBase: new URL(SITE_URL),
+    metadataBase: new URL(siteUrl),
     title: fullTitle,
     description,
     keywords: keywords ?? [...site.keywords],
-    authors: [{ name: site.name, url: SITE_URL }],
+    authors: [{ name: site.name, url: siteUrl }],
     creator: site.name,
     publisher: site.name,
     alternates: { canonical: url },
@@ -55,9 +67,6 @@ export function buildMetadata({
       title: fullTitle,
       description,
       images: [ogImage],
-      creator: `@${site.handle}`,
     },
   };
 }
-
-export const siteUrl = SITE_URL;

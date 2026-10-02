@@ -1,14 +1,21 @@
 export const site = {
-  name: "Ubaidullah",
+  name: "Ubaidullah Omer",
   handle: "itsubaidullahomer",
   role: "Senior Product Engineer",
   tagline: "I build AI products people rely on.",
+  /** The default meta description (152 characters; keep it within 150–160). */
   description:
-    "Product engineer building AI and education products. I rebuilt Tututor.ai three times and grew it into eight products on one backend, used by 20k+ students, teachers and families. Four years with React, Node.js, MongoDB and LLM APIs.",
+    "Ubaidullah Omer is a Senior Product Engineer in Rahim Yar Khan, Pakistan, building AI products at Tutor.ai used by 20k+ students, teachers and families.",
   url: "https://itsubaidullahomer.com",
   email: "itsubaidullahomer@gmail.com",
   phone: "+92 329 2380929",
-  location: "Pakistan",
+  location: "Rahim Yar Khan, Pakistan",
+  /** Structured address for the Person JSON-LD. */
+  address: { locality: "Rahim Yar Khan", region: "Punjab", countryCode: "PK" },
+  /** Current employer, for the Person JSON-LD `worksFor`. */
+  employer: { name: "Tutor.ai", url: "https://tututor.ai" },
+  /** Profile photo: JSON-LD image and the photo on /about. */
+  photo: "/portrait.png",
   availability: "Available for select work",
   resumeUrl: "/Ubaidullah-CV.pdf",
   keywords: [
@@ -22,6 +29,7 @@ export const site = {
     "full stack developer Pakistan",
     "product engineer",
     "Tututor.ai",
+    "Ubaidullah Omer",
     "Ubaidullah",
     "itsubaidullahomer",
   ],
@@ -35,6 +43,11 @@ export const site = {
       label: "LinkedIn",
       handle: "itsubaidullahomer",
       url: "https://www.linkedin.com/in/itsubaidullahomer/",
+    },
+    facebook: {
+      label: "Facebook",
+      handle: "UbaidullahMOmer",
+      url: "https://www.facebook.com/UbaidullahMOmer",
     },
     instagram: {
       label: "Instagram",

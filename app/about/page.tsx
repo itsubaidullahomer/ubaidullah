@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import {
   Compass,
   Database,
@@ -20,6 +19,7 @@ import { skills } from "@/content/skills";
 import { site } from "@/content/site";
 import { projects } from "@/content/projects";
 import { buildMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbJsonLd } from "@/lib/jsonld";
 import { cn } from "@/lib/cn";
 
@@ -51,17 +51,11 @@ const SKILL_ICONS: Record<
 export default function AboutPage() {
   return (
     <>
-      <Script
-        id="about-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbJsonLd([
-              { name: "Home", path: "/" },
-              { name: "About", path: "/about" },
-            ]),
-          ),
-        }}
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ])}
       />
 
       <section className="relative isolate overflow-hidden pt-28 pb-12 md:pt-36">
@@ -75,9 +69,9 @@ export default function AboutPage() {
               </h1>
               <div className="text-fg-muted mt-8 max-w-2xl space-y-6 text-lg leading-relaxed text-pretty">
                 <p>
-                  I'm <span className="text-fg">Ubaidullah</span>, a product engineer based in
-                  Pakistan. Four years of building web apps, mostly at startups that didn't have a
-                  designer, a PM and an engineer for every feature. Usually it was just me.
+                  I'm <span className="text-fg">{site.name}</span>, a product engineer based in{" "}
+                  {site.location}. Four years of building web apps, mostly at startups that didn't
+                  have a designer, a PM and an engineer for every feature. Usually it was just me.
                 </p>
                 <p>
                   That changed how I work. I sketch the data model before I draw the screen, and I
@@ -133,8 +127,8 @@ export default function AboutPage() {
 
             <div className="relative w-full max-w-sm lg:w-80">
               <Portrait
-                src="/portrait.png"
-                alt={`Portrait of ${site.name}`}
+                src={site.photo}
+                alt={site.name}
                 sizes="(max-width: 1024px) 80vw, 320px"
                 priority
                 figure="Fig. 01"

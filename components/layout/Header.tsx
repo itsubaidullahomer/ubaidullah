@@ -68,7 +68,7 @@ export function Header() {
         {/* Wordmark */}
         <Link href="/" className="group flex items-baseline gap-2.5">
           <span className="font-display text-fg text-[22px] leading-none tracking-[-0.02em]">
-            Ubaidullah
+            {site.name}
           </span>
           <span className="label-mono text-fg-subtle group-hover:text-fg-muted hidden whitespace-nowrap transition-colors lg:inline">
             / product engineer
