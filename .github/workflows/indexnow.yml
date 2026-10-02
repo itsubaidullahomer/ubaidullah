@@ -1,0 +1,25 @@
+# After Vercel finishes a production deploy, tell IndexNow search engines
+# (Bing, Yandex, Seznam, Naver, Yep) to recrawl the site. See scripts/indexnow.mjs.
+name: Notify search engines
+
+on: deployment_status
+
+permissions:
+  contents: read
+
+jobs:
+  indexnow:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /scripts/
+            /public/*.txt
+          sparse-checkout-cone-mode: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: node scripts/indexnow.mjs

@@ -16,6 +16,7 @@ npm run build      # production build — run this to verify changes compile end
 npm run typecheck  # tsc --noEmit
 npm run format     # prettier --write . (prettier-plugin-tailwindcss sorts classes)
 npm run capture:compare  # phone screenshots for `compare` projects (needs network access to both sites)
+npm run indexnow   # tell Bing & co. to recrawl the live site (CI does this after every production deploy)
 ```
 
 Environment variables live in `.env.local` (see `.env.example`). All are optional — the site degrades gracefully without them, so never treat a missing key as a blocker.
@@ -76,6 +77,7 @@ The site should rank for "Ubaidullah Omer". `site.name` is the full name and is 
 - **One URL form everywhere:** `siteUrl` / `absoluteUrl()` in `lib/seo.ts` produce `https://itsubaidullahomer.com` (no www, no trailing slash; the home page is the bare origin). Canonicals, og:url, the sitemap and JSON-LD all use them. The origin comes from `site.url`, never from an environment variable.
 - **Structured data is rendered with `components/seo/JsonLd.tsx`**, a plain server `<script type="application/ld+json">`. Never use `next/script` for it: that injects the JSON with JavaScript after load, so it is missing from the HTML crawlers read. Builders live in `lib/jsonld.ts`. Person (with `sameAs` from `site.socials`, address and employer from `site.ts`) and WebSite are on the home page only; detail pages carry BreadcrumbList plus CreativeWork or BlogPosting.
 - `app/sitemap.ts` derives every public URL from `content/`; `app/robots.ts` allows everything (the share images live under `/api/`, so don't disallow it).
+- **Search engines are notified on every production deploy.** `.github/workflows/indexnow.yml` runs on Vercel's GitHub `deployment_status` (Production, success) and calls `scripts/indexnow.mjs` (`npm run indexnow` by hand), which submits every `<loc>` in the live sitemap to IndexNow (Bing, Yandex, Seznam, Naver, Yep). The key is `public/<32 hex>.txt`; never delete or rename it. Google has no equivalent API for ordinary pages: it rereads the sitemap on its own.
 
 ## Conventions
 
