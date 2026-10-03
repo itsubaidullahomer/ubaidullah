@@ -17,22 +17,10 @@ import { Scene3D } from "../three/Scene3D";
 import { C, PAD, accentItalic, display, easeInOut, mono, progress } from "../theme";
 import { Dot } from "../ui";
 
-/** The phone layout drawing itself in, block by block. */
-const BLOCKS: Array<{ y: number; h: number; w?: number; accent?: boolean; img?: boolean }> = [
-  { y: 0.06, h: 0.035, w: 0.42 },
-  { y: 0.12, h: 0.26, img: true },
-  { y: 0.41, h: 0.035, w: 0.7 },
-  { y: 0.46, h: 0.025, w: 0.5 },
-  { y: 0.52, h: 0.12, accent: true },
-  { y: 0.66, h: 0.12 },
-  { y: 0.8, h: 0.12 },
-  { y: 0.935, h: 0.04, w: 0.6 },
-];
-
-/** The old site's home page (stitched from the owner's phone screenshots). */
-function useOldPage() {
+/** A phone screenshot of a whole page, as an image for the canvas. */
+function usePage(src: string) {
   const [img, setImg] = useState<HTMLImageElement | null>(null);
-  const [handle] = useState(() => delayRender("old Ali Foodies page"));
+  const [handle] = useState(() => delayRender(`page ${src}`));
   useEffect(() => {
     const i = new Image();
     i.onload = () => {
@@ -40,16 +28,31 @@ function useOldPage() {
       continueRender(handle);
     };
     i.onerror = (e) => cancelRender(e);
-    i.src = staticFile("images/ali-foodies/compare/before-home.jpg");
-  }, [handle]);
+    i.src = staticFile(src);
+  }, [src, handle]);
   return img;
+}
+
+/** Draws a window of a tall page onto the canvas, `scroll` 0 → 1 top to bottom. */
+function drawPage(g: CanvasRenderingContext2D, page: HTMLImageElement, scroll: number) {
+  const W = g.canvas.width;
+  const H = g.canvas.height;
+  const srcH = (H * page.width) / W;
+  g.drawImage(page, 0, scroll * (page.height - srcH), page.width, srcH, 0, 0, W, H);
 }
 
 /**
  * The phone's screen: the old site scrolling, then an orange scan line that
- * rebuilds it, top to bottom, as the new layout drawing itself in.
+ * rebuilds it, top to bottom, into the new one (both are the owner's phone
+ * screenshots, stitched into a page each).
  */
-function useScreen(old: HTMLImageElement | null, scroll: number, wipe: number, build: number) {
+function useScreen(
+  before: HTMLImageElement | null,
+  after: HTMLImageElement | null,
+  beforeScroll: number,
+  wipe: number,
+  afterScroll: number,
+) {
   const { canvas, texture } = useMemo(() => {
     const c = document.createElement("canvas");
     c.width = 540;
@@ -61,37 +64,14 @@ function useScreen(old: HTMLImageElement | null, scroll: number, wipe: number, b
   const g = canvas.getContext("2d")!;
   const W = canvas.width;
   const H = canvas.height;
-
-  if (old && wipe < 1) {
-    const srcH = (H * old.width) / W;
-    const srcY = scroll * (old.height - srcH);
-    g.drawImage(old, 0, srcY, old.width, srcH, 0, 0, W, H);
-  }
-
+  if (before && wipe < 1) drawPage(g, before, beforeScroll);
   const edge = wipe * H;
-  if (edge > 0) {
+  if (after && edge > 0) {
     g.save();
     g.beginPath();
     g.rect(0, 0, W, edge);
     g.clip();
-    g.fillStyle = "#0c0d13";
-    g.fillRect(0, 0, W, H);
-    const pad = 40;
-    BLOCKS.forEach((b, i) => {
-      const p = Math.max(0, Math.min(1, build * BLOCKS.length - i));
-      if (p <= 0) return;
-      g.fillStyle = b.accent
-        ? "rgba(255,196,77,0.14)"
-        : b.img
-          ? "rgba(242,241,236,0.08)"
-          : "rgba(242,241,236,0.06)";
-      g.strokeStyle = b.accent ? "#ffc44d" : "rgba(242,241,236,0.28)";
-      g.lineWidth = 3;
-      g.beginPath();
-      g.roundRect(pad, b.y * H, (W - pad * 2) * (b.w ?? 1) * p, b.h * H, 18);
-      g.fill();
-      g.stroke();
-    });
+    drawPage(g, after, afterScroll);
     g.restore();
   }
   if (wipe > 0 && wipe < 1) {
@@ -104,14 +84,18 @@ function useScreen(old: HTMLImageElement | null, scroll: number, wipe: number, b
   return texture;
 }
 
+/** Keeps the closing line readable over the new site's light screens. */
+const SHADOW = "0 4px 28px rgba(7,8,12,0.95), 0 0 2px rgba(7,8,12,0.8)";
+
 export function AliFoodies(_: SceneProps) {
   const frame = useCurrentFrame();
   const wipe = progress(frame, beat(3.5), beat(1), easeInOut);
   const screen = useScreen(
-    useOldPage(),
+    usePage("images/ali-foodies/compare/before-home.jpg"),
+    usePage("images/ali-foodies/compare/after-home.jpg"),
     progress(frame, beat(0.5), beat(3), easeInOut) * 0.55,
     wipe,
-    progress(frame, beat(3.8), beat(2.8)),
+    progress(frame, beat(4.6), beat(3.4), easeInOut) * 0.5,
   );
   const count = progress(frame, 2, beat(3)) * 99.9;
   const cam = cameraAt(frame, [
@@ -176,16 +160,25 @@ export function AliFoodies(_: SceneProps) {
           }}
         >
           <Dot color={wipe < 0.5 ? C.subtle : C.warn} size={12} />
-          {wipe < 0.5 ? "Before · alifoodies.com" : "After · being rebuilt"}
+          {wipe < 0.5 ? "Before · alifoodies.com" : "After · alifoodiess.vercel.app"}
         </div>
         <div style={{ position: "absolute", left: PAD, right: PAD, bottom: 170 }}>
-          <Slam frame={frame} at={beat(4)} style={{ ...T.title, transformOrigin: "left center" }}>
+          <Slam
+            frame={frame}
+            at={beat(4)}
+            style={{ ...T.title, transformOrigin: "left center", textShadow: SHADOW }}
+          >
             So I&rsquo;m rebuilding it
           </Slam>
           <Slam
             frame={frame}
             at={beat(5)}
-            style={{ ...T.title, ...accentItalic, transformOrigin: "left center" }}
+            style={{
+              ...T.title,
+              ...accentItalic,
+              transformOrigin: "left center",
+              textShadow: SHADOW,
+            }}
           >
             phone first.
           </Slam>

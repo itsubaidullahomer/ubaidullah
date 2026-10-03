@@ -5,6 +5,11 @@
       "src": "/images/ali-foodies/compare/before-home.jpg",
       "width": 664,
       "height": 4032
+    },
+    "after-home": {
+      "src": "/images/ali-foodies/compare/after-home.jpg",
+      "width": 664,
+      "height": 3861
     }
   }
 }
