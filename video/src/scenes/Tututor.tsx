@@ -293,7 +293,8 @@ function Numbers() {
           from={1.5}
           style={{
             ...T.hero,
-            fontSize: n.value.length > 4 ? 300 : 400,
+            // "~6,000" has to fit the frame width; "6" can fill it.
+            fontSize: n.value.length >= 6 ? 230 : n.value.length > 4 ? 290 : 400,
             letterSpacing: "-0.05em",
             transformOrigin: "left center",
           }}

@@ -4,12 +4,14 @@
 //                                       encodes → ../public/video/, and a copy to
 //                                       share → out/reel-share.mp4
 //   npm run render -- --still 60 300    PNG stills → out/
+//   npm run render -- --frames 466-582  re-render a range into the master, re-encode
+//   npm run render -- --encode          re-encode from the master only
 //
 // 3D shots render with software WebGL (SwiftShader), so a full render takes a
 // while. Uses Playwright's Chromium headless shell when it's installed
 // (REMOTION_BROWSER overrides it); otherwise Remotion downloads its own.
 
-import { existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, renameSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import os from "node:os";
 import path from "node:path";
@@ -54,21 +56,82 @@ if (stillAt !== -1) {
 }
 
 const master = path.join(out, "reel-master.mp4");
+const concurrency = Number(process.env.REMOTION_CONCURRENCY ?? os.cpus().length);
 let last = -1;
-await renderMedia({
-  composition,
-  serveUrl,
-  codec: "h264",
-  crf: 16,
-  outputLocation: master,
-  browserExecutable,
-  chromiumOptions,
-  concurrency: Number(process.env.REMOTION_CONCURRENCY ?? os.cpus().length),
-  onProgress: ({ progress }) => {
-    const pct = Math.floor(progress * 20) * 5;
-    if (pct !== last) (console.log(`render ${pct}%`), (last = pct));
-  },
-});
+const onProgress = ({ progress }) => {
+  const pct = Math.floor(progress * 20) * 5;
+  if (pct !== last) (console.log(`render ${pct}%`), (last = pct));
+};
+
+// `--frames 466-582` re-renders just that range and splices it into the
+// existing master, for fixing one shot without an hour-long full render.
+// `--encode` skips rendering and only redoes the encodes from the master.
+const framesAt = process.argv.indexOf("--frames");
+if (framesAt !== -1) {
+  const [a, b] = process.argv[framesAt + 1].split("-").map(Number);
+  const segment = path.join(out, "segment.mp4");
+  await renderMedia({
+    composition,
+    serveUrl,
+    codec: "h264",
+    crf: 14,
+    muted: true,
+    frameRange: [a, b],
+    outputLocation: segment,
+    browserExecutable,
+    chromiumOptions,
+    concurrency,
+    onProgress,
+  });
+  const spliced = path.join(out, "reel-master-spliced.mp4");
+  // Remotion's bundled ffmpeg has no setpts filter, so this needs a full
+  // build: FFMPEG=/path/to/ffmpeg (e.g. from `pip install imageio-ffmpeg`).
+  execFileSync(
+    process.env.FFMPEG ?? "ffmpeg",
+    [
+      "-y",
+      "-hide_banner",
+      "-loglevel",
+      "error",
+      "-i",
+      master,
+      "-i",
+      segment,
+      "-filter_complex",
+      `[0:v]split[m1][m2];[m1]trim=end_frame=${a},setpts=PTS-STARTPTS[x];[1:v]setpts=PTS-STARTPTS[y];[m2]trim=start_frame=${b + 1},setpts=PTS-STARTPTS[z];[x][y][z]concat=n=3:v=1:a=0[v]`,
+      "-map",
+      "[v]",
+      "-map",
+      "0:a?",
+      "-c:a",
+      "copy",
+      "-c:v",
+      "libx264",
+      "-crf",
+      "14",
+      "-pix_fmt",
+      "yuv420p",
+      "-r",
+      String(composition.fps),
+      spliced,
+    ],
+    { stdio: "inherit" },
+  );
+  renameSync(spliced, master);
+  console.log(`spliced frames ${a}-${b} into the master`);
+} else if (!process.argv.includes("--encode")) {
+  await renderMedia({
+    composition,
+    serveUrl,
+    codec: "h264",
+    crf: 16,
+    outputLocation: master,
+    browserExecutable,
+    chromiumOptions,
+    concurrency,
+    onProgress,
+  });
+}
 
 const ffmpeg = (args) =>
   execFileSync("npx", ["remotion", "ffmpeg", "-y", "-hide_banner", "-loglevel", "error", ...args], {
