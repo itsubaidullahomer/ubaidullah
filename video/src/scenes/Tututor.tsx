@@ -1,408 +1,330 @@
-import { Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { Sequence, interpolate, useCurrentFrame } from "remotion";
 import type { SceneProps } from "../Reel";
-import { C, PAD, accentItalic, display, easeInOut, mono, progress, rise } from "../theme";
-import { BrowserFrame, Eyebrow, MaskLine, Phone, Sans } from "../ui";
+import { BAR, beat, cameraAt, hit } from "../beat";
+import { Flash, Kicker, Overlay, Shade, Slam, T } from "../fx";
+import { Camera } from "../three/Stage";
+import { Laptop, Phone } from "../three/Devices";
+import { Scene3D } from "../three/Scene3D";
+import { useCover, useTexture, useTextures } from "../three/assets";
+import { C, PAD, accentItalic, mono } from "../theme";
 
 const J = "images/tututor/journey";
 const M = "images/tututor/mobile";
+const SCREEN = 1.6; // laptop display aspect
 
-/** Beat lengths in frames; they add up to the chapter's 16s. */
-const BEATS = { bug: 110, rebuilds: 170, products: 100, numbers: 100 };
-
+/** Four shots, two bars each: the swoop, the rebuilds, the apps, the numbers. */
 export function Tututor(_: SceneProps) {
-  let at = 0;
-  const seq = (frames: number) => {
-    const from = at;
-    at += frames;
-    return { from, durationInFrames: frames };
-  };
+  const part = BAR * 2;
   return (
     <>
-      <Sequence {...seq(BEATS.bug)} layout="none">
-        <Beat frames={BEATS.bug}>
-          <Bug />
-        </Beat>
+      <Sequence durationInFrames={part} layout="none">
+        <Swoop />
       </Sequence>
-      <Sequence {...seq(BEATS.rebuilds)} layout="none">
-        <Beat frames={BEATS.rebuilds}>
-          <Rebuilds />
-        </Beat>
+      <Sequence from={part} durationInFrames={part} layout="none">
+        <Rebuilds />
       </Sequence>
-      <Sequence {...seq(BEATS.products)} layout="none">
-        <Beat frames={BEATS.products}>
-          <Products />
-        </Beat>
+      <Sequence from={part * 2} durationInFrames={part} layout="none">
+        <Phones />
       </Sequence>
-      <Sequence {...seq(BEATS.numbers)} layout="none">
+      <Sequence from={part * 3} durationInFrames={part} layout="none">
         <Numbers />
       </Sequence>
     </>
   );
 }
 
-/** Beats inside the chapter hand over with a quick fade. */
-function Beat({ frames, children }: { frames: number; children: React.ReactNode }) {
+function Swoop() {
   const frame = useCurrentFrame();
-  const out = interpolate(frame, [frames - 8, frames], [1, 0], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
-  return <div style={{ position: "absolute", inset: 0, opacity: out }}>{children}</div>;
-}
-
-function Bug() {
-  const frame = useCurrentFrame();
-  const strike = progress(frame, 44, 16);
+  const today = useCover(useTexture(`${J}/04-today.jpg`), SCREEN);
+  const open = interpolate(frame, [0, beat(3)], [0.04, 1], { extrapolateRight: "clamp" });
+  const cam = cameraAt(frame, [
+    { at: 0, pos: [6, 7, 8.5], target: [0, 0.5, 0] },
+    { at: beat(5), pos: [2.3, 1.7, 5.0], target: [0, 0.95, 0] },
+    { at: beat(8), pos: [1.9, 1.55, 4.6], target: [0, 1.0, 0] },
+  ]);
+  const strike = hit(frame, beat(6), 8);
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <Eyebrow
-        index="03"
-        style={{ position: "absolute", top: 124, left: PAD, ...rise(frame, 0, 16, 10) }}
-      >
-        Tututor.ai · Lead engineer · Nov 2023 → now
-      </Eyebrow>
-
-      <div
-        style={{
-          position: "absolute",
-          top: 236,
-          left: PAD - 4,
-          right: PAD,
-          ...display,
-          fontSize: 132,
-        }}
-      >
-        <MaskLine frame={frame} start={4}>
-          Hired to fix
-        </MaskLine>
-        <MaskLine frame={frame} start={10}>
-          <span style={{ position: "relative", display: "inline-block" }}>
-            one bug.
-            <span
-              style={{
-                position: "absolute",
-                left: -6,
-                right: -6,
-                top: "52%",
-                height: 8,
-                background: C.accent,
-                transformOrigin: "left",
-                transform: `scaleX(${strike})`,
-              }}
-            />
-          </span>
-        </MaskLine>
-        <div style={{ height: 64 }} />
-        <MaskLine frame={frame} start={58}>
-          Rebuilt it
-        </MaskLine>
-        <MaskLine frame={frame} start={64}>
-          <span style={accentItalic}>three times.</span>
-        </MaskLine>
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          left: PAD,
-          bottom: 96,
-          ...mono,
-          fontSize: 19,
-          color: C.subtle,
-          ...rise(frame, 80, 18, 10),
-        }}
-      >
-        Murcia, Spain · remote from Rahim Yar Khan
-      </div>
-    </div>
+    <>
+      <Scene3D>
+        <Camera position={cam.pos} target={cam.target} />
+        <Laptop screen={today} open={open} />
+      </Scene3D>
+      <Shade top={0.95} bottom={0.9} />
+      <Overlay>
+        <div style={{ position: "absolute", top: 170, left: PAD, right: PAD }}>
+          <Kicker accent="Tututor.ai" style={{ opacity: hit(frame, beat(1), 8) }}>
+            Lead engineer · 2023 → now
+          </Kicker>
+          <div style={{ marginTop: 48 }}>
+            <Slam frame={frame} at={beat(3)} style={{ ...T.title, transformOrigin: "left center" }}>
+              Hired to fix
+            </Slam>
+            <Slam frame={frame} at={beat(4)} style={{ ...T.title, transformOrigin: "left center" }}>
+              <span style={{ position: "relative", display: "inline-block" }}>
+                one bug.
+                <span
+                  style={{
+                    position: "absolute",
+                    left: -8,
+                    right: -8,
+                    top: "54%",
+                    height: 10,
+                    background: C.accent,
+                    transformOrigin: "left",
+                    transform: `scaleX(${strike})`,
+                  }}
+                />
+              </span>
+            </Slam>
+          </div>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            left: PAD,
+            bottom: 170,
+            ...mono,
+            fontSize: 28,
+            color: C.muted,
+            opacity: hit(frame, beat(5), 10),
+          }}
+        >
+          An AI toolkit for teachers · Murcia, Spain
+        </div>
+      </Overlay>
+    </>
   );
 }
 
-/**
- * v2 is one build shown twice: my brother's design, then the React build of
- * it, wiped across inside the same frame.
- */
-const VERSIONS: Array<{ srcs: string[]; label: string; url: string; at: number }> = [
-  { srcs: [`${J}/01-inherited.png`], label: "v1 · the app I inherited", url: "tututor.ai", at: 6 },
-  {
-    srcs: [`${J}/02-redesign.png`, `${J}/03-react-rebuild.png`],
-    label: "v2 · redesign, built in React",
-    url: "tututor.ai",
-    at: 34,
-  },
-  { srcs: [`${J}/04-today.jpg`], label: "v3 · today", url: "app.tututor.ai", at: 100 },
+const VERSIONS = [
+  { src: `${J}/01-inherited.png`, at: 0, big: "v1", label: "The app I inherited" },
+  { src: `${J}/02-redesign.png`, at: 2, big: "v2", label: "My brother's redesign" },
+  { src: `${J}/03-react-rebuild.png`, at: 3, big: "v2", label: "Built in React" },
+  { src: `${J}/04-today.jpg`, at: 5, big: "v3", label: "Today, app.tututor.ai" },
 ];
-/** When v2 wipes from the design to the build. */
-const WIPE = { at: 62, frames: 22 };
-
-function Shot({ src, clip }: { src: string; clip?: number }) {
-  return (
-    <Img
-      src={staticFile(src)}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        objectPosition: "top left",
-        clipPath: clip === undefined ? undefined : `inset(0 ${(1 - clip) * 100}% 0 0)`,
-      }}
-    />
-  );
-}
 
 function Rebuilds() {
   const frame = useCurrentFrame();
-  const W = 800;
-  const H = 520;
-  const wipe = progress(frame, WIPE.at, WIPE.frames, easeInOut);
+  const raw = useTextures(VERSIONS.map((v) => v.src));
+  const t0 = useCover(raw?.[0] ?? null, SCREEN);
+  const t1 = useCover(raw?.[1] ?? null, SCREEN);
+  const t2 = useCover(raw?.[2] ?? null, SCREEN);
+  const t3 = useCover(raw?.[3] ?? null, SCREEN);
+  const tex = [t0, t1, t2, t3];
+  const idx = VERSIONS.reduce((n, v, i) => (frame >= beat(v.at) ? i : n), 0);
+  const fade = idx > 0 ? hit(frame, beat(VERSIONS[idx].at), 6) : 1;
+  const cam = cameraAt(frame, [
+    { at: 0, pos: [0, 1.7, 5.8], target: [0, 1.08, 0] },
+    { at: beat(8), pos: [0.35, 1.55, 4.9], target: [0, 1.1, 0] },
+  ]);
+  const v = VERSIONS[idx];
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <Eyebrow
-        index="03"
-        style={{ position: "absolute", top: 124, left: PAD, ...rise(frame, 0, 14, 10) }}
-      >
-        Tututor.ai · three rebuilds
-      </Eyebrow>
-      {VERSIONS.map((v, i) => {
-        const t = progress(frame, v.at, 26);
-        // Later versions land on top; earlier ones step back.
-        const later = VERSIONS.slice(i + 1).reduce((sum, n) => sum + progress(frame, n.at, 26), 0);
-        const last = i === VERSIONS.length - 1;
-        return (
-          <div
-            key={v.label}
-            style={{
-              position: "absolute",
-              left: PAD + i * 68,
-              top: 210 + i * 104,
-              opacity: t * (1 - later * 0.28),
-              transform: `translateY(${(1 - t) * 160}px) scale(${1 - later * 0.035})`,
-              transformOrigin: "top left",
-              filter: `brightness(${1 - later * 0.25})`,
-            }}
+    <>
+      <Scene3D>
+        <Camera position={cam.pos} target={cam.target} />
+        <Laptop
+          screen={idx > 0 ? tex[idx - 1] : tex[0]}
+          overlay={tex[idx]}
+          overlayOpacity={idx > 0 ? fade : 0}
+        />
+      </Scene3D>
+      <Shade top={0.95} bottom={0.95} />
+      {VERSIONS.slice(1).map((x) => (
+        <Flash key={x.src} frame={frame} at={beat(x.at)} strength={0.35} />
+      ))}
+      <Overlay>
+        <div style={{ position: "absolute", top: 170, left: PAD, right: PAD }}>
+          <Slam frame={frame} at={0} style={{ ...T.title, transformOrigin: "left center" }}>
+            Rebuilt it
+          </Slam>
+          <Slam
+            frame={frame}
+            at={beat(1)}
+            style={{ ...T.title, ...accentItalic, transformOrigin: "left center" }}
           >
-            <BrowserFrame
-              url={v.url}
-              label={v.label}
-              width={W}
-              height={H}
-              status={last ? C.ok : C.subtle}
-            >
-              <Shot src={v.srcs[0]} />
-              {v.srcs[1] && (
-                <>
-                  <Shot src={v.srcs[1]} clip={wipe} />
-                  {/* The wipe's leading edge, in the accent. */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      bottom: 0,
-                      left: `${wipe * 100}%`,
-                      width: 3,
-                      marginLeft: -1.5,
-                      background: C.accent,
-                      opacity: wipe > 0 && wipe < 1 ? 1 : 0,
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      left: 16,
-                      bottom: 16,
-                      ...mono,
-                      fontSize: 15,
-                      color: C.fg,
-                      background: "rgba(7, 8, 12, 0.82)",
-                      border: `1px solid ${C.borderStrong}`,
-                      borderRadius: 6,
-                      padding: "7px 12px",
-                    }}
-                  >
-                    {wipe < 0.5 ? "The design" : "The build"}
-                  </div>
-                </>
-              )}
-            </BrowserFrame>
-          </div>
-        );
-      })}
-    </div>
+            three times.
+          </Slam>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            left: PAD,
+            right: PAD,
+            bottom: 150,
+            display: "flex",
+            alignItems: "baseline",
+            gap: 32,
+          }}
+        >
+          <Slam
+            key={v.big}
+            frame={frame}
+            at={beat(v.at)}
+            from={1.6}
+            style={{ ...T.hero, fontSize: 200, transformOrigin: "left bottom" }}
+          >
+            {v.big}
+          </Slam>
+          <div style={{ ...mono, fontSize: 30, color: C.muted, lineHeight: 1.4 }}>{v.label}</div>
+        </div>
+      </Overlay>
+    </>
   );
 }
 
-const PHONES = [`${M}/alumnos-home.jpg`, `${M}/profesores-home.jpg`, `${M}/familias-tareas.jpg`];
-const PRODUCTS = [
-  "Tututor.ai",
-  "EduNova",
-  "School admin",
-  "Platform admin",
-  "Familias",
-  "Alumnos",
-  "Profesores",
-  "Core API",
+const SWAP = beat(4);
+const APPS: Array<{
+  a: string;
+  b: string;
+  pos: [number, number, number];
+  rot: number;
+  delay: number;
+}> = [
+  {
+    a: `${M}/profesores-home.jpg`,
+    b: `${M}/profesores-horario.jpg`,
+    pos: [-1.0, 1.25, -0.35],
+    rot: 0.42,
+    delay: 0.5,
+  },
+  {
+    a: `${M}/alumnos-home.jpg`,
+    b: `${M}/alumnos-notas.jpg`,
+    pos: [0, 1.32, 0.35],
+    rot: 0,
+    delay: 0,
+  },
+  {
+    a: `${M}/familias-tareas.jpg`,
+    b: `${M}/familias-mensajes.jpg`,
+    pos: [1.0, 1.25, -0.35],
+    rot: -0.42,
+    delay: 1,
+  },
 ];
 
-function Products() {
+function Phones() {
   const frame = useCurrentFrame();
+  const tex = useTextures(APPS.flatMap((p) => [p.a, p.b]));
+  const cam = cameraAt(frame, [
+    { at: 0, pos: [0, 1.2, 5.9], target: [0, 1.3, 0] },
+    { at: beat(8), pos: [-0.35, 1.45, 5.2], target: [0, 1.28, 0] },
+  ]);
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <div style={{ position: "absolute", top: 120, left: PAD - 4, ...display, fontSize: 92 }}>
-        <MaskLine frame={frame} start={2}>
-          Eight products.
-        </MaskLine>
-        <MaskLine frame={frame} start={8}>
-          <span style={accentItalic}>One backend.</span>
-        </MaskLine>
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          top: 330,
-          left: PAD,
-          right: PAD,
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "10px 22px",
-          ...mono,
-          fontSize: 17,
-          color: C.subtle,
-        }}
-      >
-        {PRODUCTS.map((p, i) => (
-          <span
-            key={p}
-            style={{
-              ...rise(frame, 14 + i * 2, 12, 8),
-              color: i === PRODUCTS.length - 1 ? C.accent : undefined,
-            }}
+    <>
+      <Scene3D>
+        <Camera position={cam.pos} target={cam.target} />
+        {APPS.map((p, i) => {
+          const t = hit(frame, beat(p.delay), 22);
+          const spin = (1 - t) * (i === 1 ? 0.9 : p.rot > 0 ? 1.4 : -1.4);
+          return (
+            <Phone
+              key={p.a}
+              screen={tex ? tex[i * 2 + (frame >= SWAP ? 1 : 0)] : null}
+              position={[p.pos[0], p.pos[1] - (1 - t) * 3.2, p.pos[2]]}
+              rotation={[0.04, p.rot + spin, 0]}
+            />
+          );
+        })}
+      </Scene3D>
+      <Shade top={0.95} bottom={0.9} />
+      <Flash frame={frame} at={SWAP} strength={0.3} />
+      <Overlay>
+        <div style={{ position: "absolute", top: 170, left: PAD, right: PAD }}>
+          <Slam frame={frame} at={beat(1)} style={{ ...T.title, transformOrigin: "left center" }}>
+            Eight products.
+          </Slam>
+          <Slam
+            frame={frame}
+            at={beat(2)}
+            style={{ ...T.title, ...accentItalic, transformOrigin: "left center" }}
           >
-            {p}
-          </span>
-        ))}
-      </div>
-      {PHONES.map((src, i) => {
-        const t = progress(frame, 10 + i * 8, 34);
-        const w = 270;
-        return (
-          <div
-            key={src}
-            style={{
-              position: "absolute",
-              left: PAD + 18 + i * (w + 48),
-              top: 430 + (i === 1 ? -26 : 0),
-              transform: `translateY(${(1 - t) * 520}px)`,
-            }}
-          >
-            <Phone src={src} width={w} />
+            One backend.
+          </Slam>
+        </div>
+        <div
+          style={{
+            position: "absolute",
+            left: PAD,
+            right: PAD,
+            bottom: 160,
+            opacity: hit(frame, beat(3), 10),
+          }}
+        >
+          <div style={{ ...mono, fontSize: 30, color: C.fg }}>Familias · Alumnos · Profesores</div>
+          <div style={{ ...mono, fontSize: 26, color: C.muted, marginTop: 16 }}>
+            App Store · Google Play · web · API
           </div>
-        );
-      })}
-      <div
-        style={{
-          position: "absolute",
-          left: PAD,
-          right: PAD,
-          bottom: 72,
-          height: 220,
-          background: `linear-gradient(to bottom, transparent, ${C.bg})`,
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: PAD,
-          bottom: 92,
-          ...mono,
-          fontSize: 19,
-          color: C.muted,
-          ...rise(frame, 40, 16, 10),
-        }}
-      >
-        Parent, student & teacher apps · App Store + Google Play
-      </div>
-    </div>
+        </div>
+      </Overlay>
+    </>
   );
 }
 
-const NUMBERS: Array<{
-  to: number;
-  prefix?: string;
-  suffix?: string;
-  label: string;
-  format?: (n: number) => string;
-}> = [
-  { to: 20, suffix: "k+", label: "Students, teachers & families" },
-  { to: 1000, prefix: "~", label: "API endpoints", format: (n) => n.toLocaleString("en-US") },
-  {
-    to: 6000,
-    prefix: "~",
-    label: "Commits across 9 repos",
-    format: (n) => n.toLocaleString("en-US"),
-  },
-  { to: 6, label: "Store listings" },
+const NUMBERS = [
+  { value: "20k+", label: "Students, teachers & families" },
+  { value: "~1,000", label: "API endpoints" },
+  { value: "~6,000", label: "Commits across 9 repos" },
+  { value: "6", label: "Store listings" },
 ];
 
 function Numbers() {
   const frame = useCurrentFrame();
-  const cellW = (1080 - PAD * 2) / 2;
+  const i = Math.min(NUMBERS.length - 1, Math.floor(frame / beat(2)));
+  const n = NUMBERS[i];
+  const at = beat(i * 2);
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <Eyebrow
-        index="03"
-        style={{ position: "absolute", top: 124, left: PAD, ...rise(frame, 0, 14, 10) }}
-      >
-        Tututor.ai · today
-      </Eyebrow>
-      <div
-        style={{
-          position: "absolute",
-          top: 200,
-          left: PAD,
-          right: PAD,
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          borderTop: `1px solid ${C.borderStrong}`,
-        }}
-      >
-        {NUMBERS.map((n, i) => {
-          const t = progress(frame, 4 + i * 6, 46);
-          const value = Math.round(n.to * t);
-          const shown = n.format ? n.format(value) : String(value);
-          return (
-            <div
-              key={n.label}
-              style={{
-                width: cellW,
-                height: 340,
-                padding: "40px 32px 0 0",
-                paddingLeft: i % 2 ? 36 : 0,
-                borderLeft: i % 2 ? `1px solid ${C.borderStrong}` : undefined,
-                borderBottom: `1px solid ${C.borderStrong}`,
-                ...rise(frame, 2 + i * 6, 18, 14),
-              }}
-            >
-              <div
-                style={{
-                  ...display,
-                  fontSize: 150,
-                  letterSpacing: "-0.04em",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                {n.prefix && <span style={{ color: C.subtle }}>{n.prefix}</span>}
-                {shown}
-                {n.suffix && <span style={accentItalic}>{n.suffix}</span>}
-              </div>
-              <div style={{ marginTop: 26 }}>
-                <Sans style={{ fontSize: 30, color: C.muted }}>{n.label}</Sans>
-              </div>
-            </div>
-          );
-        })}
+    <Overlay
+      style={{
+        background: C.bg,
+        backgroundImage: `linear-gradient(to right, ${C.grid} 1px, transparent 1px), linear-gradient(to bottom, ${C.grid} 1px, transparent 1px)`,
+        backgroundSize: "90px 90px",
+      }}
+    >
+      <Flash frame={frame} at={at} strength={0.25} color={C.accent} />
+      <div style={{ position: "absolute", top: 170, left: PAD, right: PAD }}>
+        <Kicker accent="Tututor.ai">Today</Kicker>
       </div>
-    </div>
+      <div style={{ position: "absolute", left: PAD - 10, right: PAD, top: 640 }}>
+        <Slam
+          key={n.value}
+          frame={frame}
+          at={at}
+          from={1.5}
+          style={{
+            ...T.hero,
+            fontSize: n.value.length > 4 ? 300 : 400,
+            letterSpacing: "-0.05em",
+            transformOrigin: "left center",
+          }}
+        >
+          {n.value.replace(/[k+]+$/, "")}
+          {/[k+]+$/.test(n.value) && (
+            <span style={accentItalic}>{n.value.match(/[k+]+$/)?.[0]}</span>
+          )}
+        </Slam>
+        <div
+          key={n.label}
+          style={{
+            ...T.sans,
+            fontSize: 52,
+            color: C.muted,
+            marginTop: 40,
+            opacity: hit(frame, at + 3, 8),
+          }}
+        >
+          {n.label}
+        </div>
+      </div>
+      {/* Progress ticks: which of the four numbers this is. */}
+      <div style={{ position: "absolute", left: PAD, bottom: 170, display: "flex", gap: 14 }}>
+        {NUMBERS.map((x, k) => (
+          <span
+            key={x.value}
+            style={{ width: 70, height: 6, background: k <= i ? C.accent : C.borderStrong }}
+          />
+        ))}
+      </div>
+    </Overlay>
   );
 }

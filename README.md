@@ -50,16 +50,16 @@ Everything is data — **no rebuilding components to change copy**.
 
 ## Editing the design
 
-| What                                       | File                                                                                                                  |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Colors, fonts, radii, motion tokens        | [app/globals.css](app/globals.css) — `@theme` block + `:root` variables                                               |
-| Surfaces, type scale, mono labels          | `@utility surface`, `text-display/title/heading`, `label-mono` in the same file                                       |
-| Hairline grid behind page heroes           | [components/effects/SystemGrid.tsx](components/effects/SystemGrid.tsx)                                                |
-| Homepage reel (chapters, captions, timing) | [content/reel.ts](content/reel.ts), scenes in [video/src/scenes](video/src/scenes), then `cd video && npm run render` |
-| Streaming headline                         | [components/sections/StreamHeadline.tsx](components/sections/StreamHeadline.tsx) + `.stream` in globals.css           |
-| Scroll reveals                             | [components/motion/Reveal.tsx](components/motion/Reveal.tsx)                                                          |
-| Header / nav                               | [components/layout/Header.tsx](components/layout/Header.tsx)                                                          |
-| Command palette (⌘K)                       | [components/layout/CommandPalette.tsx](components/layout/CommandPalette.tsx)                                          |
+| What                                             | File                                                                                                                  |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| Colors, fonts, radii, motion tokens              | [app/globals.css](app/globals.css) — `@theme` block + `:root` variables                                               |
+| Surfaces, type scale, mono labels                | `@utility surface`, `text-display/title/heading`, `label-mono` in the same file                                       |
+| Hairline grid behind page heroes                 | [components/effects/SystemGrid.tsx](components/effects/SystemGrid.tsx)                                                |
+| Homepage film (chapters, captions, tempo, music) | [content/reel.ts](content/reel.ts), scenes in [video/src/scenes](video/src/scenes), then `cd video && npm run render` |
+| Streaming headline                               | [components/sections/StreamHeadline.tsx](components/sections/StreamHeadline.tsx) + `.stream` in globals.css           |
+| Scroll reveals                                   | [components/motion/Reveal.tsx](components/motion/Reveal.tsx)                                                          |
+| Header / nav                                     | [components/layout/Header.tsx](components/layout/Header.tsx)                                                          |
+| Command palette (⌘K)                             | [components/layout/CommandPalette.tsx](components/layout/CommandPalette.tsx)                                          |
 
 ## Folder structure
 
@@ -121,7 +121,7 @@ One dark theme. Ink background (`--bg`), bone text (`--fg`), one signal-orange a
 
 - **Type**: Fraunces (variable serif) for display, Geist for body, Geist Mono for labels and readouts. `accent-italic` turns on Fraunces' WONK axis for the one accent phrase in a headline.
 - **Surfaces**: `surface` / `surface-raised` are flat and bordered. Nothing blurs or glows.
-- **Concept**: the site behaves like a running system. The hero plays a one-minute reel of the work (made with Remotion in `video/`) with a live chapter rail, the header carries a live clock, cards and metrics read like service readouts.
+- **Concept**: the site behaves like a running system. The hero plays a vertical cinematic film of the work (Remotion + three.js in `video/`) with a live chapter index, the header carries a live clock, cards and metrics read like service readouts.
 
 ## Notes
 

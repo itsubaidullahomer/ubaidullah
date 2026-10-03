@@ -1,108 +1,68 @@
-import { Img, useCurrentFrame } from "remotion";
-import portrait from "../../assets/portrait.png";
+import { Img, interpolate, staticFile, useCurrentFrame } from "remotion";
 import type { SceneProps } from "../Reel";
-import { C, PAD, accentItalic, display, mono, progress, rise } from "../theme";
-import { Dot, MaskLine, Sans, TypeOn } from "../ui";
+import { beat, hit } from "../beat";
+import { Kicker, Overlay, Slam, T } from "../fx";
+import { C, PAD, accentItalic, mono, progress } from "../theme";
+import { TypeOn } from "../ui";
 
-const FACTS: Array<{ k: string; v: string; dot?: string }> = [
-  { k: "Based in", v: "Rahim Yar Khan, PK" },
-  { k: "Now", v: "Lead engineer · Tututor.ai" },
-  { k: "Shipped for", v: "Spain · Denmark · remote" },
-  { k: "Status", v: "Available", dot: C.ok },
-];
-
+/** Cold open: a black-and-white portrait, the name landing on the beat. */
 export function Hello(_: SceneProps) {
   const frame = useCurrentFrame();
-  const reveal = progress(frame, 4, 30);
-  const color = progress(frame, 34, 50);
-
+  const appear = progress(frame, 4, 36);
+  const push = interpolate(frame, [0, beat(8)], [1.12, 1.0]);
+  const sweep = hit(frame, beat(6.5), 12);
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      {/* Portrait, wiped up from the bottom, black and white to colour. */}
-      <div style={{ position: "absolute", top: 118, right: PAD, width: 420 }}>
-        <div
-          style={{
-            width: 420,
-            height: 420,
-            overflow: "hidden",
-            border: `1px solid ${C.borderStrong}`,
-            clipPath: `inset(${(1 - reveal) * 100}% 0 0 0)`,
-          }}
-        >
-          <Img
-            src={portrait}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              filter: `grayscale(${1 - color}) contrast(${1.05 + 0.05 * (1 - color)})`,
-              transform: `scale(${1.08 - 0.08 * progress(frame, 0, 90)})`,
-            }}
-          />
-        </div>
-        <div
-          style={{
-            ...mono,
-            fontSize: 16,
-            color: C.subtle,
-            marginTop: 14,
-            display: "flex",
-            justifyContent: "space-between",
-            ...rise(frame, 30, 18, 10),
-          }}
-        >
-          <span>Fig. 01</span>
-          <span>Ubaidullah Omer</span>
-        </div>
-      </div>
+    <Overlay>
+      {/* Portrait, black and white, fading into the ink at its edges. */}
+      <Img
+        src={staticFile("portrait.png")}
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 120,
+          width: 1080,
+          height: 1170,
+          objectFit: "cover",
+          objectPosition: "50% 22%",
+          opacity: appear * 0.92,
+          transform: `scale(${push})`,
+          filter: "grayscale(1) contrast(1.18) brightness(0.82)",
+          WebkitMaskImage: "radial-gradient(ellipse 62% 58% at 50% 42%, #000 45%, transparent 78%)",
+          maskImage: "radial-gradient(ellipse 62% 58% at 50% 42%, #000 45%, transparent 78%)",
+        }}
+      />
 
-      {/* Prompt and readout, left of the portrait. */}
-      <div style={{ position: "absolute", top: 128, left: PAD, width: 440 }}>
+      <div style={{ position: "absolute", top: 150, left: PAD, right: PAD }}>
         <TypeOn
           frame={frame}
-          start={6}
+          start={2}
           text="> hello, I'm"
-          cps={0.7}
+          cps={0.9}
           style={{
             ...mono,
-            fontSize: 26,
+            fontSize: 34,
             color: C.muted,
             textTransform: "none",
             letterSpacing: "0.04em",
           }}
         />
-        <div style={{ marginTop: 52, display: "flex", flexDirection: "column", gap: 26 }}>
-          {FACTS.map((f, i) => (
-            <div key={f.k} style={{ ...rise(frame, 34 + i * 7, 18, 14) }}>
-              <div style={{ ...mono, fontSize: 16, color: C.subtle }}>{f.k}</div>
-              <div
-                style={{
-                  ...mono,
-                  fontSize: 22,
-                  letterSpacing: "0.08em",
-                  color: C.fg,
-                  marginTop: 8,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                {f.dot && <Dot color={f.dot} size={10} glow />}
-                {f.v}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* The name, set large. */}
-      <div style={{ position: "absolute", left: PAD - 6, top: 600, ...display, fontSize: 176 }}>
-        <MaskLine frame={frame} start={16}>
+      <div style={{ position: "absolute", left: PAD - 10, right: PAD, top: 1080 }}>
+        <Slam
+          frame={frame}
+          at={beat(2)}
+          style={{ ...T.hero, fontSize: 196, transformOrigin: "left center" }}
+        >
           Ubaidullah
-        </MaskLine>
-        <MaskLine frame={frame} start={24}>
-          Omer
-        </MaskLine>
+        </Slam>
+        <Slam
+          frame={frame}
+          at={beat(3)}
+          style={{ ...T.hero, fontSize: 196, transformOrigin: "left center" }}
+        >
+          Omer<span style={{ ...accentItalic }}>.</span>
+        </Slam>
       </div>
 
       <div
@@ -110,15 +70,35 @@ export function Hello(_: SceneProps) {
           position: "absolute",
           left: PAD,
           right: PAD,
-          top: 952,
-          fontSize: 38,
-          color: C.muted,
-          ...rise(frame, 52, 22, 16),
+          top: 1520,
+          opacity: hit(frame, beat(4), 10),
+          transform: `translateY(${(1 - hit(frame, beat(4), 10)) * 20}px)`,
         }}
       >
-        <Sans>I build AI products people </Sans>
-        <span style={{ ...display, ...accentItalic, fontSize: 46 }}>rely on.</span>
+        <Kicker accent="●" style={{ fontSize: 30, color: C.fg }}>
+          Product engineer
+        </Kicker>
+        <div style={{ ...mono, fontSize: 30, color: C.muted, marginTop: 18 }}>
+          Rahim Yar Khan, Pakistan
+        </div>
+        <div style={{ ...T.sans, fontSize: 44, color: C.muted, marginTop: 56 }}>
+          I build AI products people{" "}
+          <span style={{ ...T.title, fontSize: 54, ...accentItalic }}>rely on.</span>
+        </div>
       </div>
-    </div>
+
+      {/* An orange line sweeps across into the next shot. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          top: 1490,
+          height: 4,
+          width: `${sweep * 100}%`,
+          background: C.accent,
+          opacity: sweep > 0 ? 1 : 0,
+        }}
+      />
+    </Overlay>
   );
 }
