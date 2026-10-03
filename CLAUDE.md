@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal portfolio of Ubaidullah (itsubaidullahomer.com) — Next.js 15 App Router, React 19, TypeScript strict, Tailwind CSS v4, GSAP (scroll and timeline motion), Framer Motion (component transitions), Lenis. Deployed on Vercel. No test suite exists; verification is `npm run typecheck` + `npm run build` (there is no ESLint config, so `npm run lint` prompts interactively — don't rely on it). For visual checks, build, `next start`, and screenshot with Playwright (Chromium is at `/opt/pw-browsers/chromium` in the cloud container).
 
-Design concept: **the site behaves like a running system**. One dark theme, ink background, bone text, a single signal-orange accent, hairline grid textures, mono readouts. The homepage hero background is a real request-routing simulation, the header carries a live clock, cards and metrics read like service status. Bold typography (Fraunces) carries the editorial side. Keep new work inside that language: no glassmorphism, no blurred gradient blobs, no second accent colour.
+Design concept: **the site behaves like a running system**. One dark theme, ink background, bone text, a single signal-orange accent, hairline grid textures, mono readouts. The homepage hero plays a one-minute reel of the work in a monitor frame with a live chapter rail, the header carries a live clock, cards and metrics read like service status. Bold typography (Fraunces) carries the editorial side. Keep new work inside that language: no glassmorphism, no blurred gradient blobs, no second accent colour.
 
 ## Commands
 
@@ -16,6 +16,7 @@ npm run build      # production build — run this to verify changes compile end
 npm run typecheck  # tsc --noEmit
 npm run format     # prettier --write . (prettier-plugin-tailwindcss sorts classes)
 npm run capture:compare  # phone screenshots for `compare` projects (needs network access to both sites)
+cd video && npm install && npm run render  # re-render the hero reel into public/video/ (see "The hero reel")
 ```
 
 Environment variables live in `.env.local` (see `.env.example`). All are optional — the site degrades gracefully without them, so never treat a missing key as a blocker.
@@ -34,11 +35,21 @@ The core pattern of this codebase: **all copy lives as typed TypeScript objects 
 - `content/writing/index.ts` — blog posts (body is a markdown-ish string rendered by the writing page).
 - `content/experience.ts`, `content/skills.ts`, `content/now.ts` — data for their pages.
 
+### The hero reel (video/)
+
+The right side of the homepage hero is a ~63s square video (`components/sections/HeroReel.tsx`): a monitor frame with a status bar (chapter, timecode, pause, full screen), registration marks at the corners, and a chapter rail under it whose segments are as long as their chapters, track playback and seek on click; the current chapter's caption and readout sit below the rail. It autoplays muted only when motion is welcome (not under reduced motion or data saver), pauses off-screen, and serves `reel-720.mp4` to phones and `reel-1080.mp4` otherwise.
+
+- The video is made with **Remotion** in `video/`, its own npm package outside the Next.js build (root `tsconfig.json` excludes it). Scenes are in `video/src/scenes/`, one per chapter; screenshots come straight from `public/` via `staticFile()`.
+- `content/reel.ts` is the contract between the two: chapter ids, labels, captions, readouts, links and **durations**. The video lays its scenes out from those durations, and the hero's rail and timecode read the same list. Change a duration, a chapter or `classifiedCount` (the projects under NDA, shown only as redacted files) and re-render.
+- Re-render: `cd video && npm install && npm run render` (about 4 minutes). It writes `public/video/reel-1080.mp4`, `reel-720.mp4` and `reel-poster.jpg` from the `ReelSite` composition (no in-video chrome, since the hero frame has its own), plus `video/out/reel-share.mp4` from `Reel` (with its own top bar and progress line, for posting elsewhere; not committed). `npm run render -- --still 60 300` renders PNG stills for review; `npm run studio` opens Remotion Studio.
+- Rendering uses the Playwright headless shell when it exists (`REMOTION_BROWSER` overrides it). Playwright's Chromium can't play H.264, so its screenshots show the poster.
+- Don't state ToolkitJar's tool count in the reel either.
+
 Downstream consumers that derive from `content/` automatically (no extra registration needed when content changes): `app/sitemap.ts`, `app/work/[slug]/page.tsx` and `app/writing/[slug]/page.tsx` (`generateStaticParams`), the ⌘K command palette, and the hero readout strip. The README's "Editing the content" table maps every user-facing change to its file.
 
 ## Server vs client components
 
-Pages under `app/` are React Server Components by default and export `metadata` via `buildMetadata()` from `lib/seo.ts`. Client components (`"use client"`) are pushed to the leaves: `components/effects/SystemField.tsx` and `Portrait.tsx`, `components/motion/*`, `components/layout/*` (Header, LocalClock, CommandPalette), `components/work/ProductShowcase.tsx`, `components/forms/ContactForm.tsx`, `components/playground/FailureLab.tsx`, `components/diagram/SystemMap.tsx`, `components/primitives/Magnetic.tsx`. Keep new pages as RSCs and isolate interactivity in a client child. The hero's streaming headline (`StreamHeadline`) is deliberately a server component driven by CSS, so the full text is in the HTML.
+Pages under `app/` are React Server Components by default and export `metadata` via `buildMetadata()` from `lib/seo.ts`. Client components (`"use client"`) are pushed to the leaves: `components/sections/HeroReel.tsx`, `components/effects/Portrait.tsx`, `components/motion/*`, `components/layout/*` (Header, LocalClock, CommandPalette), `components/work/ProductShowcase.tsx`, `components/forms/ContactForm.tsx`, `components/playground/FailureLab.tsx`, `components/diagram/SystemMap.tsx`, `components/primitives/Magnetic.tsx`. Keep new pages as RSCs and isolate interactivity in a client child. The hero's streaming headline (`StreamHeadline`) is deliberately a server component driven by CSS, so the full text is in the HTML.
 
 Component directories by role:
 
@@ -48,7 +59,7 @@ Component directories by role:
 - `diagram/` — SystemMap (renders a project's `architecture` nodes/edges/flows as an animated map)
 - `work/` — ProjectCard (service card: status-bar chrome, hover wipe, readout row of real metrics, a load bar in the project colour; `wide` is the flagship layout and wipes between the first two showcase screens), BrowserFrame (browser chrome around a screenshot; `statusBar` swaps the traffic lights for a status dot and the project number; `STATUS_LABEL` / `STATUS_DOT` live here), ArchiveRegistry (the /work archive as a registry table with a cursor-following screenshot preview, portalled to `<body>`; each row is a full-row case-study link with a "Visit {title}" link above it when the project has an `externalUrl`), CompareCard and PhoneShell (the phone bezel shared with PhoneCompare; its screen is a size container so `.phone-img` can pan by exactly the page's overflow), ProductShowcase (autoplaying tabbed tour of real screens). `spansFullRow()` in `content/projects/index.ts` decides which cards take a full row.
 - `layout/` — Header (thin bar, live PKT clock, ⌘K), Footer (readout row with build sha), CommandPalette + provider
-- `effects/` — `SystemGrid` (pure-CSS hairline grid behind page heroes), `SystemField` (canvas request-routing simulation behind the homepage hero: clients → api → cache/db/providers, provider outages on a timer or on click, rerouting drawn in accent, live stats readout; pauses off-screen; static frame under reduced motion), `Portrait` (halftone black-and-white print with a colour lens on hover, used on /about)
+- `effects/` — `SystemGrid` (pure-CSS hairline grid behind page heroes), `Portrait` (halftone black-and-white print with a colour lens on hover, used on /about)
 - `motion/` — GSAP layer. `gsap.ts` registers ScrollTrigger once (import gsap from here, never from "gsap"). `MotionRoot` (mounted once in the layout) owns Lenis on the GSAP ticker, the top progress line, the `.spotlight` cursor tracking and the `[data-reveal]` safety net. `Reveal` rises its direct children on scroll, `CountUp` animates a stat, `Tilt` tilts toward the cursor. `lib/lenis-store.ts` exposes the Lenis instance so the Header can pause it. Add `data-lenis-prevent` to any scroll area that must never be smoothed.
 - Framer Motion remains only for component-level transitions (ProductShowcase wipes, CommandPalette, Magnetic). Don't add a third motion library.
 
@@ -57,7 +68,7 @@ Component directories by role:
 There is **no `tailwind.config`** — this is Tailwind v4. All design tokens live in `app/globals.css`:
 
 - `@theme` block — fonts (`--font-display` is Fraunces, loaded in `app/layout.tsx` with the `SOFT`, `WONK`, `opsz` axes), easings, radius scale (deliberately tight), animations.
-- `:root` — the single theme's variables: `--bg`, `--bg-elevated`, `--bg-raised`, `--fg`, `--fg-muted`, `--fg-subtle`, `--border`, `--border-strong`, `--tint`, `--tint-strong`, `--accent`, `--accent-bright`, `--accent-fg`, `--accent-glow`, `--ok`, `--warn`, `--grid-line`. Components consume the variables (via `bg-bg`, `text-fg`, `border-border`, `bg-ok`…), never raw colours. `SystemField.tsx` mirrors a few RGB triplets for canvas drawing; keep them in sync if the palette changes.
+- `:root` — the single theme's variables: `--bg`, `--bg-elevated`, `--bg-raised`, `--fg`, `--fg-muted`, `--fg-subtle`, `--border`, `--border-strong`, `--tint`, `--tint-strong`, `--accent`, `--accent-bright`, `--accent-fg`, `--accent-glow`, `--ok`, `--warn`, `--grid-line`. Components consume the variables (via `bg-bg`, `text-fg`, `border-border`, `bg-ok`…), never raw colours. `video/src/theme.ts` mirrors the palette for the reel; keep it in sync if the palette changes (and re-render).
 - Custom utilities via `@utility`: `surface`, `surface-raised` (flat bordered panels), `font-display`, `accent-italic` (the one accent phrase in a headline), `label-mono` (uppercase mono metadata), `text-display` / `text-title` / `text-heading` (the type scale), `bg-grid`, `rise-in`, `ring-accent`. Plain-CSS blocks: `.stream .tok` (streaming headline), `.shot-a/.shot-b/.shot-tag` (card hover wipe), `.phone-viewport/.phone-img/.phone-img-hover` (phone screens), `.spotlight` (cursor light on surfaces), `html.js-motion [data-reveal]` (reveal gate, set by the inline script in `app/layout.tsx`), `.portrait-*`.
 - `lib/cn.ts` extends tailwind-merge so `text-display/title/heading` are treated as font sizes; without that, `cn("text-display", "text-fg")` would drop the size. Register any new `text-*` utility there.
 - Per-project accent (`project.accent`) is used only as a hairline/dot on that project's card and case study; the site accent stays orange.
@@ -65,8 +76,8 @@ There is **no `tailwind.config`** — this is Tailwind v4. All design tokens liv
 ## Graceful degradation (intentional — preserve it)
 
 - **Contact form** (`lib/contact-action.ts`, a server action): Zod validation + honeypot field (`website` must be empty). Without `RESEND_API_KEY` it logs a warning and still returns success. With it, sends via Resend to `CONTACT_TO_EMAIL`.
-- **Playground** (`components/playground/FailureLab.tsx`) and the hero **SystemField** are client-side simulations with no API calls and no keys.
-- Every animation respects `prefers-reduced-motion`: the global rule in `globals.css` zeroes durations and delays, `MotionRoot` skips Lenis, the `js-motion` class is never added so nothing starts hidden, `SystemField` draws one static frame, and the GSAP helpers all check `prefersReducedMotion()` first.
+- **Playground** (`components/playground/FailureLab.tsx`) is a client-side simulation with no API calls and no keys.
+- Every animation respects `prefers-reduced-motion`: the global rule in `globals.css` zeroes durations and delays, `MotionRoot` skips Lenis, the `js-motion` class is never added so nothing starts hidden, the hero reel doesn't autoplay (poster and a play button instead), and the GSAP helpers all check `prefersReducedMotion()` first.
 
 ## SEO plumbing
 
