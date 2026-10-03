@@ -28,13 +28,17 @@ export const reel = {
   fps: 30,
   width: 1080,
   height: 1920,
-  /** Tempo of the soundtrack; one bar is four beats. */
-  bpm: 120,
+  /** Tempo of the soundtrack (measured with video/beats.py); one bar is four beats. */
+  bpm: 123.57,
   /**
-   * The soundtrack, from public/ (or null for a silent film). `offset` skips
-   * that many seconds into the track so the first downbeat lands on frame 0.
+   * The soundtrack, video/assets/music.mp3, or null for a silent film. The
+   * film starts `offset` seconds into the track: two bars before its drop, so
+   * the drop lands on the Tututor shot and the breakdown on the NDA files.
    */
-  music: null as null | { src: string; offset: number },
+  music: {
+    offset: 27.105,
+    credit: "“Technology Promo” by The_Mountain, Pixabay Content License",
+  } as null | { offset: number; credit: string },
   src: {
     large: "/video/reel-1080.mp4",
     small: "/video/reel-720.mp4",
