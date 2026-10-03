@@ -11,9 +11,10 @@ import { toolkitjar } from "./toolkitjar";
 
 export const projects: Project[] = [
   tututor,
-  aliFoodies,
   insightX,
   aiHumanizer,
+  // After the two stronger showcases, still featured for its phone comparison.
+  aliFoodies,
   jurri,
   yaksport,
   crownKabab,
