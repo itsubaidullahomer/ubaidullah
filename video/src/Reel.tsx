@@ -3,7 +3,8 @@ import "@fontsource-variable/fraunces/full-italic.css";
 import "@fontsource-variable/geist";
 import "@fontsource-variable/geist-mono";
 import { useEffect, useState, type ComponentType } from "react";
-import { AbsoluteFill, Audio, Sequence, continueRender, delayRender, staticFile } from "remotion";
+import { AbsoluteFill, Audio, Sequence, continueRender, delayRender } from "remotion";
+import track from "../assets/music.mp3";
 import { reel, reelTimeline } from "../../content/reel";
 import { C } from "./theme";
 import { Hello } from "./scenes/Hello";
@@ -65,9 +66,10 @@ export function Reel() {
       })}
       {reel.music && (
         <Audio
-          src={staticFile(reel.music.src)}
+          src={track}
           startFrom={Math.round(reel.music.offset * reel.fps)}
-          volume={(f) => Math.min(1, f / 10, (TOTAL_FRAMES - f) / 20)}
+          // A short fade in (the film starts mid-track) and out (it loops).
+          volume={(f) => Math.min(1, (f + 1) / 6, (TOTAL_FRAMES - f) / 24)}
         />
       )}
     </AbsoluteFill>
