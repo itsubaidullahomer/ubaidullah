@@ -10,15 +10,20 @@
     "@fontsource-variable/fraunces": "^5.3.0",
     "@fontsource-variable/geist": "^5.3.0",
     "@fontsource-variable/geist-mono": "^5.3.0",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
     "@remotion/bundler": "4.0.532",
     "@remotion/cli": "4.0.532",
     "@remotion/renderer": "4.0.532",
+    "@remotion/three": "4.0.532",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "remotion": "4.0.532"
+    "remotion": "4.0.532",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",
+    "@types/three": "^0.186.0",
     "typescript": "^7.0.2"
   }
 }

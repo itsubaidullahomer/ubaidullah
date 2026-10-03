@@ -1,83 +1,46 @@
-import { useCurrentFrame } from "remotion";
 import type { SceneProps } from "../Reel";
-import { C, PAD, accentItalic, display, easeInOut, progress, rise } from "../theme";
-import { BrowserFrame, Eyebrow, MaskLine, Pill, Sans, ScrollShot } from "../ui";
+import { beat, hit } from "../beat";
+import { C, mono } from "../theme";
+import { Showcase } from "./Showcase";
 
 const STACK = ["OpenAI", "Anthropic", "Gemini", "Stripe"];
 
-export function Viloi({ duration }: SceneProps) {
-  const frame = useCurrentFrame();
-  const W = 1080 - PAD * 2;
-  const H = 440;
-  const enter = progress(frame, 0, 28);
+export function Viloi(_: SceneProps) {
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <Eyebrow
-        index="05"
-        style={{ position: "absolute", top: 124, left: PAD, ...rise(frame, 0, 14, 10) }}
-      >
-        Viloi · side project · built solo
-      </Eyebrow>
-
-      <div
-        style={{
-          position: "absolute",
-          left: PAD,
-          top: 176,
-          opacity: enter,
-          transform: `translateY(${(1 - enter) * 60}px)`,
-        }}
-      >
-        <BrowserFrame url="viloi.com" label="live" width={W} height={H}>
-          <ScrollShot
-            src="images/screens/viloi.jpg"
-            ratio={7800 / 2160}
-            frameWidth={W}
-            frameHeight={H - 46}
-            scroll={progress(frame, 20, duration - 30, easeInOut) * 0.4}
-          />
-        </BrowserFrame>
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          top: 660,
-          left: PAD - 4,
-          right: PAD,
-          ...display,
-          fontSize: 80,
-        }}
-      >
-        <MaskLine frame={frame} start={12}>
-          AI text, rewritten
-        </MaskLine>
-        <MaskLine frame={frame} start={18}>
-          <span style={accentItalic}>to read like a person.</span>
-        </MaskLine>
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          top: 870,
-          left: PAD,
-          right: PAD,
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          flexWrap: "wrap",
-        }}
-      >
-        <Sans style={{ fontSize: 26, color: C.muted, marginRight: 10, ...rise(frame, 26, 16, 10) }}>
-          Model pipeline to billing:
-        </Sans>
-        {STACK.map((s, i) => (
-          <Pill key={s} style={rise(frame, 30 + i * 4, 14, 10)}>
-            {s}
-          </Pill>
-        ))}
-      </div>
-    </div>
+    <Showcase
+      src="images/screens/viloi.jpg"
+      ratio={7800 / 2160}
+      scrollTo={0.4}
+      tilt={-0.36}
+      keys={[
+        { at: 0, pos: [2.4, 1.9, 5.6], target: [0, 1.25, 0] },
+        { at: beat(8), pos: [-1.5, 1.35, 5.9], target: [0, 1.3, 0] },
+      ]}
+      accent="Viloi.com"
+      kicker="Built solo"
+      line1="AI text, rewritten"
+      line2="to read like a person."
+      bottom={(f) => (
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
+          {STACK.map((s, i) => (
+            <span
+              key={s}
+              style={{
+                ...mono,
+                fontSize: 30,
+                color: C.fg,
+                border: `2px solid ${i === STACK.length - 1 ? C.accent : C.borderStrong}`,
+                borderRadius: 999,
+                padding: "16px 28px",
+                opacity: hit(f, beat(4 + i * 0.5), 6),
+                transform: `scale(${1.3 - 0.3 * hit(f, beat(4 + i * 0.5), 6)})`,
+              }}
+            >
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
+    />
   );
 }

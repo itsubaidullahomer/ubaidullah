@@ -1,88 +1,100 @@
 import { interpolate, useCurrentFrame } from "remotion";
 import type { SceneProps } from "../Reel";
-import { C, PAD, accentItalic, display, mono, progress, rise } from "../theme";
-import { Dot, MaskLine, Sans } from "../ui";
+import { beat, cameraAt, hit } from "../beat";
+import { Kicker, Overlay, Shade, Slam, T } from "../fx";
+import { Camera } from "../three/Stage";
+import { Laptop, Panel, Phone } from "../three/Devices";
+import { Scene3D } from "../three/Scene3D";
+import { useCover, useTextures } from "../three/assets";
+import { C, PAD, accentItalic } from "../theme";
+import { Dot } from "../ui";
 
+const SRC = [
+  "images/tututor/journey/04-today.jpg",
+  "images/tututor/mobile/alumnos-home.jpg",
+  "images/tututor/mobile/familias-tareas.jpg",
+  "images/screens/illume.jpg",
+  "images/screens/viloi.jpg",
+];
+
+/** Pull back from everything, then the name and the way to reach me. */
 export function End({ duration }: SceneProps) {
   const frame = useCurrentFrame();
-  const underline = progress(frame, 40, 24);
-  const pulse = 0.5 + 0.5 * Math.sin(frame / 6);
-  // The last frames fade to the empty grid the reel opens on, so the loop is seamless.
-  const out = interpolate(frame, [duration - 22, duration - 10], [1, 0], {
+  const t = useTextures(SRC);
+  const laptop = useCover(t?.[0] ?? null, 1.6);
+  const illume = useCover(t?.[3] ?? null, 1.6);
+  const viloi = useCover(t?.[4] ?? null, 1.6);
+  const cam = cameraAt(frame, [
+    { at: 0, pos: [0, 1.6, 4.6], target: [0, 1.1, 0] },
+    { at: beat(5), pos: [0, 3.4, 10.5], target: [0, 1.0, -0.8] },
+    { at: beat(8), pos: [0, 3.6, 11], target: [0, 1.0, -0.8] },
+  ]);
+  const underline = hit(frame, beat(5.5), 12);
+  const out = interpolate(frame, [duration - 16, duration - 2], [0, 1], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });
   return (
-    <div style={{ position: "absolute", inset: 0, opacity: out }}>
-      <div
-        style={{
-          position: "absolute",
-          top: 190,
-          left: PAD,
-          display: "flex",
-          alignItems: "center",
-          gap: 14,
-          ...mono,
-          fontSize: 21,
-          color: C.muted,
-          ...rise(frame, 0, 16, 10),
-        }}
-      >
-        <span style={{ position: "relative", display: "inline-flex" }}>
-          <Dot color={C.ok} size={11} />
-          <span
-            style={{
-              position: "absolute",
-              inset: -7,
-              borderRadius: 99,
-              border: `1px solid ${C.ok}`,
-              opacity: pulse * 0.6,
-            }}
-          />
-        </span>
-        Available for select work
-      </div>
-
-      <div style={{ position: "absolute", top: 260, left: PAD - 6, ...display, fontSize: 104 }}>
-        <MaskLine frame={frame} start={4}>
-          Let&rsquo;s build something
-        </MaskLine>
-        <MaskLine frame={frame} start={10}>
-          people <span style={accentItalic}>rely on.</span>
-        </MaskLine>
-      </div>
-
-      <div
-        style={{
-          position: "absolute",
-          top: 600,
-          left: PAD,
-          right: PAD,
-          borderTop: `1px solid ${C.borderStrong}`,
-          paddingTop: 40,
-          ...rise(frame, 24, 20, 14),
-        }}
-      >
-        <div style={{ ...display, fontSize: 64 }}>Ubaidullah Omer</div>
-        <div style={{ marginTop: 26, display: "inline-block", position: "relative" }}>
-          <Sans style={{ fontSize: 40, color: C.fg }}>itsubaidullahomer.com</Sans>
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: -8,
-              height: 3,
-              background: C.accent,
-              transformOrigin: "left",
-              transform: `scaleX(${underline})`,
-            }}
-          />
+    <>
+      <Scene3D>
+        <Camera position={cam.pos} target={cam.target} />
+        <Laptop screen={laptop} />
+        <Phone screen={t?.[1] ?? null} position={[-2.0, 0.81, 0.6]} rotation={[0, 0.5, 0]} />
+        <Phone screen={t?.[2] ?? null} position={[2.0, 0.81, 0.6]} rotation={[0, -0.5, 0]} />
+        <Panel
+          screen={illume}
+          position={[-3.1, 1.6, -2.6]}
+          rotation={[0, 0.5, 0]}
+          w={2.6}
+          h={1.7}
+        />
+        <Panel screen={viloi} position={[3.1, 1.6, -2.6]} rotation={[0, -0.5, 0]} w={2.6} h={1.7} />
+      </Scene3D>
+      <Shade top={0.95} bottom={0.98} />
+      <Overlay>
+        <div style={{ position: "absolute", top: 170, left: PAD, right: PAD }}>
+          <Slam frame={frame} at={beat(1)} style={{ ...T.title, transformOrigin: "left center" }}>
+            Let&rsquo;s build something
+          </Slam>
+          <Slam frame={frame} at={beat(2)} style={{ ...T.title, transformOrigin: "left center" }}>
+            people <span style={accentItalic}>rely on.</span>
+          </Slam>
         </div>
-        <div style={{ ...mono, fontSize: 18, color: C.subtle, marginTop: 40 }}>
-          Product engineer · Rahim Yar Khan, Pakistan
+        <div
+          style={{
+            position: "absolute",
+            left: PAD,
+            right: PAD,
+            bottom: 170,
+            opacity: hit(frame, beat(4), 10),
+          }}
+        >
+          <Kicker style={{ color: C.fg, alignItems: "center" }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 16 }}>
+              <Dot color={C.ok} size={16} glow />
+              Available for select work
+            </span>
+          </Kicker>
+          <div style={{ ...T.title, fontSize: 120, marginTop: 40 }}>Ubaidullah Omer</div>
+          <div style={{ position: "relative", display: "inline-block", marginTop: 28 }}>
+            <span style={{ ...T.sans, fontSize: 50, color: C.fg }}>itsubaidullahomer.com</span>
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: -10,
+                height: 5,
+                background: C.accent,
+                transformOrigin: "left",
+                transform: `scaleX(${underline})`,
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </div>
+      </Overlay>
+      {/* Fade to the ink the film opens on, so the loop is seamless. */}
+      <Overlay style={{ background: C.bg, opacity: out }}>{null}</Overlay>
+    </>
   );
 }
