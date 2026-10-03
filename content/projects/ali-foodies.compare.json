@@ -1,4 +1,10 @@
 {
-  "capturedAt": null,
-  "shots": {}
+  "capturedAt": "2026-10-03",
+  "shots": {
+    "before-home": {
+      "src": "/images/ali-foodies/compare/before-home.jpg",
+      "width": 664,
+      "height": 4032
+    }
+  }
 }

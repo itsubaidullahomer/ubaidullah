@@ -30,10 +30,12 @@ const SCENES: Record<string, ComponentType<SceneProps>> = {
 };
 
 const { chapters, duration } = reelTimeline();
+// Each chapter runs up to the next one's first frame, so rounding never
+// overlaps two scenes or leaves a gap.
 export const FRAMES = chapters.map((c) => ({
   ...c,
   from: Math.round(c.start * reel.fps),
-  frames: Math.round(c.seconds * reel.fps),
+  frames: Math.round(c.end * reel.fps) - Math.round(c.start * reel.fps),
 }));
 export const TOTAL_FRAMES = Math.round(duration * reel.fps);
 
