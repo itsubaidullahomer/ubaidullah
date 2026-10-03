@@ -1,13 +1,13 @@
 import { Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import type { SceneProps } from "../Reel";
-import { C, PAD, accentItalic, display, mono, progress, rise } from "../theme";
+import { C, PAD, accentItalic, display, easeInOut, mono, progress, rise } from "../theme";
 import { BrowserFrame, Eyebrow, MaskLine, Phone, Sans } from "../ui";
 
 const J = "images/tututor/journey";
 const M = "images/tututor/mobile";
 
 /** Beat lengths in frames; they add up to the chapter's 16s. */
-const BEATS = { bug: 120, rebuilds: 150, products: 105, numbers: 105 };
+const BEATS = { bug: 110, rebuilds: 170, products: 100, numbers: 100 };
 
 export function Tututor(_: SceneProps) {
   let at = 0;
@@ -118,16 +118,45 @@ function Bug() {
   );
 }
 
-const VERSIONS = [
-  { src: `${J}/01-inherited.png`, ratio: 568 / 1176, label: "v1 · the app I inherited" },
-  { src: `${J}/02-redesign.png`, ratio: 683 / 1060, label: "v2 · redesign" },
-  { src: `${J}/03-react-rebuild.png`, ratio: 959 / 1912, label: "v3 · React rebuild, own backend" },
+/**
+ * v2 is one build shown twice: my brother's design, then the React build of
+ * it, wiped across inside the same frame.
+ */
+const VERSIONS: Array<{ srcs: string[]; label: string; url: string; at: number }> = [
+  { srcs: [`${J}/01-inherited.png`], label: "v1 · the app I inherited", url: "tututor.ai", at: 6 },
+  {
+    srcs: [`${J}/02-redesign.png`, `${J}/03-react-rebuild.png`],
+    label: "v2 · redesign, built in React",
+    url: "tututor.ai",
+    at: 34,
+  },
+  { srcs: [`${J}/04-today.jpg`], label: "v3 · today", url: "app.tututor.ai", at: 100 },
 ];
+/** When v2 wipes from the design to the build. */
+const WIPE = { at: 62, frames: 22 };
+
+function Shot({ src, clip }: { src: string; clip?: number }) {
+  return (
+    <Img
+      src={staticFile(src)}
+      style={{
+        position: "absolute",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        objectPosition: "top left",
+        clipPath: clip === undefined ? undefined : `inset(0 ${(1 - clip) * 100}% 0 0)`,
+      }}
+    />
+  );
+}
 
 function Rebuilds() {
   const frame = useCurrentFrame();
   const W = 800;
   const H = 520;
+  const wipe = progress(frame, WIPE.at, WIPE.frames, easeInOut);
   return (
     <div style={{ position: "absolute", inset: 0 }}>
       <Eyebrow
@@ -137,22 +166,17 @@ function Rebuilds() {
         Tututor.ai · three rebuilds
       </Eyebrow>
       {VERSIONS.map((v, i) => {
-        const at = 6 + i * 34;
-        const t = progress(frame, at, 26);
+        const t = progress(frame, v.at, 26);
         // Later versions land on top; earlier ones step back.
-        const later = VERSIONS.slice(i + 1).reduce(
-          (s, _, j) => s + progress(frame, 6 + (i + 1 + j) * 34, 26),
-          0,
-        );
-        const x = PAD + i * 68;
-        const y = 210 + i * 104;
+        const later = VERSIONS.slice(i + 1).reduce((sum, n) => sum + progress(frame, n.at, 26), 0);
+        const last = i === VERSIONS.length - 1;
         return (
           <div
-            key={v.src}
+            key={v.label}
             style={{
               position: "absolute",
-              left: x,
-              top: y,
+              left: PAD + i * 68,
+              top: 210 + i * 104,
               opacity: t * (1 - later * 0.28),
               transform: `translateY(${(1 - t) * 160}px) scale(${1 - later * 0.035})`,
               transformOrigin: "top left",
@@ -160,21 +184,47 @@ function Rebuilds() {
             }}
           >
             <BrowserFrame
-              url="tututor.ai"
+              url={v.url}
               label={v.label}
               width={W}
               height={H}
-              status={i === 2 ? C.ok : C.subtle}
+              status={last ? C.ok : C.subtle}
             >
-              <Img
-                src={staticFile(v.src)}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  objectPosition: "top left",
-                }}
-              />
+              <Shot src={v.srcs[0]} />
+              {v.srcs[1] && (
+                <>
+                  <Shot src={v.srcs[1]} clip={wipe} />
+                  {/* The wipe's leading edge, in the accent. */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      bottom: 0,
+                      left: `${wipe * 100}%`,
+                      width: 3,
+                      marginLeft: -1.5,
+                      background: C.accent,
+                      opacity: wipe > 0 && wipe < 1 ? 1 : 0,
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      left: 16,
+                      bottom: 16,
+                      ...mono,
+                      fontSize: 15,
+                      color: C.fg,
+                      background: "rgba(7, 8, 12, 0.82)",
+                      border: `1px solid ${C.borderStrong}`,
+                      borderRadius: 6,
+                      padding: "7px 12px",
+                    }}
+                  >
+                    {wipe < 0.5 ? "The design" : "The build"}
+                  </div>
+                </>
+              )}
             </BrowserFrame>
           </div>
         );
