@@ -52,9 +52,15 @@ export const aliFoodies: Project = {
     screens: [
       {
         name: "Home",
-        title: "The home page, top to bottom, on the same phone.",
+        // Each side is stitched from the owner's phone screenshots: the old
+        // home page, and the new home, menu and story screens.
+        title: "The old site and the new one, scrolled together on the same phone.",
         before: shot("before", "home", "The previous Ali Foodies home page on a phone"),
-        after: shot("after", "home", "The new Ali Foodies home page on a phone"),
+        after: shot(
+          "after",
+          "home",
+          "The new Ali Foodies site on a phone: order ahead, the menu, and the owner's story",
+        ),
       },
     ],
   },
